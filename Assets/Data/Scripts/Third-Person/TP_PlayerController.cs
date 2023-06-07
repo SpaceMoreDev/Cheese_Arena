@@ -8,12 +8,17 @@ using Managers;
 public class TP_PlayerController : MonoBehaviour
 {
     private Vector3 playerVelocity;
+
     [SerializeField]
     private bool groundedPlayer;
     [SerializeField]
     private float playerSpeed = 2.0f;
     [SerializeField]
     private float rotationSpeed = 5f;
+
+    [SerializeField]
+    private Animator animator;
+
     public static CharacterController controller;
     private Transform cameraTransform;
     private Vector3 velocity = Vector3.zero;
@@ -32,6 +37,7 @@ public class TP_PlayerController : MonoBehaviour
     {
         current = this;
         DialogueManager.EndDialogueAction +=this.DialogueEnd;
+        InputManager.inputActions.General.MouseClick.started += _ => Attack();
     }
 
     private void Start()
@@ -44,11 +50,17 @@ public class TP_PlayerController : MonoBehaviour
     void OnDestroy()
     {
         DialogueManager.EndDialogueAction -=this.DialogueEnd;
+        InputManager.inputActions.General.MouseClick.started -= _ => Attack();
     }
 
     void DialogueEnd()
     {
         //when dialogue end
+    }
+
+    void Attack()
+    {
+        animator.Play("Attack");
     }
 
     void Update()
