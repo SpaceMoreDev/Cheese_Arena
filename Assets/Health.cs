@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] Image healthBar;
+    [SerializeField] public Image healthBar;
 
     public void DecreaseHealth(float value)
     {
@@ -16,6 +16,11 @@ public class Health : MonoBehaviour
     {
         healthBar.fillAmount += value;
         Debug.Log(healthBar.fillAmount);
+    }
 
+    private void LateUpdate()
+    {
+        Transform cameraTransform = Camera.main.transform;
+        transform.LookAt(transform.position + cameraTransform.rotation * Vector3.forward, cameraTransform.rotation * Vector3.up);
     }
 }

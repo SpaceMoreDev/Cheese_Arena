@@ -78,6 +78,8 @@ public class TP_PlayerController : MonoBehaviour
         // Vector3 smoothedMove = Vector3.SmoothDamp(playerVelocity,move,ref velocity, playerSpeed *Time.deltaTime);
         controller.Move(move * playerSpeed *Time.deltaTime); //for input
 
+        animator.SetFloat("Blend", controller.velocity.magnitude);
+
         if (move != Vector3.zero)
         {
             gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, playerSpeed *Time.deltaTime);

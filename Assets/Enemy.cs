@@ -7,6 +7,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] public Health healthbar;
     void FixedUpdate()
     {
-        // healthbar.DecreaseHealth(0.1f * Time.fixedDeltaTime);
+        if(healthbar.healthBar.fillAmount<=0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
