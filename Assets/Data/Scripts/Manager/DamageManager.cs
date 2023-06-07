@@ -8,7 +8,7 @@ namespace Managers
     public class DamageManager : MonoBehaviour
     {
         static Action<float> damagedAction;
-        static float damage = 0.1f;
+        static float damage = 0.04f;
         
         public static void Damage(Health health)
         {

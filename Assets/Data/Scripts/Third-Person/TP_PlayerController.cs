@@ -14,6 +14,8 @@ public class TP_PlayerController : MonoBehaviour
     [SerializeField]
     private float playerSpeed = 2.0f;
     [SerializeField]
+    private float smoothTime = 2.0f;
+    [SerializeField]
     private float rotationSpeed = 5f;
 
     [SerializeField]
@@ -31,6 +33,7 @@ public class TP_PlayerController : MonoBehaviour
     public static TP_PlayerController current;
     [SerializeField] private int playerID;
     [HideInInspector]public int ID {set{ playerID = value;} get{return playerID;}}
+    Vector2 input = Vector2.zero;
     #endregion
 
     void Awake()
@@ -60,7 +63,12 @@ public class TP_PlayerController : MonoBehaviour
 
     void Attack()
     {
-        animator.Play("Attack");
+        if(PlayerInputHandler.Movement.ReadValue<Vector2>() != Vector2.zero){
+            animator.Play("Attack",1);
+        }
+        else{
+            animator.Play("Attack",0);
+        }
     }
 
     void Update()
@@ -82,7 +90,7 @@ public class TP_PlayerController : MonoBehaviour
 
         if (move != Vector3.zero)
         {
-            gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, playerSpeed *Time.deltaTime);
+            gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, smoothTime *Time.deltaTime);
         }
             // Changes the height position of the player..
             if (PlayerInputHandler.Jump.triggered && groundedPlayer)
