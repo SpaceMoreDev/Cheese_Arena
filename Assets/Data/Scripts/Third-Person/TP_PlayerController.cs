@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Managers;
 
 
@@ -41,6 +42,8 @@ public class TP_PlayerController : MonoBehaviour
         current = this;
         DialogueManager.EndDialogueAction +=this.DialogueEnd;
         InputManager.inputActions.General.MouseClick.started += _ => Attack();
+        InputManager.inputActions.General.Aim.started += Shield;
+        InputManager.inputActions.General.Aim.canceled += Shield;
     }
 
     private void Start()
@@ -54,11 +57,34 @@ public class TP_PlayerController : MonoBehaviour
     {
         DialogueManager.EndDialogueAction -=this.DialogueEnd;
         InputManager.inputActions.General.MouseClick.started -= _ => Attack();
+        InputManager.inputActions.General.Aim.started -= Shield;
+        InputManager.inputActions.General.Aim.canceled -= Shield;
+
     }
 
     void DialogueEnd()
     {
         //when dialogue end
+    }
+
+    void Shield(InputAction.CallbackContext ctx)
+    {
+        if(ctx.started)
+        {
+            if(PlayerInputHandler.Movement.ReadValue<Vector2>() != Vector2.zero){
+                animator.SetBool("Shield",true);
+                animator.SetBool("Moving",true);
+            }
+            else{
+                animator.SetBool("Shield",true);
+                animator.SetBool("Moving",true);
+            }
+        } else if(ctx.canceled)
+        {
+                animator.SetBool("Shield",false);
+                animator.SetBool("Moving",false);
+
+        }
     }
 
     void Attack()
@@ -93,10 +119,10 @@ public class TP_PlayerController : MonoBehaviour
             gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, smoothTime *Time.deltaTime);
         }
             // Changes the height position of the player..
-            if (PlayerInputHandler.Jump.triggered && groundedPlayer)
-            {
-                playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-            }
+            // if (PlayerInputHandler.Jump.triggered && groundedPlayer)
+            // {
+            //     playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            // }
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime); // for gravity
