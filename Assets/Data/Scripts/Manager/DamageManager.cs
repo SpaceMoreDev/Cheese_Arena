@@ -18,5 +18,14 @@ namespace Managers
             }
             health.DecreaseHealth(damage);
         }
+
+        public static void Damage(Health health, float customDamage)
+        {
+            if(damagedAction != null)
+            {
+                damagedAction(customDamage);
+            }
+            health.DecreaseHealth(customDamage);
+        }
     }
 }

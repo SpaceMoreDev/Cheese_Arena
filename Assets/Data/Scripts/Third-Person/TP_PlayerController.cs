@@ -7,9 +7,9 @@ using Managers;
 
 [RequireComponent(typeof(CharacterController))]
 public class TP_PlayerController : MonoBehaviour
-{
+{    [SerializeField] public Health healthbar;
+    
     private Vector3 playerVelocity;
-
     [SerializeField]
     private bool groundedPlayer;
     [SerializeField]
@@ -17,17 +17,20 @@ public class TP_PlayerController : MonoBehaviour
     [SerializeField]
     private float smoothTime = 2.0f;
     [SerializeField]
+    private float blendSmooth = 2.0f;
+    [SerializeField]
     private float rotationSpeed = 5f;
-
     [SerializeField]
     private Animator animator;
-
     public static CharacterController controller;
     private Transform cameraTransform;
-    private Vector3 velocity = Vector3.zero;
+    Vector3 velocity = Vector3.zero;
 
+
+    private float floatVelocity = 0;
     private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
+
     
     #region Public Variables
     public CharacterObject playerCharacter;
@@ -35,31 +38,45 @@ public class TP_PlayerController : MonoBehaviour
     [SerializeField] private int playerID;
     [HideInInspector]public int ID {set{ playerID = value;} get{return playerID;}}
     Vector2 input = Vector2.zero;
+    bool alive = true;
     #endregion
 
     void Awake()
     {
         current = this;
         DialogueManager.EndDialogueAction +=this.DialogueEnd;
-        InputManager.inputActions.General.MouseClick.started += _ => Attack();
+        InputManager.inputActions.General.MouseClick.started += Attack;
         InputManager.inputActions.General.Aim.started += Shield;
         InputManager.inputActions.General.Aim.canceled += Shield;
+        Health.healthBarEmpty += ctx => Death(ctx);
+
     }
 
     private void Start()
     {
         controller = GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
+        healthbar.character = gameObject;
     }
     
 
     void OnDestroy()
     {
         DialogueManager.EndDialogueAction -=this.DialogueEnd;
-        InputManager.inputActions.General.MouseClick.started -= _ => Attack();
+        InputManager.inputActions.General.MouseClick.started -= Attack;
         InputManager.inputActions.General.Aim.started -= Shield;
         InputManager.inputActions.General.Aim.canceled -= Shield;
+        Health.healthBarEmpty -= ctx => Death(ctx);
 
+    }
+
+    void Death(GameObject ctx)
+    {
+        if(ctx == this.gameObject)
+        {
+            animator.Play("Death");
+            alive = false;
+        }
     }
 
     void DialogueEnd()
@@ -69,79 +86,67 @@ public class TP_PlayerController : MonoBehaviour
 
     void Shield(InputAction.CallbackContext ctx)
     {
-        if(ctx.started)
+        if(alive)
         {
-            if(PlayerInputHandler.Movement.ReadValue<Vector2>() != Vector2.zero){
-                animator.SetBool("Shield",true);
-                animator.SetBool("Moving",true);
-            }
-            else{
-                animator.SetBool("Shield",true);
-                animator.SetBool("Moving",true);
-            }
-        } else if(ctx.canceled)
-        {
-                animator.SetBool("Shield",false);
-                animator.SetBool("Moving",false);
+            if(ctx.started)
+            {
+                if(PlayerInputHandler.Movement.ReadValue<Vector2>() != Vector2.zero){
+                    animator.SetBool("Shield",true);
+                    animator.SetBool("Moving",true);
+                }
+                else{
+                    animator.SetBool("Shield",true);
+                    animator.SetBool("Moving",false);
+                }
+            } else if(ctx.canceled)
+            {
+                    animator.SetBool("Shield",false);
+                    animator.SetBool("Moving",false);
 
+            }
         }
     }
 
-    void Attack()
+    void Attack(InputAction.CallbackContext ctx)
     {
-        if(PlayerInputHandler.Movement.ReadValue<Vector2>() != Vector2.zero){
-            animator.Play("Attack",1);
-        }
-        else{
-            animator.Play("Attack",0);
+        if(alive)
+        {
+            if(PlayerInputHandler.Movement.ReadValue<Vector2>() != Vector2.zero){
+                animator.SetTrigger("Attack");
+                animator.SetBool("Moving",true);
+            }
+            else{
+                animator.SetTrigger("Attack");
+                animator.SetBool("Moving",false);
+            }
         }
     }
 
     void Update()
     {
-        groundedPlayer = controller.isGrounded;
-        if (groundedPlayer && playerVelocity.y < 0)
+        if(alive)
         {
-            playerVelocity.y = 0f;
+            groundedPlayer = controller.isGrounded;
+            if (groundedPlayer && playerVelocity.y < 0)
+            {
+                playerVelocity.y = 0f;
+            }
+
+            Vector2 input = PlayerInputHandler.Movement.ReadValue<Vector2>();
+            Vector3 move = new Vector3(input.x, 0, input.y);
+            move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
+            move.y = 0f;
+            controller.Move(move * playerSpeed *Time.deltaTime); //for input
+            
+
+            if (move != Vector3.zero)
+            {
+                gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, smoothTime *Time.deltaTime);
+            }
+                animator.SetFloat("Blend", controller.velocity.magnitude);
         }
-
-        Vector2 input = PlayerInputHandler.Movement.ReadValue<Vector2>();
-        Vector3 move = new Vector3(input.x, 0, input.y);
-        move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
-        move.y = 0f;
-        // Vector3 smoothedMove = Vector3.SmoothDamp(playerVelocity,move,ref velocity, playerSpeed *Time.deltaTime);
-        controller.Move(move * playerSpeed *Time.deltaTime); //for input
-
-        animator.SetFloat("Blend", controller.velocity.magnitude);
-
-        if (move != Vector3.zero)
-        {
-            gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, smoothTime *Time.deltaTime);
-        }
-            // Changes the height position of the player..
-            // if (PlayerInputHandler.Jump.triggered && groundedPlayer)
-            // {
-            //     playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
-            // }
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime); // for gravity
     }
-        
-
-    // public void Activate(CharacterObject sender,int id)
-    // {
-    //     if(this != PlayerManager.currentPlayer)
-    //     {
-    //         if(id == playerID)
-    //         {
-    //             if(playerCharacter.DialoguesFile != null)
-    //             {
-    //                 DialogueManager.StartDialogue(gameObject,playerCharacter,0);
-    //                 NotificationManager.StartNotification($"Started dialogue with: [{playerCharacter.CharacterName}]");
-    //             }
-    //         }
-    //     }
-        
-    // }
 }

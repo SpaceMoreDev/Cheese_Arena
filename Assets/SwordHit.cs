@@ -6,6 +6,7 @@ using UnityEngine;
 public class SwordHit : MonoBehaviour
 {
     [SerializeField] private LayerMask hitLayers;
+    [SerializeField] private ParticleSystem particles;
     [SerializeField] float hitRadius = 0.2f;
     [SerializeField] bool Active =false;
     void Update()
@@ -18,6 +19,7 @@ public class SwordHit : MonoBehaviour
                 if(collider.TryGetComponent<Enemy>(out Enemy enemy))
                 {
                    DamageManager.Damage(enemy.healthbar);
+                   particles.Play();
                 }
 
             }

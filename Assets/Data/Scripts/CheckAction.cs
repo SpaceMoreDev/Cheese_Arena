@@ -71,7 +71,7 @@ public class CheckAction : MonoBehaviour
             // Example: Print the name of the hit object
             
            
-            Debug.Log("Hit: " + hitObject.name);
+            // Debug.Log("Hit: " + hitObject.name);
         
             // if(hitObject.TryGetComponent<IActivites>(out IActivites obj))
             // {
