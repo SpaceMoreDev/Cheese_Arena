@@ -9,6 +9,7 @@ namespace Managers
         [SerializeField] public GameObject player;
         [SerializeField] public LayerMask visionLayer;
         public float maxDistance = 10f;
+        public float minDistance = 5f;
         public float shootInterval = 1f;
         public float arrowSpeed = 10f;
         

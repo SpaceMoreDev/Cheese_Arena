@@ -23,6 +23,12 @@
                     "name": "#mother#",
                     "expression": "0",
                     "text": "What are you guys doing here?"
+                },
+                {
+                    "line_id": "002",
+                    "name": "#mother#",
+                    "expression": "5",
+                    "text": "WHAT HAVE YOU DONE!"
                 }
 
             ]

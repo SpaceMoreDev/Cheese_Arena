@@ -31,7 +31,15 @@ public class Arrow : MonoBehaviour
         }
         if(collision.gameObject.layer == 9)
         {
-            DamageManager.Damage(TP_PlayerController.current.healthbar, 0.3f);
+            if(!TP_PlayerController.current.blocked)
+            {
+                DamageManager.Damage(TP_PlayerController.current.healthbar, 0.3f);
+            }
+            else
+            {
+                DamageManager.Damage(TP_PlayerController.current.healthbar, 0.03f);
+            }
+            TP_PlayerController.current.particles.Play();
             Debug.Log("ouch!!");
         }
 

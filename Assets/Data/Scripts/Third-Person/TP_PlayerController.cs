@@ -11,8 +11,10 @@ public enum PlayerState{
 
 [RequireComponent(typeof(CharacterController))]
 public class TP_PlayerController : MonoBehaviour
-{    [SerializeField] public Health healthbar;
-    
+{   [SerializeField] 
+    public Health healthbar;
+    [SerializeField] 
+    public ParticleSystem particles;
     private Vector3 playerVelocity;
     [SerializeField]
     private bool groundedPlayer;
@@ -44,6 +46,7 @@ public class TP_PlayerController : MonoBehaviour
     [HideInInspector]public int ID {set{ playerID = value;} get{return playerID;}}
     Vector2 input = Vector2.zero;
     bool alive = true;
+    public bool blocked = false;
     #endregion
 
     void Awake()
@@ -54,7 +57,6 @@ public class TP_PlayerController : MonoBehaviour
         InputManager.inputActions.General.Aim.started += Shield;
         InputManager.inputActions.General.Aim.canceled += Shield;
         Health.healthBarEmpty += ctx => Death(ctx);
-
     }
 
     private void Start()
@@ -74,7 +76,6 @@ public class TP_PlayerController : MonoBehaviour
         InputManager.inputActions.General.Aim.started -= Shield;
         InputManager.inputActions.General.Aim.canceled -= Shield;
         Health.healthBarEmpty -= ctx => Death(ctx);
-
     }
 
     void Death(GameObject ctx)
@@ -105,11 +106,13 @@ public class TP_PlayerController : MonoBehaviour
                     animator.SetBool("Shield",true);
                     animator.SetBool("Moving",false);
                 }
+    
+                blocked = true;
             } else if(ctx.canceled)
             {
                     animator.SetBool("Shield",false);
                     animator.SetBool("Moving",false);
-
+                blocked = false;
             }
         }
     }
