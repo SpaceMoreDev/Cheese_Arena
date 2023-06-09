@@ -24,21 +24,23 @@ namespace Managers
                 Cursor.visible = true;}
         }
 
-        public static void SetTargetLook(TP_PlayerController player)
+        public static void SetTargetLook(Transform player)
         {
             var list = current.GetComponentsInChildren<CinemachineVirtualCamera>();
             foreach(var i in list)
             {
-                i.m_LookAt = player.transform;
+                i.LookAt = player;
+                i.m_LookAt = player;
             }
         }
 
-        public static void SetTargetFollow(TP_PlayerController player)
+        public static void SetTargetFollow(Transform player)
         {
             var list = current.GetComponentsInChildren<CinemachineVirtualCamera>();
             foreach(var i in list)
             {
-                i.m_Follow = player.transform;
+                i.Follow = player;
+                i.m_Follow = player;
             }
         }
 
@@ -49,7 +51,10 @@ namespace Managers
             {
                 foreach(var i in list)
                 {
+                    
                     i.enabled = false;
+                    // CinemachineOrbitalTransposer orbitalTransposer = i.GetCinemachineComponent<CinemachineOrbitalTransposer>();
+                    // orbitalTransposer.m_YawDamping = float.MaxValue;
                 }
             }
             else
@@ -57,7 +62,8 @@ namespace Managers
                 foreach(var i in list)
                 {
                     i.enabled = true;
-
+                    // CinemachineOrbitalTransposer orbitalTransposer = i.GetCinemachineComponent<CinemachineOrbitalTransposer>();
+                    // orbitalTransposer.m_YawDamping = float.MinValue;
                 }
             }
         }

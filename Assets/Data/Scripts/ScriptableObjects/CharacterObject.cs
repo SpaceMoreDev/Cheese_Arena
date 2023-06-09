@@ -11,9 +11,7 @@ public enum Faction
 [CreateAssetMenu(fileName = "New Character", menuName = "Characters/Create Character")]
 public class CharacterObject : ScriptableObject
 {
-    public int ID;
     public string CharacterName;
-    public AbilityObject abilityObject; 
     public Faction faction; 
 
     [Header("Expressions")]
@@ -26,6 +24,5 @@ public class CharacterObject : ScriptableObject
 
 
     [Header("Files")]
-    public GameObject prefap;
     public TextAsset DialoguesFile;
 }

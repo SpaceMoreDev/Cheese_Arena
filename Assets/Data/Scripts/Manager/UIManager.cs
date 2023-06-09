@@ -9,14 +9,7 @@ namespace Managers{
     
     public class UIManager : MonoBehaviour
     {
-        [SerializeField] public GameObject inventoryMenu;
-        [SerializeField] public GameObject inventoryRow;
-        [SerializeField] public GameObject characterMenu;
         public static bool busyUI = false;
-
-        private bool isHidden = false;
-        Transform inventoryContainer;
-        Dictionary<string,int> inventory;
         public static UIManager current;
 
         void Awake()
@@ -25,7 +18,6 @@ namespace Managers{
 
             DialogueManager.startDialogueAction += this.dialogueStart;
             DialogueManager.EndDialogueAction += this.dialogueEnd;
-            inventoryContainer = inventoryMenu.transform.Find("ScrollArea").GetChild(0).transform;
 
         }
 
@@ -56,19 +48,18 @@ namespace Managers{
         private void dialogueStart()
         {
             busyUI = true;
-            characterMenu.SetActive(false);
             DialogueManager.current.dialogueUI.SetActive(true);
             InputManager.ToggleActionMap(InputManager.inputActions.UI);
             CM_CamerasSetup.FocusMouse(false);
-
+            // CM_CamerasSetup.PauseCamera(true);
         }
-
 
         private void dialogueEnd()
         {
             DialogueManager.current.dialogueUI.SetActive(false);
             InputManager.ToggleActionMap(InputManager.inputActions.General);
             CM_CamerasSetup.FocusMouse(true);
+            // CM_CamerasSetup.PauseCamera(false);
         }
     }
 

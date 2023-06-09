@@ -1,0 +1,86 @@
+{
+    "dialogues": 
+    [
+        
+        {
+            "scene": "intro",
+            "lines": 
+            [
+                {
+                    "line_id": "000",
+                    "name": "#player#",
+                    "expression": "0",
+                    "text": "Hello there!"
+                },
+                {
+                    "line_id": "001",
+                    "name": "#char#",
+                    "expression": "0",
+                    "text": "How are you?"
+                },
+                {
+                    "line_id": "002",
+                    "name": "#marie#",
+                    "expression": "0",
+                    "text": "What are you guys doing here?"
+                }
+
+            ]
+        },
+
+        {
+            "scene": "intro2",
+            "lines": 
+            [
+                {
+                    "line_id": "000",
+                    "name": "#char#",
+                    "expression": "0",
+                    "text": "Hello again!",
+                    "line_event": "2",
+                    "choices":
+                        [
+                            {"text": "Hello there!", "lineID": "0", "dialogueID": "0"},
+                            {"text": "Who are you?", "lineID": "1", "dialogueID": "1"}
+                        ]
+                },
+                {
+                    "line_id": "001",
+                    "name": "#player#",
+                    "expression": "0",
+                    "text": "Who are you?"
+                },
+                {
+                    "line_id": "002",
+                    "name": "#char#",
+                    "expression": "0",
+                    "text": "Huh?"
+                },
+                {
+                    "name": "#marie#",
+                    "line_id": "003",
+                    "expression": "0",
+                    "text": "did we meet before?"
+                },
+                {
+                    "line_id": "004",
+                    "name": "#player#",
+                    "expression": "0",
+                    "text": "Where did you come from?!"
+                },
+                {
+                    "name": "#char#",
+                    "line_id": "005",
+                    "expression": "0",
+                    "text": "I am you."
+                },
+                {
+                    "name": "#marie#",
+                    "line_id": "006",
+                    "expression": "1",
+                    "text": "*Gasps*"
+                }
+            ]
+        }
+	]
+}

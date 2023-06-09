@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Managers;
 
+public enum PlayerState{
+    UI,
+    Gameplay
+}
 
 [RequireComponent(typeof(CharacterController))]
 public class TP_PlayerController : MonoBehaviour
@@ -22,6 +26,7 @@ public class TP_PlayerController : MonoBehaviour
     private float rotationSpeed = 5f;
     [SerializeField]
     private Animator animator;
+    public static PlayerState playerState;
     public static CharacterController controller;
     private Transform cameraTransform;
     Vector3 velocity = Vector3.zero;
@@ -57,6 +62,8 @@ public class TP_PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
         healthbar.character = gameObject;
+
+        playerState = PlayerState.Gameplay;
     }
     
 
@@ -86,7 +93,7 @@ public class TP_PlayerController : MonoBehaviour
 
     void Shield(InputAction.CallbackContext ctx)
     {
-        if(alive)
+        if(alive && playerState == PlayerState.Gameplay)
         {
             if(ctx.started)
             {
@@ -109,7 +116,7 @@ public class TP_PlayerController : MonoBehaviour
 
     void Attack(InputAction.CallbackContext ctx)
     {
-        if(alive)
+        if(alive && playerState == PlayerState.Gameplay)
         {
             if(PlayerInputHandler.Movement.ReadValue<Vector2>() != Vector2.zero){
                 animator.SetTrigger("Attack");
@@ -124,7 +131,7 @@ public class TP_PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(alive)
+        if(alive && playerState == PlayerState.Gameplay)
         {
             groundedPlayer = controller.isGrounded;
             if (groundedPlayer && playerVelocity.y < 0)

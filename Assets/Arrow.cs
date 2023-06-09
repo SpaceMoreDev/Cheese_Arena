@@ -7,7 +7,7 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
     private Rigidbody rb;
-    public static float speed = 10f;
+    
     public static float destroyTime = 5f;
     private Vector3 initialScale;
     private Vector3 originalLocalScale;
@@ -15,11 +15,12 @@ public class Arrow : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+
         originalLocalScale = transform.localScale; // Store the original local scale
     }
     void Start()
     {
-        rb.velocity = transform.forward * speed;
+        rb.velocity = transform.forward * EnemyManager.current.arrowSpeed;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -30,7 +31,7 @@ public class Arrow : MonoBehaviour
         }
         if(collision.gameObject.layer == 9)
         {
-            DamageManager.Damage(Enemy.player.GetComponent<TP_PlayerController>().healthbar, 0.3f);
+            DamageManager.Damage(TP_PlayerController.current.healthbar, 0.3f);
             Debug.Log("ouch!!");
         }
 
