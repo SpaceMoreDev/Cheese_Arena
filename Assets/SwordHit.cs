@@ -19,6 +19,7 @@ public class SwordHit : MonoBehaviour
                 if(collider.TryGetComponent<Enemy>(out Enemy enemy))
                 {
                    DamageManager.Damage(enemy.healthbar);
+                   enemy.animator.Play("Hurt");
                    particles.Play();
                 }
 

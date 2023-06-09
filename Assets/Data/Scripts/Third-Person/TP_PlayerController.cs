@@ -98,20 +98,11 @@ public class TP_PlayerController : MonoBehaviour
         {
             if(ctx.started)
             {
-                if(PlayerInputHandler.Movement.ReadValue<Vector2>() != Vector2.zero){
-                    animator.SetBool("Shield",true);
-                    animator.SetBool("Moving",true);
-                }
-                else{
-                    animator.SetBool("Shield",true);
-                    animator.SetBool("Moving",false);
-                }
-    
+                animator.SetBool("Shield",true);
                 blocked = true;
             } else if(ctx.canceled)
             {
-                    animator.SetBool("Shield",false);
-                    animator.SetBool("Moving",false);
+                animator.SetBool("Shield",false);
                 blocked = false;
             }
         }
@@ -121,14 +112,7 @@ public class TP_PlayerController : MonoBehaviour
     {
         if(alive && playerState == PlayerState.Gameplay)
         {
-            if(PlayerInputHandler.Movement.ReadValue<Vector2>() != Vector2.zero){
-                animator.SetTrigger("Attack");
-                animator.SetBool("Moving",true);
-            }
-            else{
-                animator.SetTrigger("Attack");
-                animator.SetBool("Moving",false);
-            }
+            animator.SetTrigger("Attack");
         }
     }
 
@@ -151,9 +135,18 @@ public class TP_PlayerController : MonoBehaviour
 
             if (move != Vector3.zero)
             {
-                gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, smoothTime *Time.deltaTime);
+                if(!blocked)
+                {
+                    gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, smoothTime *Time.deltaTime);
+                }
+                else
+                {
+                    float targetAngle = cameraTransform.eulerAngles.y;
+                    Quaternion rotation = Quaternion.Euler(0,targetAngle,0);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+                }
             }
-                animator.SetFloat("Blend", controller.velocity.magnitude);
+            animator.SetFloat("Blend", controller.velocity.magnitude);
         }
 
         playerVelocity.y += gravityValue * Time.deltaTime;

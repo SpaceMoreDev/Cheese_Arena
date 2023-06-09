@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] public Health healthbar;
     [SerializeField] public Transform arrowSpawn;
     [SerializeField] public Animator animator;
-
+    [SerializeField] private fireTrigger fireTrigger;
     public GameObject arrowPrefab;
     public NavMeshAgent navMesh;
     public string playerTag = "Player";
@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     private float timer;
 
     bool shooting = false;
+    bool alive = true;
 
     private void Start()
     {
@@ -25,60 +26,78 @@ public class Enemy : MonoBehaviour
         healthbar.character = gameObject;
         timer = EnemyManager.current.shootInterval;
         navMesh = GetComponent<NavMeshAgent>();
+        Health.healthBarEmpty +=ctx=> Death(ctx);
+    }
+
+    void Death(GameObject ctx)
+    {
+        if(ctx == this.gameObject)
+        {
+            alive =false;
+            animator.Play("Death");
+            navMesh.isStopped = true;
+        }
     }
 
     private void Update()
     {
-        Vector3 direction = player.transform.position - gameObject.transform.position;
-        timer -= Time.deltaTime;
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
-        float distance = Vector3.Distance(gameObject.transform.position, player.transform.position);
-        if( distance > EnemyManager.current.maxDistance)
+        if(alive)
         {
-            navMesh.isStopped = false;
-            navMesh.SetDestination(player.transform.position);
-        }
-        else if(distance<EnemyManager.current.minDistance){
-            //todo when player is close make enemy hit with melee
-            // animator.Play("Attack");
-        }
-        else{
-            navMesh.isStopped = true;
-            if (timer <= 0f && player != null)
+            animator.SetFloat("Blend", navMesh.velocity.magnitude);
+            Vector3 direction = player.transform.position - gameObject.transform.position;
+            timer -= Time.deltaTime;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
+            float distance = Vector3.Distance(gameObject.transform.position, player.transform.position);
+            if( distance > EnemyManager.current.maxDistance)
             {
-                // Check if the player is in sight
-                Ray ray = new Ray(transform.position, direction);
-                RaycastHit hit;
+                navMesh.isStopped = false;
+                navMesh.SetDestination(player.transform.position);
+                animator.SetBool("Bow", false);
+            }
+            else if(distance<EnemyManager.current.minDistance){
+                animator.SetBool("Bow", false);
+                animator.SetTrigger("Attack");
+            }
+            else{
 
-                // Perform the raycast
-                if (Physics.Raycast(ray, out hit, EnemyManager.current.maxDistance, EnemyManager.current.visionLayer))
+                animator.SetBool("Bow", true);
+                navMesh.isStopped = true;
+                if (fireTrigger.shootArrow && player != null)
                 {
-                    // Check if the hit object has the player tag
-                    if (hit.collider.CompareTag(playerTag))
+                    // Check if the player is in sight
+                    Ray ray = new Ray(transform.position, direction);
+                    RaycastHit hit;
+
+                    // Perform the raycast
+                    if (Physics.Raycast(ray, out hit, EnemyManager.current.maxDistance, EnemyManager.current.visionLayer))
                     {
-                        // Player is in sight
-                        shooting = true;
+                        // Check if the hit object has the player tag
+                        if (hit.collider.CompareTag(playerTag))
+                        {
+                            // Player is in sight
+                            shooting = true;
+                        }
+                        else
+                        {
+                            // Log the tag of the hit object for debugging
+                            shooting = false;
+                        }
+                    
                     }
                     else
                     {
-                        // Log the tag of the hit object for debugging
                         shooting = false;
                     }
-                
-                }
-                else
-                {
-                    shooting = false;
-                }
-                
-                if(shooting)
-                {
-                    Shoot(direction);
                     
-                }
+                    if(shooting)
+                    {
+                        Shoot(direction);
+                        
+                    }
 
-                Debug.DrawLine(ray.origin, ray.origin + ray.direction * 100f, Color.blue);
+                    Debug.DrawLine(ray.origin, ray.origin + ray.direction * 100f, Color.blue);
+                }
             }
         }
     }
