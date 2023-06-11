@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using Managers;
 
@@ -27,7 +28,7 @@ public class TP_PlayerController : MonoBehaviour
     [SerializeField]
     private float rotationSpeed = 5f;
     [SerializeField]
-    private Animator animator;
+    public Animator animator;
     public static PlayerState playerState;
     public static CharacterController controller;
     private Transform cameraTransform;
@@ -45,22 +46,21 @@ public class TP_PlayerController : MonoBehaviour
     [SerializeField] private int playerID;
     [HideInInspector]public int ID {set{ playerID = value;} get{return playerID;}}
     Vector2 input = Vector2.zero;
-    bool alive = true;
-    public bool blocked = false;
+    [HideInInspector] public bool alive = true;
+    [HideInInspector] public bool blocked = false;
     #endregion
 
     void Awake()
     {
         current = this;
+        
+        animator = GetComponent<Animator>();
         DialogueManager.EndDialogueAction +=this.DialogueEnd;
         InputManager.inputActions.General.MouseClick.started += Attack;
         InputManager.inputActions.General.Aim.started += Shield;
         InputManager.inputActions.General.Aim.canceled += Shield;
-        Health.healthBarEmpty += ctx => Death(ctx);
-    }
+        Health.healthBarEmpty += this.Death;
 
-    private void Start()
-    {
         controller = GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
         healthbar.character = gameObject;
@@ -68,22 +68,31 @@ public class TP_PlayerController : MonoBehaviour
         playerState = PlayerState.Gameplay;
     }
     
-
+    public void hitSword()
+    {
+        SwordHit.current.CheckHit();
+    }
     void OnDestroy()
     {
         DialogueManager.EndDialogueAction -=this.DialogueEnd;
-        InputManager.inputActions.General.MouseClick.started -= Attack;
-        InputManager.inputActions.General.Aim.started -= Shield;
-        InputManager.inputActions.General.Aim.canceled -= Shield;
-        Health.healthBarEmpty -= ctx => Death(ctx);
+        InputManager.inputActions.General.MouseClick.started -= this.Attack;
+        InputManager.inputActions.General.Aim.started -= this.Shield;
+        InputManager.inputActions.General.Aim.canceled -= this.Shield;
+        Health.healthBarEmpty -= this.Death;
+
     }
 
     void Death(GameObject ctx)
     {
-        if(ctx == this.gameObject)
+        if(MainMenu.playing)
         {
-            animator.Play("Death");
-            alive = false;
+            if(ctx == this.gameObject)
+            {
+                animator.Play("Death");
+                GameOver.current.anim.Play("GameOver");
+                alive = false;
+                MainMenu.playing = false;
+            }
         }
     }
 
@@ -94,62 +103,71 @@ public class TP_PlayerController : MonoBehaviour
 
     void Shield(InputAction.CallbackContext ctx)
     {
-        if(alive && playerState == PlayerState.Gameplay)
+        if(MainMenu.playing)
         {
-            if(ctx.started)
+            if(alive && playerState == PlayerState.Gameplay)
             {
-                animator.SetBool("Shield",true);
-                blocked = true;
-            } else if(ctx.canceled)
-            {
-                animator.SetBool("Shield",false);
-                blocked = false;
+                if(ctx.started)
+                {
+                    animator.SetBool("Shield",true);
+                    blocked = true;
+                } else if(ctx.canceled)
+                {
+                    animator.SetBool("Shield",false);
+                    blocked = false;
+                }
             }
         }
     }
 
     void Attack(InputAction.CallbackContext ctx)
     {
-        if(alive && playerState == PlayerState.Gameplay)
+        if(MainMenu.playing)
         {
-            animator.SetTrigger("Attack");
+            if(alive && playerState == PlayerState.Gameplay)
+            {
+                animator.SetTrigger("Attack");
+            }
         }
     }
 
     void Update()
     {
-        if(alive && playerState == PlayerState.Gameplay)
+        if(MainMenu.playing)
         {
-            groundedPlayer = controller.isGrounded;
-            if (groundedPlayer && playerVelocity.y < 0)
+            if(alive && playerState == PlayerState.Gameplay)
             {
-                playerVelocity.y = 0f;
+                groundedPlayer = controller.isGrounded;
+                if (groundedPlayer && playerVelocity.y < 0)
+                {
+                    playerVelocity.y = 0f;
+                }
+
+                Vector2 input = PlayerInputHandler.Movement.ReadValue<Vector2>();
+                Vector3 move = new Vector3(input.x, 0, input.y);
+                move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
+                move.y = 0f;
+                controller.Move(move * playerSpeed *Time.deltaTime); //for input
+                
+
+                if (move != Vector3.zero)
+                {
+                    if(!blocked)
+                    {
+                        gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, smoothTime *Time.deltaTime);
+                    }
+                    else
+                    {
+                        float targetAngle = cameraTransform.eulerAngles.y;
+                        Quaternion rotation = Quaternion.Euler(0,targetAngle,0);
+                        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+                    }
+                }
+                animator.SetFloat("Blend", controller.velocity.magnitude);
             }
 
-            Vector2 input = PlayerInputHandler.Movement.ReadValue<Vector2>();
-            Vector3 move = new Vector3(input.x, 0, input.y);
-            move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
-            move.y = 0f;
-            controller.Move(move * playerSpeed *Time.deltaTime); //for input
-            
-
-            if (move != Vector3.zero)
-            {
-                if(!blocked)
-                {
-                    gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, smoothTime *Time.deltaTime);
-                }
-                else
-                {
-                    float targetAngle = cameraTransform.eulerAngles.y;
-                    Quaternion rotation = Quaternion.Euler(0,targetAngle,0);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
-                }
-            }
-            animator.SetFloat("Blend", controller.velocity.magnitude);
+            playerVelocity.y += gravityValue * Time.deltaTime;
+            controller.Move(playerVelocity * Time.deltaTime); // for gravity
         }
-
-        playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime); // for gravity
     }
 }

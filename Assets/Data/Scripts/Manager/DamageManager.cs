@@ -1,30 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using Cinemachine;
 using UnityEngine;
 
 namespace Managers
 {
     public class DamageManager : MonoBehaviour
     {
-        static Action<float> damagedAction;
-        static float damage = 0.04f;
+        static float damage = 0.1f;
         
         public static void Damage(Health health)
         {
-            if(damagedAction != null)
-            {
-                damagedAction(damage);
-            }
             health.DecreaseHealth(damage);
         }
 
         public static void Damage(Health health, float customDamage)
         {
-            if(damagedAction != null)
-            {
-                damagedAction(customDamage);
-            }
             health.DecreaseHealth(customDamage);
         }
     }

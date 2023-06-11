@@ -21,14 +21,6 @@ public class Health : MonoBehaviour
             {
                 healthBarEmpty(character);
             }
-            if(character.TryGetComponent<TP_PlayerController>(out TP_PlayerController found))
-            {
-
-            }
-            else
-            {
-                Destroy(character, deSpawnTime);
-            }
         }
         // Debug.Log(healthBar.fillAmount);
     }

@@ -18,9 +18,10 @@ public class Arrow : MonoBehaviour
 
         originalLocalScale = transform.localScale; // Store the original local scale
     }
+    Vector3 vel = Vector3.zero;
     void Start()
     {
-        rb.velocity = transform.forward * EnemyManager.current.arrowSpeed;
+        rb.velocity = transform.forward * EnemyManager.current.arrowSpeed ;
     }
 
     private void OnCollisionEnter(Collision collision)

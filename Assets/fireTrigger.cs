@@ -5,4 +5,5 @@ using UnityEngine;
 public class fireTrigger : MonoBehaviour
 {
     public bool shootArrow = false;
+    
 }

@@ -10,7 +10,7 @@ namespace Managers
         void Awake()
         {
             current = this;
-            FocusMouse(true);
+            FocusMouse(false);
         }
 
         public static void FocusMouse(bool condition)

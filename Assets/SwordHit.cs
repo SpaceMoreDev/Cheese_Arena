@@ -9,26 +9,33 @@ public class SwordHit : MonoBehaviour
     [SerializeField] private ParticleSystem particles;
     [SerializeField] float hitRadius = 0.2f;
     [SerializeField] bool Active =false;
-    void Update()
-    {
-        if(Active)
-        {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, hitRadius, hitLayers);
-                
-            foreach (Collider collider in colliders){
-                if(collider.TryGetComponent<Enemy>(out Enemy enemy))
-                {
-                   DamageManager.Damage(enemy.healthbar);
-                   enemy.animator.Play("Hurt");
-                   particles.Play();
-                }
+    public static SwordHit current;
 
-            }
-        }
-        
+    void Awake()
+    {
+        current = this;
     }
 
-     void OnDrawGizmos()
+    public void CheckHit()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, hitRadius, hitLayers);
+            
+        foreach (Collider collider in colliders){
+            if(collider.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                if(enemy.alive)
+                {
+                    DamageManager.Damage(enemy.healthbar);
+                    enemy.animator.Play("Hurt");
+                    particles.Play();
+                }
+                
+            }
+
+        }
+    }
+
+    void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, hitRadius);
