@@ -7,8 +7,10 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] public Health healthbar;
     [SerializeField] public Transform arrowSpawn;
+    [SerializeField] GameObject spawnPickUp;
     [SerializeField] public Animator animator;
     [SerializeField] private fireTrigger fireTrigger;
+    [SerializeField] EnemyHit hitscan;
     public GameObject arrowPrefab;
     public NavMeshAgent navMesh;
     private GameObject player;
@@ -43,8 +45,12 @@ public class Enemy : MonoBehaviour
             alive =false;
             attacking = false;
             shooting = false;
-            animator.Play("Death");
+            animator.SetBool("Bow", false);
+            animator.SetBool("Attack", false);
             navMesh.isStopped = true;
+            animator.Play("Death", 0);
+            animator.Play("Death", 1);
+            GameObject arrow = Instantiate(spawnPickUp, transform.position , Quaternion.identity);
             Destroy(gameObject, healthbar.deSpawnTime);
         }
     }
@@ -115,17 +121,7 @@ public class Enemy : MonoBehaviour
 
     public void Attacking()
     {
-        if(!TP_PlayerController.current.blocked)
-        {
-            DamageManager.Damage(TP_PlayerController.current.healthbar,0.1f);
-            attacking = false;
-        }
-        else
-        {
-            float pushForce = 0.6f;
-            Vector3 push = direction * pushForce;
-            push.y = 0;
-            TP_PlayerController.controller.Move(push);
-        }
+        hitscan.CheckHit();
+
     }
 }

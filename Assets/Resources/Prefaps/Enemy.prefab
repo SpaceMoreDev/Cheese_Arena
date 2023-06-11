@@ -994,6 +994,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6232216865472510006}
+  - component: {fileID: 1028938704064507405}
   m_Layer: 0
   m_Name: Hand_R
   m_TagString: Untagged
@@ -1027,6 +1028,22 @@ Transform:
   m_Father: {fileID: 3155631987988046181}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1028938704064507405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593106154297825376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c2c3ed69f55a1745bc70dd82ed671ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 1024
+  hitRadius: 0.1
 --- !u!1 &1647168741919143441
 GameObject:
   m_ObjectHideFlags: 0
@@ -3562,8 +3579,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthbar: {fileID: 2585380892211516370}
   arrowSpawn: {fileID: 6756123104588499182}
+  spawnPickUp: {fileID: 889103518288159299, guid: bde956d36d185ed4b88053895d824e1a, type: 3}
   animator: {fileID: 0}
   fireTrigger: {fileID: 0}
+  hitscan: {fileID: 1028938704064507405}
   arrowPrefab: {fileID: 2684021186234926180, guid: 9065f627099504b408d5aefb2cc8fe63, type: 3}
   navMesh: {fileID: 0}
   alive: 1

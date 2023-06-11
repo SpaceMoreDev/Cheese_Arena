@@ -7557,7 +7557,7 @@ GameObject:
   m_Component:
   - component: {fileID: 347539202}
   - component: {fileID: 347539204}
-  - component: {fileID: 347539205}
+  - component: {fileID: 347539207}
   - component: {fileID: 347539203}
   - component: {fileID: 347539206}
   m_Layer: 10
@@ -7582,7 +7582,6 @@ Transform:
   - {fileID: 781785894}
   - {fileID: 1380945059}
   - {fileID: 543450652813989802}
-  - {fileID: 1544922030}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 195, z: 0}
@@ -7628,20 +7627,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.98, z: 0}
---- !u!114 &347539205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 347539198}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b9d6c50b4d4b52458a31c574dc96f23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 100
-  damage: 10
 --- !u!95 &347539206
 Animator:
   serializedVersion: 4
@@ -7662,6 +7647,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &347539207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347539198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96b89b8dabcb29840858e7e39a733f21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actionLayers:
+    serializedVersion: 2
+    m_Bits: 4096
+  selectionUI: {fileID: 0}
+  actionRadius: 2.4
 --- !u!1001 &348766234
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43051,55 +43053,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1964208022112865807, guid: 6d7e281e6d74f1640a2d7fe2c78928db, type: 3}
   m_PrefabInstance: {fileID: 1537978882}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1544922029
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1544922030}
-  - component: {fileID: 1544922031}
-  m_Layer: 9
-  m_Name: ActionCheck
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1544922030
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544922029}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 347539202}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1544922031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544922029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96b89b8dabcb29840858e7e39a733f21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionLayers:
-    serializedVersion: 2
-    m_Bits: 128
-  selectionUI: {fileID: 0}
-  actionRadius: 3.5
 --- !u!1 &1551332764
 GameObject:
   m_ObjectHideFlags: 0
@@ -72901,7 +72854,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7619297187417100472, guid: 142317b618dd14e48a991890377ce7f9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.37893
+      value: 12.429631
       objectReference: {fileID: 0}
     - target: {fileID: 7619297187417100472, guid: 142317b618dd14e48a991890377ce7f9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -72950,7 +72903,7 @@ PrefabInstance:
     - target: {fileID: 7619297187417100474, guid: 142317b618dd14e48a991890377ce7f9, type: 3}
       propertyPath: m_LookAt
       value: 
-      objectReference: {fileID: 1544922030}
+      objectReference: {fileID: 0}
     - target: {fileID: 7619297187417100474, guid: 142317b618dd14e48a991890377ce7f9, type: 3}
       propertyPath: m_Transitions.m_OnCameraLive.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

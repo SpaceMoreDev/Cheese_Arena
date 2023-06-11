@@ -10,11 +10,13 @@ public class CheckAction : MonoBehaviour
     [SerializeField] GameObject selectionUI;
     [SerializeField] float actionRadius = 3.5f;
     private static InputAction Select;
-    private bool showUI = false;
+    private bool consumed = false;
+    Collider[] precol;
 
     void Awake()
     {
         Select = InputManager.inputActions.General.Interact;
+        precol = new Collider[]{};
     }
     void OnEnable()
     {
@@ -25,58 +27,59 @@ public class CheckAction : MonoBehaviour
         Select.performed -= _ => SelectClick();
     }
 
-    Collider currentActive;
-    void Update()
-    {
-        float minimumDistance = Mathf.Infinity;
-        Collider[] colliders = Physics.OverlapSphere(transform.position, actionRadius, actionLayers);
-            
-        foreach (Collider collider in colliders){
-            float distance = Vector3.Distance(transform.position, collider.transform.position);            
-            
-            currentActive = null;
-            if(distance <= minimumDistance)
-            {
-                minimumDistance = distance;
-                currentActive = collider;
-            }
-        }
+    
 
-        if(currentActive != null)
+    void SelectClick()
+    {
+        if(TP_PlayerController.current.alive)
         {
-            Debug.DrawLine(transform.position, currentActive.transform.position);
-            
-            if(PlayerInputHandler.Interact.triggered)
-            {
-                NotificationManager.StartNotification($"Touched {currentActive.name}");
-                
+            int count = 0;
+            foreach (Collider collider in precol){
+                float distance = Vector3.Distance(transform.position, collider.transform.position);            
+                if(collider.TryGetComponent<pickup_Health>(out pickup_Health pickup))
+                {
+                    pickup.checkToConsume();
+                }
+                count++;
             }
+            consumed = true;
+            // Debug.Log($"precol: {precol.Length}");
         }
     }
+
+    void Update()
+    {
+        if(TP_PlayerController.current.alive)
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, actionRadius, actionLayers);
+                
+            foreach (Collider collider in colliders){
+                float distance = Vector3.Distance(transform.position, collider.transform.position);            
+                if(collider.TryGetComponent<pickup_Health>(out pickup_Health pickup))
+                {
+                    pickup.selectionUI.SetActive(true);
+                    consumed = pickup.consumed;
+                }
+            }
+            if(colliders.Length == 0 && precol.Length != 0)
+            {
+                if(!consumed)
+                {
+                foreach (Collider collider in precol){            
+                    if(collider.TryGetComponent<pickup_Health>(out pickup_Health pickup))
+                    {
+                        pickup.selectionUI.SetActive(false);
+                    }
+                }
+                }
+            }
+            precol = colliders;
+        }
+    }
+
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, actionRadius);
-    }
-    private void SelectClick()
-    {
-        Vector3 screenCenter = new Vector3(0.5f, 0.5f, 0f);
-        Ray ray = Camera.main.ViewportPointToRay(screenCenter);
-
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-        {
-            // Access the hit object
-            GameObject hitObject = hit.collider.gameObject;
-            // Example: Print the name of the hit object
-            
-           
-            // Debug.Log("Hit: " + hitObject.name);
-        
-            // if(hitObject.TryGetComponent<IActivites>(out IActivites obj))
-            // {
-            //     obj.Activate(TP_PlayerController.current.playerCharacter, obj.ID);
-            // }
-        }
     }
 }
