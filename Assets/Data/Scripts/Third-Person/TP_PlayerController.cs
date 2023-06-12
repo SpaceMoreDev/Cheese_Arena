@@ -63,7 +63,6 @@ public class TP_PlayerController : MonoBehaviour
     void Awake()
     {
         current = this;
-        
         animator = GetComponent<Animator>();
         DialogueManager.EndDialogueAction +=this.DialogueEnd;
         InputManager.inputActions.General.MouseClick.started += Attack;
@@ -91,15 +90,16 @@ public class TP_PlayerController : MonoBehaviour
         if(ctx.performed)
         {
             animator.SetBool("moving",true);
-            animator.SetLayerWeight(2,1);
             animator.SetLayerWeight(1,0);
+            animator.SetLayerWeight(2,1);
             input = ctx.ReadValue<Vector2>();
         }
         else if(ctx.canceled)
         {
             animator.SetBool("moving",false);
-            animator.SetLayerWeight(2,0);
             animator.SetLayerWeight(1,1);
+            animator.SetLayerWeight(2,0);
+
             input = Vector2.zero;
         }
     }
@@ -161,8 +161,9 @@ public class TP_PlayerController : MonoBehaviour
             if(ctx == this.gameObject)
             {
                 animator.SetBool("Shield",false);
-                animator.ResetTrigger("Attack");
-                
+                animator.SetBool("Attack", false);
+
+
                 animator.Play("Death");
                 GameOver.current.anim.Play("GameOver");
                 alive = false;
@@ -232,16 +233,20 @@ public class TP_PlayerController : MonoBehaviour
             {
                 if(count<2)
                 {
+
                     if(ctx.started)
                     {
                     // count++;
-                        animator.SetTrigger("Attack");
+                        animator.SetBool("Attack", true);
+
                         attacking = true;
                     }
-                    else
-                    {
-                        animator.ResetTrigger("Attack");
-                    }
+                }
+                if(ctx.canceled)
+                {
+
+                    animator.SetBool("Attack", false);
+                    
                 }
             }
         }
@@ -250,11 +255,14 @@ public class TP_PlayerController : MonoBehaviour
     public void EndAttack()
     {
         attacking = false;
+        animator.SetBool("Attack", false);
+
         count = 0;
     }
 
     void Update()
     {
+
         if(MainMenu.playing)
         {
             if(!dodging)
@@ -300,11 +308,11 @@ public class TP_PlayerController : MonoBehaviour
                     }
                     if(!sprinting)
                     {
-                        animator.SetFloat("Blend", Mathf.Clamp(controller.velocity.magnitude, 0, 0.5f));
+                        animator.SetFloat("Blend", Mathf.Clamp(controller.velocity.magnitude, 0, 0.5f), 0.1f, Time.deltaTime);
                     }
                     else
                     {
-                        animator.SetFloat("Blend",controller.velocity.magnitude);
+                        animator.SetFloat("Blend",controller.velocity.magnitude, 0.1f, Time.deltaTime);
                     }
                 }
             }

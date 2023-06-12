@@ -93,6 +93,7 @@ public class Enemy : MonoBehaviour
                         }
                         else if(distance <= 2f){
                             navMesh.updateRotation = false;
+                            navMesh.isStopped = false;
                             animator.SetBool("Attack", true);
                         }
                         else{
