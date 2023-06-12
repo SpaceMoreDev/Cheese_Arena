@@ -103,13 +103,16 @@ public class TP_PlayerController : MonoBehaviour
 
     void Death(GameObject ctx)
     {
-        if(MainMenu.playing && !dodging)
+        if(MainMenu.playing)
         {
             if(ctx == this.gameObject)
             {
                 animator.Play("Death");
                 GameOver.current.anim.Play("GameOver");
                 alive = false;
+                dodging = false;
+                attacking = false;
+                blocked = false;
                 MainMenu.playing = false;
             }
         }
