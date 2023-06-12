@@ -15,27 +15,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "MousePosition",
-                    "type": "Value",
-                    "id": "e2c49ef5-be25-4dc4-b9c0-052b449361bb",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "MouseClick",
                     "type": "Button",
                     "id": "4de4133d-74a1-4352-a38e-b764b5a2646b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Inventory",
-                    "type": "Button",
-                    "id": "bafe6a11-0ab8-468d-968e-d724a0c94a5e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -60,24 +42,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "MouseDrag",
-                    "type": "Value",
-                    "id": "ed0d563b-b401-4246-a078-53d6bee392fd",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "MouseHold",
-                    "type": "Button",
-                    "id": "1c0f7a47-3e75-441d-be5c-8567ab45dcc6",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Hold",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "4bb3f390-e61c-40da-8a45-c8832bf0249e",
@@ -90,15 +54,6 @@
                     "name": "Aim",
                     "type": "Button",
                     "id": "1b9c004a-93c5-4879-bda1-0e8fbe0097d6",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "PlayerIndex",
-                    "type": "Button",
-                    "id": "78aeae61-9987-4b5b-b5d7-1d9be58438b9",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -163,34 +118,12 @@
                 },
                 {
                     "name": "",
-                    "id": "c2966016-506a-42cf-9d7f-094bd3f1e494",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MousePosition",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "9e78b6e5-abac-4d73-800f-fc50c0a44faf",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "MouseClick",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "323183e7-3d2f-429e-a671-ef89bb9c9396",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Inventory",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -218,28 +151,6 @@
                 },
                 {
                     "name": "",
-                    "id": "932bd2cf-4a16-43c7-ace8-047a82b2888a",
-                    "path": "<Mouse>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MouseDrag",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "52940e18-1245-47ba-884e-0d249cdec942",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MouseHold",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "94e68291-5b3d-4004-a536-192ae418cf51",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -257,61 +168,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c8d29ecf-51cf-4ba7-9596-eef3f8d87c76",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PlayerIndex",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f086e071-5692-4e15-b23e-6b492b503e1e",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PlayerIndex",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5135ca6d-6940-4a1d-8626-10ac4a36cb56",
-                    "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PlayerIndex",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9b4dc730-e7ef-4f0e-8aec-cb14e1aab53f",
-                    "path": "<Keyboard>/4",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PlayerIndex",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7adc4780-afcb-41c8-aaae-36bd927fbf02",
-                    "path": "<Keyboard>/5",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PlayerIndex",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

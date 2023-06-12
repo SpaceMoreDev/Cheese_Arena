@@ -41,7 +41,7 @@ public class Arrow : MonoBehaviour
                 DamageManager.Damage(TP_PlayerController.current.healthbar, 0.03f);
             }
             TP_PlayerController.current.particles.Play();
-            Debug.Log("ouch!!");
+            // Debug.Log("ouch!!");
         }
 
         gameObject.transform.SetParent(collision.transform, true);

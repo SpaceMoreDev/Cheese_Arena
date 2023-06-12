@@ -7,6 +7,9 @@ ModelImporter:
       74: 4723146814002874508
     second: Armature|Attack
   - first:
+      74: 8996587082034170231
+    second: Armature|Dodge
+  - first:
       74: -8945691123924629249
     second: Armature|Idle
   - first:

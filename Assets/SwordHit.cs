@@ -25,9 +25,20 @@ public class SwordHit : MonoBehaviour
             {
                 if(enemy.alive)
                 {
-                    DamageManager.Damage(enemy.healthbar);
-                    enemy.animator.Play("Hurt", 1);
-                    particles.Play();
+                    if(!TP_PlayerController.current.blocked)
+                    {
+                        DamageManager.Damage(enemy.healthbar);
+                        enemy.animator.Play("Hurt", 1);
+                        particles.Play();
+                    }
+                    else
+                    {
+                        if(!TP_PlayerController.current.animator.GetBool("moving"))
+                        {
+                            DamageManager.Damage(enemy.healthbar,0.1f);
+                            enemy.animator.Play("Hurt", 1);
+                        }
+                    }
                 }
                 
             }

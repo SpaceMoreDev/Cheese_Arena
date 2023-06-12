@@ -145,14 +145,16 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Move - WASD
 
-    LClick - Shield
+    RClick - Shield
 
-    RClick - Attack
+    LClick - Attack
 
     E - Activate
 
     Space/Enter
-    - Skip Dialogue'
+    - Skip Dialogue
+
+    Space - Dodge'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: df7ba49a728db7c4cab0645dd55a3a84, type: 2}
   m_sharedMaterial: {fileID: 4286499216538658741, guid: df7ba49a728db7c4cab0645dd55a3a84, type: 2}
@@ -179,8 +181,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 47.9
-  m_fontSizeBase: 47.9
+  m_fontSize: 42.85
+  m_fontSizeBase: 42.85
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

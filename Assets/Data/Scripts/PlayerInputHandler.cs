@@ -20,7 +20,6 @@ public class PlayerInputHandler : MonoBehaviour
 
     #region Private Variables
     public static PlayerInputHandler current;
-    public static Vector2 MousePosition;
     #endregion
 
     void Awake()
@@ -38,7 +37,7 @@ public class PlayerInputHandler : MonoBehaviour
 
         #region General ActionMap
             InputManager.inputActions.General.Escape.started += this.Escape;
-            InputManager.inputActions.General.MousePosition.performed += this.MousePositionMove;
+            // InputManager.inputActions.General.MousePosition.performed += this.MousePositionMove;
         #endregion
 
         #region UI ActionMap
@@ -51,7 +50,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         #region General ActionMap
             InputManager.inputActions.General.Escape.started -= this.Escape;
-            InputManager.inputActions.General.MousePosition.performed -= this.MousePositionMove;
+            // InputManager.inputActions.General.MousePosition.performed -= this.MousePositionMove;
         #endregion
 
         #region UI ActionMap
@@ -63,11 +62,6 @@ public class PlayerInputHandler : MonoBehaviour
     #region InputFunctions
 
     #endregion
-
-    void MousePositionMove(InputAction.CallbackContext context)
-    {
-        MousePosition = context.ReadValue<Vector2>();
-    }
 
     void Escape(InputAction.CallbackContext context)
     {

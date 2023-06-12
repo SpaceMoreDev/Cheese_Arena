@@ -1,3 +1,4 @@
+// using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,12 +22,16 @@ public class TP_PlayerController : MonoBehaviour
     private bool groundedPlayer;
     [SerializeField]
     private float playerSpeed = 2.0f;
+     [SerializeField]
+    private float dodgeSpeed = 2.0f;
     [SerializeField]
     private float smoothTime = 2.0f;
     [SerializeField]
     private float blendSmooth = 2.0f;
     [SerializeField]
     private float rotationSpeed = 5f;
+        [SerializeField]
+    private float attackRotationSpeed = 5f;
     [SerializeField]
     public Animator animator;
     public static PlayerState playerState;
@@ -37,7 +42,7 @@ public class TP_PlayerController : MonoBehaviour
 
     private float floatVelocity = 0;
     private float jumpHeight = 1.0f;
-    private float gravityValue = -9.81f;
+    private float gravityValue = -18.81f;
 
     
     #region Public Variables
@@ -47,6 +52,8 @@ public class TP_PlayerController : MonoBehaviour
     [HideInInspector]public int ID {set{ playerID = value;} get{return playerID;}}
     Vector2 input = Vector2.zero;
     [HideInInspector] public bool alive = true;
+    [HideInInspector] public bool dodging = false;
+    [HideInInspector] public bool attacking = false;
     [HideInInspector] public bool blocked = false;
     #endregion
 
@@ -59,6 +66,7 @@ public class TP_PlayerController : MonoBehaviour
         InputManager.inputActions.General.MouseClick.started += Attack;
         InputManager.inputActions.General.Aim.started += Shield;
         InputManager.inputActions.General.Aim.canceled += Shield;
+        InputManager.inputActions.General.Jump.started += _ => Dodge();
         Health.healthBarEmpty += this.Death;
 
         controller = GetComponent<CharacterController>();
@@ -67,7 +75,16 @@ public class TP_PlayerController : MonoBehaviour
 
         playerState = PlayerState.Gameplay;
     }
-    
+    public void Dodge()
+    {
+        if(MainMenu.playing && !dodging)
+        {
+            if(alive && playerState == PlayerState.Gameplay)
+            {
+                animator.SetTrigger("Dodge");
+            }
+        }
+    }
     public void hitSword()
     {
         SwordHit.current.CheckHit();
@@ -78,13 +95,15 @@ public class TP_PlayerController : MonoBehaviour
         InputManager.inputActions.General.MouseClick.started -= this.Attack;
         InputManager.inputActions.General.Aim.started -= this.Shield;
         InputManager.inputActions.General.Aim.canceled -= this.Shield;
+        InputManager.inputActions.General.Jump.started -= _ => Dodge();
+
         Health.healthBarEmpty -= this.Death;
 
     }
 
     void Death(GameObject ctx)
     {
-        if(MainMenu.playing)
+        if(MainMenu.playing && !dodging)
         {
             if(ctx == this.gameObject)
             {
@@ -103,7 +122,7 @@ public class TP_PlayerController : MonoBehaviour
 
     void Shield(InputAction.CallbackContext ctx)
     {
-        if(MainMenu.playing)
+        if(MainMenu.playing && !dodging)
         {
             if(alive && playerState == PlayerState.Gameplay)
             {
@@ -119,52 +138,104 @@ public class TP_PlayerController : MonoBehaviour
             }
         }
     }
+    public void DodgeEnd()
+    {
+        playerVelocity.x = 0;
+        playerVelocity.z = 0;
+        dodging = false;
+    }
+    public void DodgeStart()
+    {
+        Vector2 input = PlayerInputHandler.Movement.ReadValue<Vector2>();
+        if(input != Vector2.zero)
+        {
+            Vector3 direction = new Vector3(input.x, 0, input.y);
+            direction = direction.x * cameraTransform.right.normalized + direction.z * cameraTransform.forward.normalized;
+            direction.y = 0f;
+            transform.forward = direction;
+        }
+        Vector3 movementVelocity = transform.forward * dodgeSpeed;
+        playerVelocity.x = movementVelocity.x;
+        playerVelocity.z = movementVelocity.z;
+        playerVelocity.y = 3;
+        dodging = true;
+        
+        Debug.Log("Jumped!");
+    }
 
     void Attack(InputAction.CallbackContext ctx)
     {
-        if(MainMenu.playing)
+        if(MainMenu.playing && !dodging)
         {
             if(alive && playerState == PlayerState.Gameplay)
             {
                 animator.SetTrigger("Attack");
+                attacking = true;
             }
         }
+    }
+
+    public void EndAttack()
+    {
+        attacking = false;
     }
 
     void Update()
     {
         if(MainMenu.playing)
         {
-            if(alive && playerState == PlayerState.Gameplay)
+            if(!dodging)
             {
-                groundedPlayer = controller.isGrounded;
-                if (groundedPlayer && playerVelocity.y < 0)
+                if(alive && playerState == PlayerState.Gameplay)
                 {
-                    playerVelocity.y = 0f;
-                }
+                    groundedPlayer = controller.isGrounded;
+                    if (groundedPlayer && playerVelocity.y < 0)
+                    {
+                        playerVelocity.y = 0f;
+                    }
 
-                Vector2 input = PlayerInputHandler.Movement.ReadValue<Vector2>();
-                Vector3 move = new Vector3(input.x, 0, input.y);
-                move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
-                move.y = 0f;
-                controller.Move(move * playerSpeed *Time.deltaTime); //for input
+                    Vector2 input = PlayerInputHandler.Movement.ReadValue<Vector2>();
+                    Vector3 move = new Vector3(input.x, 0, input.y);
+                    move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
+                    move.y = 0f;
+                    controller.Move(move * playerSpeed *Time.deltaTime); //for input
+                    
                 
 
-                if (move != Vector3.zero)
-                {
-                    if(!blocked)
+                    if (move != Vector3.zero)
                     {
-                        gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, smoothTime *Time.deltaTime);
+                        if(!blocked)
+                        {
+                            gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, smoothTime *Time.deltaTime);
+                        }
+                        else
+                        {
+                            float targetAngle = cameraTransform.eulerAngles.y;
+                            Quaternion rotation = Quaternion.Euler(0,targetAngle,0);
+                            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+                        }
+                        
                     }
-                    else
+    
+                    if(attacking)
                     {
                         float targetAngle = cameraTransform.eulerAngles.y;
                         Quaternion rotation = Quaternion.Euler(0,targetAngle,0);
-                        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+                        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, attackRotationSpeed * Time.deltaTime);
+                    }
+                    animator.SetFloat("Blend", controller.velocity.magnitude);
+
+                    if(controller.velocity.magnitude > 0)
+                    {
+                        animator.SetBool("moving",true);
+                    }
+                    else
+                    {
+                        animator.SetBool("moving",false);
                     }
                 }
-                animator.SetFloat("Blend", controller.velocity.magnitude);
             }
+            
 
             playerVelocity.y += gravityValue * Time.deltaTime;
             controller.Move(playerVelocity * Time.deltaTime); // for gravity

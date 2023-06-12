@@ -70,6 +70,6 @@ public class MainMenu : MonoBehaviour
     {
         musicSource.volume = volumeSlider.value;
         bgmusicSource.volume = volumeSlider.value-0.2f;
-        Debug.Log($"changed {volumeSlider.value}");
+        // Debug.Log($"changed {volumeSlider.value}");
     }
 }

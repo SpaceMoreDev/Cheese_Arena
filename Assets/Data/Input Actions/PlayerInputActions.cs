@@ -37,27 +37,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""MousePosition"",
-                    ""type"": ""Value"",
-                    ""id"": ""e2c49ef5-be25-4dc4-b9c0-052b449361bb"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""MouseClick"",
                     ""type"": ""Button"",
                     ""id"": ""4de4133d-74a1-4352-a38e-b764b5a2646b"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Inventory"",
-                    ""type"": ""Button"",
-                    ""id"": ""bafe6a11-0ab8-468d-968e-d724a0c94a5e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -82,24 +64,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""MouseDrag"",
-                    ""type"": ""Value"",
-                    ""id"": ""ed0d563b-b401-4246-a078-53d6bee392fd"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""MouseHold"",
-                    ""type"": ""Button"",
-                    ""id"": ""1c0f7a47-3e75-441d-be5c-8567ab45dcc6"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Hold"",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""4bb3f390-e61c-40da-8a45-c8832bf0249e"",
@@ -112,15 +76,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""name"": ""Aim"",
                     ""type"": ""Button"",
                     ""id"": ""1b9c004a-93c5-4879-bda1-0e8fbe0097d6"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""PlayerIndex"",
-                    ""type"": ""Button"",
-                    ""id"": ""78aeae61-9987-4b5b-b5d7-1d9be58438b9"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -185,34 +140,12 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""c2966016-506a-42cf-9d7f-094bd3f1e494"",
-                    ""path"": ""<Mouse>/position"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MousePosition"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""9e78b6e5-abac-4d73-800f-fc50c0a44faf"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MouseClick"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""323183e7-3d2f-429e-a671-ef89bb9c9396"",
-                    ""path"": ""<Keyboard>/tab"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -240,28 +173,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""932bd2cf-4a16-43c7-ace8-047a82b2888a"",
-                    ""path"": ""<Mouse>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MouseDrag"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""52940e18-1245-47ba-884e-0d249cdec942"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MouseHold"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""94e68291-5b3d-4004-a536-192ae418cf51"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -279,61 +190,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c8d29ecf-51cf-4ba7-9596-eef3f8d87c76"",
-                    ""path"": ""<Keyboard>/1"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PlayerIndex"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f086e071-5692-4e15-b23e-6b492b503e1e"",
-                    ""path"": ""<Keyboard>/2"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PlayerIndex"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5135ca6d-6940-4a1d-8626-10ac4a36cb56"",
-                    ""path"": ""<Keyboard>/3"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PlayerIndex"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""9b4dc730-e7ef-4f0e-8aec-cb14e1aab53f"",
-                    ""path"": ""<Keyboard>/4"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PlayerIndex"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""7adc4780-afcb-41c8-aaae-36bd927fbf02"",
-                    ""path"": ""<Keyboard>/5"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PlayerIndex"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -464,16 +320,11 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         // General
         m_General = asset.FindActionMap("General", throwIfNotFound: true);
         m_General_Move = m_General.FindAction("Move", throwIfNotFound: true);
-        m_General_MousePosition = m_General.FindAction("MousePosition", throwIfNotFound: true);
         m_General_MouseClick = m_General.FindAction("MouseClick", throwIfNotFound: true);
-        m_General_Inventory = m_General.FindAction("Inventory", throwIfNotFound: true);
         m_General_Escape = m_General.FindAction("Escape", throwIfNotFound: true);
         m_General_Interact = m_General.FindAction("Interact", throwIfNotFound: true);
-        m_General_MouseDrag = m_General.FindAction("MouseDrag", throwIfNotFound: true);
-        m_General_MouseHold = m_General.FindAction("MouseHold", throwIfNotFound: true);
         m_General_Jump = m_General.FindAction("Jump", throwIfNotFound: true);
         m_General_Aim = m_General.FindAction("Aim", throwIfNotFound: true);
-        m_General_PlayerIndex = m_General.FindAction("PlayerIndex", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_MousePosition = m_UI.FindAction("MousePosition", throwIfNotFound: true);
@@ -541,31 +392,21 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_General;
     private IGeneralActions m_GeneralActionsCallbackInterface;
     private readonly InputAction m_General_Move;
-    private readonly InputAction m_General_MousePosition;
     private readonly InputAction m_General_MouseClick;
-    private readonly InputAction m_General_Inventory;
     private readonly InputAction m_General_Escape;
     private readonly InputAction m_General_Interact;
-    private readonly InputAction m_General_MouseDrag;
-    private readonly InputAction m_General_MouseHold;
     private readonly InputAction m_General_Jump;
     private readonly InputAction m_General_Aim;
-    private readonly InputAction m_General_PlayerIndex;
     public struct GeneralActions
     {
         private @PlayerInputActions m_Wrapper;
         public GeneralActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_General_Move;
-        public InputAction @MousePosition => m_Wrapper.m_General_MousePosition;
         public InputAction @MouseClick => m_Wrapper.m_General_MouseClick;
-        public InputAction @Inventory => m_Wrapper.m_General_Inventory;
         public InputAction @Escape => m_Wrapper.m_General_Escape;
         public InputAction @Interact => m_Wrapper.m_General_Interact;
-        public InputAction @MouseDrag => m_Wrapper.m_General_MouseDrag;
-        public InputAction @MouseHold => m_Wrapper.m_General_MouseHold;
         public InputAction @Jump => m_Wrapper.m_General_Jump;
         public InputAction @Aim => m_Wrapper.m_General_Aim;
-        public InputAction @PlayerIndex => m_Wrapper.m_General_PlayerIndex;
         public InputActionMap Get() { return m_Wrapper.m_General; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -578,36 +419,21 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Move.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMove;
-                @MousePosition.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMousePosition;
-                @MousePosition.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMousePosition;
-                @MousePosition.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMousePosition;
                 @MouseClick.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMouseClick;
                 @MouseClick.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMouseClick;
                 @MouseClick.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMouseClick;
-                @Inventory.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnInventory;
-                @Inventory.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnInventory;
-                @Inventory.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnInventory;
                 @Escape.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnEscape;
                 @Escape.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnEscape;
                 @Escape.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnEscape;
                 @Interact.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnInteract;
-                @MouseDrag.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMouseDrag;
-                @MouseDrag.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMouseDrag;
-                @MouseDrag.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMouseDrag;
-                @MouseHold.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMouseHold;
-                @MouseHold.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMouseHold;
-                @MouseHold.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMouseHold;
                 @Jump.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnJump;
                 @Aim.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnAim;
                 @Aim.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnAim;
                 @Aim.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnAim;
-                @PlayerIndex.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnPlayerIndex;
-                @PlayerIndex.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnPlayerIndex;
-                @PlayerIndex.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnPlayerIndex;
             }
             m_Wrapper.m_GeneralActionsCallbackInterface = instance;
             if (instance != null)
@@ -615,36 +441,21 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @MousePosition.started += instance.OnMousePosition;
-                @MousePosition.performed += instance.OnMousePosition;
-                @MousePosition.canceled += instance.OnMousePosition;
                 @MouseClick.started += instance.OnMouseClick;
                 @MouseClick.performed += instance.OnMouseClick;
                 @MouseClick.canceled += instance.OnMouseClick;
-                @Inventory.started += instance.OnInventory;
-                @Inventory.performed += instance.OnInventory;
-                @Inventory.canceled += instance.OnInventory;
                 @Escape.started += instance.OnEscape;
                 @Escape.performed += instance.OnEscape;
                 @Escape.canceled += instance.OnEscape;
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
-                @MouseDrag.started += instance.OnMouseDrag;
-                @MouseDrag.performed += instance.OnMouseDrag;
-                @MouseDrag.canceled += instance.OnMouseDrag;
-                @MouseHold.started += instance.OnMouseHold;
-                @MouseHold.performed += instance.OnMouseHold;
-                @MouseHold.canceled += instance.OnMouseHold;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
-                @PlayerIndex.started += instance.OnPlayerIndex;
-                @PlayerIndex.performed += instance.OnPlayerIndex;
-                @PlayerIndex.canceled += instance.OnPlayerIndex;
             }
         }
     }
@@ -717,16 +528,11 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     public interface IGeneralActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnMousePosition(InputAction.CallbackContext context);
         void OnMouseClick(InputAction.CallbackContext context);
-        void OnInventory(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
-        void OnMouseDrag(InputAction.CallbackContext context);
-        void OnMouseHold(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
-        void OnPlayerIndex(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

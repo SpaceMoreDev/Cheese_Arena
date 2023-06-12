@@ -40,7 +40,7 @@ public class StartDialogue : MonoBehaviour
                     CM_CamerasSetup.PauseCamera(true);
 
                     DialogueManager.StartDialogue(gameObject, characterObject, 0);
-                    Debug.Log($"PLAYER ENTERED {characterObject.CharacterName}");
+                    // Debug.Log($"PLAYER ENTERED {characterObject.CharacterName}");
                 }
             }
         }
