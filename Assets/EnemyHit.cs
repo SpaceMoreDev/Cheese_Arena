@@ -19,7 +19,7 @@ public class EnemyHit : MonoBehaviour
                 {
                     if(!TP_PlayerController.current.blocked)
                     {
-                        DamageManager.Damage(TP_PlayerController.current.healthbar,0.1f);
+                        DamageManager.Damage(TP_PlayerController.current.healthbar,0.3f);
                         TP_PlayerController.current.particles.Play();
                     }
                 }

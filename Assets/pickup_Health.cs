@@ -15,7 +15,7 @@ public class pickup_Health : MonoBehaviour
         if(!consumed)
         {
             NotificationManager.StartNotification("Consumed the Cheese..");
-            TP_PlayerController.current.healthbar.IncreaseHealth(0.5f);
+            TP_PlayerController.current.healthbar.IncreaseHealth(0.25f);
             Destroy(gameObject);
             consumed = true;
         }

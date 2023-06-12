@@ -26,7 +26,7 @@ public class Arrow : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Arrow"))
+        if (collision.gameObject.CompareTag("Arrow") || collision.gameObject.layer == 8 )
         {
             return; // Ignore collisions with player and other arrows
         }

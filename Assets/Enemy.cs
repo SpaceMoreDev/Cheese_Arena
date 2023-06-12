@@ -50,6 +50,7 @@ public class Enemy : MonoBehaviour
             navMesh.isStopped = true;
             animator.Play("Death", 0);
             animator.Play("Death", 1);
+            GetComponent<CapsuleCollider>().enabled = false;
             GameObject arrow = Instantiate(spawnPickUp, transform.position , Quaternion.identity);
             Destroy(gameObject, healthbar.deSpawnTime);
         }
@@ -67,25 +68,31 @@ public class Enemy : MonoBehaviour
                 RaycastHit hit;
 
                 // Perform the raycast
-                if (TP_PlayerController.current.alive && Physics.Raycast(ray, out hit, EnemyManager.current.maxDistance, EnemyManager.current.visionLayer))
+                if (TP_PlayerController.current.alive && Physics.Raycast(ray, out hit, 10f, EnemyManager.current.visionLayer))
                 {
                     if (hit.collider.gameObject.layer == 13)
                     {
-                        attacking = false;
                         Quaternion targetRotation = Quaternion.LookRotation(direction);
-                        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
+                        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
                         float distance = Vector3.Distance(gameObject.transform.position, player.transform.position);
 
-                        if( distance > EnemyManager.current.maxDistance)
+                        if( distance >= EnemyManager.current.maxDistance)
                         {
+                            navMesh.updateRotation = true;
                             navMesh.isStopped = false;
                             navMesh.SetDestination(player.transform.position);
+                            // animator.SetBool("Bow", false);
+                            animator.SetBool("Attack", false);
+                        }
+                        else if(distance <= EnemyManager.current.minDistance && distance > 2f){
+
+                            navMesh.isStopped = false;
+                            navMesh.SetDestination(-direction.normalized * 20f);
                             animator.SetBool("Bow", false);
                             animator.SetBool("Attack", false);
                         }
-                        else if(distance<EnemyManager.current.minDistance){
-
-                            animator.SetBool("Bow", false);
+                        else if(distance <= 2f){
+                            navMesh.updateRotation = false;
                             animator.SetBool("Attack", true);
                         }
                         else{
@@ -93,15 +100,10 @@ public class Enemy : MonoBehaviour
                             navMesh.isStopped = true;
                             animator.SetBool("Bow", true);
                             animator.SetBool("Attack", false);
-                            Debug.DrawLine(ray.origin, ray.origin + ray.direction * 100f, Color.blue);
+                            
                         }
                     }
-                    else
-                    {
-                        navMesh.isStopped = false;
-                        animator.SetBool("Bow", false);
-                        animator.SetBool("Attack", false);
-                    }
+                    Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10f, Color.blue);
                 }
                 else
                 {
@@ -115,10 +117,14 @@ public class Enemy : MonoBehaviour
 
     public void Shoot()
     {
-        Vector3 newDir = new Vector3(direction.x + Random.Range(-3,3), direction.y ,direction.z );
-        GameObject arrow = Instantiate(arrowPrefab, arrowSpawn.position , Quaternion.LookRotation(transform.forward));
+        Vector3 newDir = new Vector3(direction.x + Random.Range(-0.1f,0.1f), direction.y+ Random.Range(-0.5f,0.5f) ,direction.z );
+        GameObject arrow = Instantiate(arrowPrefab, arrowSpawn.position , Quaternion.LookRotation(newDir));
     }
 
+    public void EndAttack()
+    {
+        attacking = false;
+    }
     public void Attacking()
     {
         hitscan.CheckHit();

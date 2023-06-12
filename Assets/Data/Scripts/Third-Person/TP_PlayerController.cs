@@ -22,6 +22,8 @@ public class TP_PlayerController : MonoBehaviour
     private bool groundedPlayer;
     [SerializeField]
     private float playerSpeed = 2.0f;
+    [SerializeField]
+    private float sprintSpeed = 2.0f;
      [SerializeField]
     private float dodgeSpeed = 2.0f;
     [SerializeField]
@@ -30,7 +32,7 @@ public class TP_PlayerController : MonoBehaviour
     private float blendSmooth = 2.0f;
     [SerializeField]
     private float rotationSpeed = 5f;
-        [SerializeField]
+    [SerializeField]
     private float attackRotationSpeed = 5f;
     [SerializeField]
     public Animator animator;
@@ -55,6 +57,7 @@ public class TP_PlayerController : MonoBehaviour
     [HideInInspector] public bool dodging = false;
     [HideInInspector] public bool attacking = false;
     [HideInInspector] public bool blocked = false;
+    [HideInInspector] public bool sprinting = false;
     #endregion
 
     void Awake()
@@ -64,9 +67,17 @@ public class TP_PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         DialogueManager.EndDialogueAction +=this.DialogueEnd;
         InputManager.inputActions.General.MouseClick.started += Attack;
+        InputManager.inputActions.General.MouseClick.canceled += Attack;
+
         InputManager.inputActions.General.Aim.started += Shield;
         InputManager.inputActions.General.Aim.canceled += Shield;
+
+        InputManager.inputActions.General.Move.performed += this.Move;
+        InputManager.inputActions.General.Move.canceled += this.Move;
+
         InputManager.inputActions.General.Jump.started += _ => Dodge();
+        InputManager.inputActions.General.Sprint.started += _ => Sprinting();
+        InputManager.inputActions.General.Sprint.canceled += _ => EndSprinting();
         Health.healthBarEmpty += this.Death;
 
         controller = GetComponent<CharacterController>();
@@ -75,15 +86,49 @@ public class TP_PlayerController : MonoBehaviour
 
         playerState = PlayerState.Gameplay;
     }
+    public void Move(InputAction.CallbackContext ctx)
+    {
+        if(ctx.performed)
+        {
+            animator.SetBool("moving",true);
+            animator.SetLayerWeight(2,1);
+            animator.SetLayerWeight(1,0);
+            input = ctx.ReadValue<Vector2>();
+        }
+        else if(ctx.canceled)
+        {
+            animator.SetBool("moving",false);
+            animator.SetLayerWeight(2,0);
+            animator.SetLayerWeight(1,1);
+            input = Vector2.zero;
+        }
+    }
+
     public void Dodge()
     {
         if(MainMenu.playing && !dodging)
         {
             if(alive && playerState == PlayerState.Gameplay)
             {
+                blocked = false;
+                attacking = false;
+                sprinting = false;
+                animator.SetBool("Shield",false);
                 animator.SetTrigger("Dodge");
             }
         }
+    }
+    float tempSpeed;
+    public void Sprinting()
+    {
+        sprinting = true;
+        tempSpeed = playerSpeed;
+        playerSpeed += sprintSpeed;
+    }
+    public void EndSprinting()
+    {
+        sprinting = false;
+        playerSpeed = tempSpeed;
     }
     public void hitSword()
     {
@@ -93,9 +138,17 @@ public class TP_PlayerController : MonoBehaviour
     {
         DialogueManager.EndDialogueAction -=this.DialogueEnd;
         InputManager.inputActions.General.MouseClick.started -= this.Attack;
+        InputManager.inputActions.General.MouseClick.canceled -= this.Attack;
+
+        InputManager.inputActions.General.Move.performed -= this.Move;
+        InputManager.inputActions.General.Move.canceled -= this.Move;
+
         InputManager.inputActions.General.Aim.started -= this.Shield;
         InputManager.inputActions.General.Aim.canceled -= this.Shield;
         InputManager.inputActions.General.Jump.started -= _ => Dodge();
+        InputManager.inputActions.General.Sprint.started -= _ => Sprinting();
+        InputManager.inputActions.General.Sprint.canceled -= _ => EndSprinting();
+
 
         Health.healthBarEmpty -= this.Death;
 
@@ -107,6 +160,9 @@ public class TP_PlayerController : MonoBehaviour
         {
             if(ctx == this.gameObject)
             {
+                animator.SetBool("Shield",false);
+                animator.ResetTrigger("Attack");
+                
                 animator.Play("Death");
                 GameOver.current.anim.Play("GameOver");
                 alive = false;
@@ -141,15 +197,16 @@ public class TP_PlayerController : MonoBehaviour
             }
         }
     }
+
     public void DodgeEnd()
     {
         playerVelocity.x = 0;
         playerVelocity.z = 0;
         dodging = false;
     }
+
     public void DodgeStart()
     {
-        Vector2 input = PlayerInputHandler.Movement.ReadValue<Vector2>();
         if(input != Vector2.zero)
         {
             Vector3 direction = new Vector3(input.x, 0, input.y);
@@ -166,14 +223,26 @@ public class TP_PlayerController : MonoBehaviour
         Debug.Log("Jumped!");
     }
 
+    int count = 0;
     void Attack(InputAction.CallbackContext ctx)
     {
         if(MainMenu.playing && !dodging)
         {
             if(alive && playerState == PlayerState.Gameplay)
             {
-                animator.SetTrigger("Attack");
-                attacking = true;
+                if(count<2)
+                {
+                    if(ctx.started)
+                    {
+                    // count++;
+                        animator.SetTrigger("Attack");
+                        attacking = true;
+                    }
+                    else
+                    {
+                        animator.ResetTrigger("Attack");
+                    }
+                }
             }
         }
     }
@@ -181,6 +250,7 @@ public class TP_PlayerController : MonoBehaviour
     public void EndAttack()
     {
         attacking = false;
+        count = 0;
     }
 
     void Update()
@@ -196,28 +266,30 @@ public class TP_PlayerController : MonoBehaviour
                     {
                         playerVelocity.y = 0f;
                     }
-
-                    Vector2 input = PlayerInputHandler.Movement.ReadValue<Vector2>();
                     Vector3 move = new Vector3(input.x, 0, input.y);
                     move = move.x * cameraTransform.right.normalized + move.z * cameraTransform.forward.normalized;
                     move.y = 0f;
                     controller.Move(move * playerSpeed *Time.deltaTime); //for input
                     
-                
-
                     if (move != Vector3.zero)
                     {
                         if(!blocked)
                         {
-                            gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, smoothTime *Time.deltaTime);
+                            if(!sprinting)
+                            {
+                                gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, smoothTime *Time.deltaTime);
+                            }
+                            else{
+                                gameObject.transform.forward = Vector3.SmoothDamp(gameObject.transform.forward,move,ref velocity, smoothTime * 0.5f *Time.deltaTime);
+
+                            }
                         }
                         else
                         {
                             float targetAngle = cameraTransform.eulerAngles.y;
                             Quaternion rotation = Quaternion.Euler(0,targetAngle,0);
-                            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+                            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
                         }
-                        
                     }
     
                     if(attacking)
@@ -226,15 +298,13 @@ public class TP_PlayerController : MonoBehaviour
                         Quaternion rotation = Quaternion.Euler(0,targetAngle,0);
                         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, attackRotationSpeed * Time.deltaTime);
                     }
-                    animator.SetFloat("Blend", controller.velocity.magnitude);
-
-                    if(controller.velocity.magnitude > 0)
+                    if(!sprinting)
                     {
-                        animator.SetBool("moving",true);
+                        animator.SetFloat("Blend", Mathf.Clamp(controller.velocity.magnitude, 0, 0.5f));
                     }
                     else
                     {
-                        animator.SetBool("moving",false);
+                        animator.SetFloat("Blend",controller.velocity.magnitude);
                     }
                 }
             }

@@ -7,8 +7,17 @@ ModelImporter:
       74: 4723146814002874508
     second: Armature|Attack
   - first:
+      74: 6114898284164986354
+    second: Armature|AttackEnd
+  - first:
+      74: 5678335224092013957
+    second: Armature|Attackstart
+  - first:
       74: 8996587082034170231
     second: Armature|Dodge
+  - first:
+      74: 6881873686158965456
+    second: Armature|Falling
   - first:
       74: -8945691123924629249
     second: Armature|Idle
@@ -21,6 +30,9 @@ ModelImporter:
   - first:
       74: 1889602709898029310
     second: Armature|Sitting
+  - first:
+      74: -3911191746582681115
+    second: Armature|Standing up
   externalObjects: {}
   materials:
     materialImportMode: 2
