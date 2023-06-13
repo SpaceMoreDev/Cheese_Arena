@@ -39,6 +39,7 @@ public class Arrow : MonoBehaviour
             else
             {
                 DamageManager.Damage(TP_PlayerController.current.healthbar, 0.03f);
+                TP_PlayerController.current.staminabar.DecreaseStamina(TP_PlayerController.current.blockStamina);
             }
             TP_PlayerController.current.particles.Play();
             // Debug.Log("ouch!!");

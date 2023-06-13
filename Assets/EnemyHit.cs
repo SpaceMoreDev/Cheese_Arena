@@ -22,6 +22,10 @@ public class EnemyHit : MonoBehaviour
                         DamageManager.Damage(TP_PlayerController.current.healthbar,0.3f);
                         TP_PlayerController.current.particles.Play();
                     }
+                    else
+                    {
+                        TP_PlayerController.current.staminabar.DecreaseStamina(0.25f);
+                    }
                 }
                 
             }

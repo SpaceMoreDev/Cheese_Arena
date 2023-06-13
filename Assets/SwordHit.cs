@@ -18,6 +18,7 @@ public class SwordHit : MonoBehaviour
 
     public void CheckHit()
     {
+        TP_PlayerController.current.staminabar.DecreaseStamina(TP_PlayerController.current.attackStamina);
         Collider[] colliders = Physics.OverlapSphere(transform.position, hitRadius, hitLayers);
             
         foreach (Collider collider in colliders){
@@ -33,6 +34,7 @@ public class SwordHit : MonoBehaviour
                     }
                     else
                     {
+                        TP_PlayerController.current.staminabar.DecreaseStamina(TP_PlayerController.current.blockStamina);
                         if(!TP_PlayerController.current.animator.GetBool("moving"))
                         {
                             DamageManager.Damage(enemy.healthbar,0.1f);

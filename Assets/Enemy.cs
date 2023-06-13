@@ -73,7 +73,6 @@ public class Enemy : MonoBehaviour
                     if (hit.collider.gameObject.layer == 13)
                     {
                         Quaternion targetRotation = Quaternion.LookRotation(direction);
-                        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
                         float distance = Vector3.Distance(gameObject.transform.position, player.transform.position);
 
                         if( distance >= EnemyManager.current.maxDistance)
@@ -87,28 +86,30 @@ public class Enemy : MonoBehaviour
                         else if(distance <= EnemyManager.current.minDistance && distance > 2f){
 
                             navMesh.isStopped = false;
+                            navMesh.updateRotation = true;
                             navMesh.SetDestination(-direction.normalized * 20f);
                             animator.SetBool("Bow", false);
                             animator.SetBool("Attack", false);
                         }
                         else if(distance <= 2f){
                             navMesh.updateRotation = false;
-                            navMesh.isStopped = false;
+                            navMesh.isStopped = true;
+                            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 20f * Time.deltaTime);
                             animator.SetBool("Attack", true);
                         }
                         else{
 
+                            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
                             navMesh.isStopped = true;
                             animator.SetBool("Bow", true);
                             animator.SetBool("Attack", false);
-                            
                         }
                     }
                     Debug.DrawLine(ray.origin, ray.origin + ray.direction * 10f, Color.blue);
                 }
                 else
                 {
-                    navMesh.isStopped = false;
+                    navMesh.isStopped = true;
                     animator.SetBool("Bow", false);
                     animator.SetBool("Attack", false);
                 }

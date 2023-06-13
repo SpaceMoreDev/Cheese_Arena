@@ -28,12 +28,12 @@ public class MainMenu : MonoBehaviour
     public void Play()
     {
         TP_PlayerController.current.animator.SetTrigger("Play");
+        PlayerCanvas.gameObject.SetActive(true);
         gameObject.SetActive(false);
         main_camera.Priority += 10;
         CM_CamerasSetup.SetTargetLook(TP_PlayerController.current.transform);
         CM_CamerasSetup.FocusMouse(true);
         playing = true;
-        PlayerCanvas.gameObject.SetActive(true);
     }
 
     // Update is called once per frame

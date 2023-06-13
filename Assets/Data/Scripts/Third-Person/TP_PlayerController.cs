@@ -16,6 +16,8 @@ public class TP_PlayerController : MonoBehaviour
 {   [SerializeField] 
     public Health healthbar;
     [SerializeField] 
+    public Stamina staminabar;
+    [SerializeField] 
     public ParticleSystem particles;
     private Vector3 playerVelocity;
     [SerializeField]
@@ -46,7 +48,12 @@ public class TP_PlayerController : MonoBehaviour
     private float jumpHeight = 1.0f;
     private float gravityValue = -18.81f;
 
-    
+    #region Stamina Variables
+    [SerializeField] private float dodgeStamina = 0.15f; 
+    [SerializeField] public float attackStamina = 0.05f; 
+    [SerializeField] public float blockStamina = 0.1f; 
+    #endregion
+
     #region Public Variables
     public CharacterObject playerCharacter;
     public static TP_PlayerController current;
@@ -90,15 +97,12 @@ public class TP_PlayerController : MonoBehaviour
         if(ctx.performed)
         {
             animator.SetBool("moving",true);
-            animator.SetLayerWeight(1,0);
-            animator.SetLayerWeight(2,1);
+
             input = ctx.ReadValue<Vector2>();
         }
         else if(ctx.canceled)
         {
             animator.SetBool("moving",false);
-            animator.SetLayerWeight(1,1);
-            animator.SetLayerWeight(2,0);
 
             input = Vector2.zero;
         }
@@ -106,14 +110,18 @@ public class TP_PlayerController : MonoBehaviour
 
     public void Dodge()
     {
-        if(MainMenu.playing && !dodging)
+        if(MainMenu.playing && !dodging && staminabar.staminaBar.fillAmount>dodgeStamina)
         {
             if(alive && playerState == PlayerState.Gameplay)
             {
                 blocked = false;
                 attacking = false;
                 sprinting = false;
+                staminabar.DecreaseStamina(dodgeStamina);
+                animator.SetLayerWeight(1,0);
+                animator.SetLayerWeight(2,0);
                 animator.SetBool("Shield",false);
+                animator.SetBool("Attack", false);
                 animator.SetTrigger("Dodge");
             }
         }
@@ -182,7 +190,7 @@ public class TP_PlayerController : MonoBehaviour
 
     void Shield(InputAction.CallbackContext ctx)
     {
-        if(MainMenu.playing && !dodging)
+        if(MainMenu.playing && !dodging && staminabar.staminaBar.fillAmount>blockStamina)
         {
             if(alive && playerState == PlayerState.Gameplay)
             {
@@ -203,11 +211,15 @@ public class TP_PlayerController : MonoBehaviour
     {
         playerVelocity.x = 0;
         playerVelocity.z = 0;
+        animator.SetLayerWeight(1,1);
+        animator.SetLayerWeight(2,0);
         dodging = false;
     }
 
     public void DodgeStart()
     {
+        animator.SetLayerWeight(1,0);
+        animator.SetLayerWeight(2,0);
         if(input != Vector2.zero)
         {
             Vector3 direction = new Vector3(input.x, 0, input.y);
@@ -227,7 +239,7 @@ public class TP_PlayerController : MonoBehaviour
     int count = 0;
     void Attack(InputAction.CallbackContext ctx)
     {
-        if(MainMenu.playing && !dodging)
+        if(MainMenu.playing && !dodging && staminabar.staminaBar.fillAmount>attackStamina)
         {
             if(alive && playerState == PlayerState.Gameplay)
             {
@@ -238,7 +250,6 @@ public class TP_PlayerController : MonoBehaviour
                     {
                     // count++;
                         animator.SetBool("Attack", true);
-
                         attacking = true;
                     }
                 }
@@ -255,7 +266,9 @@ public class TP_PlayerController : MonoBehaviour
     public void EndAttack()
     {
         attacking = false;
-        animator.SetBool("Attack", false);
+        // animator.SetBool("Attack", false);
+        
+
 
         count = 0;
     }
@@ -269,6 +282,17 @@ public class TP_PlayerController : MonoBehaviour
             {
                 if(alive && playerState == PlayerState.Gameplay)
                 {
+
+                    if(staminabar.staminaBar.fillAmount == 0)
+                    {
+                        animator.SetBool("Shield",false);
+                        animator.SetBool("Attack", false);
+                        dodging = false;
+                        attacking = false;
+                        blocked = false;
+
+                    }
+
                     groundedPlayer = controller.isGrounded;
                     if (groundedPlayer && playerVelocity.y < 0)
                     {
@@ -308,11 +332,24 @@ public class TP_PlayerController : MonoBehaviour
                     }
                     if(!sprinting)
                     {
-                        animator.SetFloat("Blend", Mathf.Clamp(controller.velocity.magnitude, 0, 0.5f), 0.1f, Time.deltaTime);
+                        animator.SetFloat("Blend", Mathf.Clamp(controller.velocity.magnitude, 0, 0.51f), 0.2f, Time.deltaTime);
                     }
                     else
                     {
-                        animator.SetFloat("Blend",controller.velocity.magnitude, 0.1f, Time.deltaTime);
+                        animator.SetFloat("Blend",controller.velocity.magnitude, 0.2f, Time.deltaTime);
+                    }
+                    if(!dodging)
+                    {
+                        if(animator.GetFloat("Blend") >= 0.49f)
+                        {
+                            animator.SetLayerWeight(1,0);
+                            animator.SetLayerWeight(2,1);
+                        }
+                        else if(animator.GetFloat("Blend") <= 0.1f)
+                        {
+                            animator.SetLayerWeight(1,1);
+                            animator.SetLayerWeight(2,0);
+                        }
                     }
                 }
             }
