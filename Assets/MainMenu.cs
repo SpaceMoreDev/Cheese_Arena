@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Playables;
 using  Cinemachine;
 using Managers;
 
 public class MainMenu : MonoBehaviour
 {
     public static bool playing = false;
-    [SerializeField] Canvas PlayerCanvas;
+    [SerializeField] PlayableDirector cutscene;
+    private PlayableDirector mainMenuPlayable;
     [SerializeField] Button PlayButton;
     [SerializeField] Button HelpButton;
     [SerializeField] Button OptionsButton;
@@ -19,21 +21,18 @@ public class MainMenu : MonoBehaviour
     public AudioSource musicSource;
     public AudioSource bgmusicSource;
 
-    [SerializeField] CinemachineVirtualCamera main_camera;
+    [SerializeField] public CinemachineVirtualCamera main_camera;
     void Start()
     {
         TP_PlayerController.current.animator.Play("Sitting");
+        mainMenuPlayable = GetComponent<PlayableDirector>();
     }
     // Start is called before the first frame update
     public void Play()
     {
-        TP_PlayerController.current.animator.SetTrigger("Play");
-        PlayerCanvas.gameObject.SetActive(true);
+        mainMenuPlayable.Stop();
+        cutscene.Play();
         gameObject.SetActive(false);
-        main_camera.Priority += 10;
-        CM_CamerasSetup.SetTargetLook(TP_PlayerController.current.transform);
-        CM_CamerasSetup.FocusMouse(true);
-        playing = true;
     }
 
     // Update is called once per frame

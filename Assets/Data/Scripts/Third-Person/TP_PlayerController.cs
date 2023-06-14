@@ -59,7 +59,7 @@ public class TP_PlayerController : MonoBehaviour
     public static TP_PlayerController current;
     [SerializeField] private int playerID;
     [HideInInspector]public int ID {set{ playerID = value;} get{return playerID;}}
-    Vector2 input = Vector2.zero;
+    [HideInInspector] public Vector2  input = Vector2.zero;
     [HideInInspector] public bool alive = true;
     [HideInInspector] public bool dodging = false;
     [HideInInspector] public bool attacking = false;
@@ -127,17 +127,32 @@ public class TP_PlayerController : MonoBehaviour
         }
     }
     float tempSpeed;
-    public void Sprinting()
+
+    void Sprinting()
     {
-        sprinting = true;
-        tempSpeed = playerSpeed;
-        playerSpeed += sprintSpeed;
+        if(!sprinting)
+        {
+            sprinting = true;
+            tempSpeed = playerSpeed;
+            playerSpeed += sprintSpeed;
+        }
     }
-    public void EndSprinting()
+    void EndSprinting()
+    {
+        if(sprinting)
+        {
+            sprinting = false;
+            playerSpeed = tempSpeed;
+            staminabar._sprintEndStaminaCheck = false;
+        }
+    }
+
+    public void OutOfBreath()
     {
         sprinting = false;
         playerSpeed = tempSpeed;
     }
+
     public void hitSword()
     {
         SwordHit.current.CheckHit();
@@ -332,11 +347,11 @@ public class TP_PlayerController : MonoBehaviour
                     }
                     if(!sprinting)
                     {
-                        animator.SetFloat("Blend", Mathf.Clamp(controller.velocity.magnitude, 0, 0.51f), 0.2f, Time.deltaTime);
+                        animator.SetFloat("Blend", Mathf.Clamp(controller.velocity.magnitude, 0, 0.51f), 0.05f, Time.deltaTime);
                     }
                     else
                     {
-                        animator.SetFloat("Blend",controller.velocity.magnitude, 0.2f, Time.deltaTime);
+                        animator.SetFloat("Blend",controller.velocity.magnitude, 0.05f, Time.deltaTime);
                     }
                     if(!dodging)
                     {

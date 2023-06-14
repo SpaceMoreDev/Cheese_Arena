@@ -25,7 +25,7 @@ public class Stamina : MonoBehaviour
             }
         }
         regen = false;
-        StartCoroutine(WaitAndRegen());
+        StartCoroutine(WaitAndRegen(regenWait));
         // Debug.Log(healthBar.fillAmount);
     }
     public void IncreaseStamina(float value)
@@ -34,23 +34,42 @@ public class Stamina : MonoBehaviour
         // Debug.Log(healthBar.fillAmount);
     }
 
-    private IEnumerator WaitAndRegen()
+    private IEnumerator WaitAndRegen(float time)
     {
         
-        yield return new WaitForSeconds(regenWait); // Wait for 3 seconds
+        yield return new WaitForSeconds(time); // Wait for 3 seconds
         regen = true;
     }
-
+    public bool  _sprintEndStaminaCheck = false;
     void Update()
     {
-        if(TP_PlayerController.current.sprinting)
+         if(TP_PlayerController.current.sprinting)
         {
-            if(staminaBar.fillAmount > 0)
+            if(TP_PlayerController.current.input.magnitude > 0f)
+            {
+                _sprintEndStaminaCheck = false;
+            }
+            else{
+                StartCoroutine(WaitAndRegen(regenWait));
+                _sprintEndStaminaCheck = true;
+            }
+        }
+
+        if(TP_PlayerController.current.sprinting && !_sprintEndStaminaCheck)
+        {
+            if(staminaBar.fillAmount > 0f)
             {
                 staminaBar.fillAmount -= increaseRate * Time.deltaTime;
             }
+            else
+            {
+                TP_PlayerController.current.OutOfBreath();
+                regen =  false;
+                StartCoroutine(WaitAndRegen(regenWait));
+                // _sprintEndStaminaCheck = true;
+            }
         }
-        else if (regen)
+        else if(regen)
         {
             
             if(staminaBar.fillAmount < 1)

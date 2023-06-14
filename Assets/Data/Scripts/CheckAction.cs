@@ -36,13 +36,13 @@ public class CheckAction : MonoBehaviour
             int count = 0;
             foreach (Collider collider in precol){
                 float distance = Vector3.Distance(transform.position, collider.transform.position);            
-                if(collider.TryGetComponent<pickup_Health>(out pickup_Health pickup))
+                if(collider.TryGetComponent<ActivateActions>(out ActivateActions action))
                 {
-                    pickup.checkToConsume();
+                    action.Activate();
                 }
                 count++;
             }
-            consumed = true;
+            // consumed = true;
             // Debug.Log($"precol: {precol.Length}");
         }
     }
@@ -55,22 +55,23 @@ public class CheckAction : MonoBehaviour
                 
             foreach (Collider collider in colliders){
                 float distance = Vector3.Distance(transform.position, collider.transform.position);            
-                if(collider.TryGetComponent<pickup_Health>(out pickup_Health pickup))
+                if(collider.TryGetComponent<ActivateActions>(out ActivateActions pickup))
                 {
-                    pickup.selectionUI.SetActive(true);
-                    consumed = pickup.consumed;
+                    pickup.DisplayUI.SetActive(true);
+                    // consumed = pickup.Activated;
                 }
             }
             if(colliders.Length == 0 && precol.Length != 0)
             {
-                if(!consumed)
-                {
-                foreach (Collider collider in precol){            
-                    if(collider.TryGetComponent<pickup_Health>(out pickup_Health pickup))
-                    {
-                        pickup.selectionUI.SetActive(false);
+
+                foreach (Collider collider in precol){       
+                    if(collider != null)
+                    {     
+                        if(collider.TryGetComponent<ActivateActions>(out ActivateActions pickup))
+                        {
+                            pickup.DisplayUI.SetActive(false);
+                        }
                     }
-                }
                 }
             }
             precol = colliders;
