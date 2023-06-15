@@ -272,19 +272,18 @@ public class TP_PlayerController : MonoBehaviour
                 {
 
                     animator.SetBool("Attack", false);
-                    
+                    attacking = false;
+
                 }
-            }
+            }      
         }
     }
 
     public void EndAttack()
     {
         attacking = false;
-        // animator.SetBool("Attack", false);
+        animator.SetBool("Attack", false);
         
-
-
         count = 0;
     }
 
