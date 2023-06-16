@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Managers;
 
@@ -8,7 +8,9 @@ public class Destructable : MonoBehaviour
 {
     [HideInInspector] public HealthManager health;
     RandomItemSpawner itemSpawner;
+    [SerializeField] bool canSpawn = true;
     [SerializeField] float destroyDelay = 0.2f;
+    public Action<Destructable> destroyedItemAction;
 
     void Awake()
     {
@@ -24,11 +26,15 @@ public class Destructable : MonoBehaviour
 
     void DestroyObject(GameObject destroyedObject)
     {
+        if(canSpawn)
+        {
+            GameObject pickup =  itemSpawner.Spawn();
+            pickup.transform.position += new Vector3(0,0.3f,0);
+        }
 
-        GameObject pickup =  itemSpawner.Spawn();
-        pickup.transform.position += new Vector3(0,0.3f,0);
+        destroyedItemAction?.Invoke(this);
         Destroy(this.gameObject,destroyDelay);
-        Debug.Log("Its working!");
+        // Debug.Log("Its working!");
 
     }
 }

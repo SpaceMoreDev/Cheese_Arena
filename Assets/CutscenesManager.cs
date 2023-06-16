@@ -7,14 +7,18 @@ using  Cinemachine;
 using Managers;
 public class CutscenesManager : MonoBehaviour
 {
-    [SerializeField] Canvas PlayerCanvas;
     [SerializeField] public CinemachineVirtualCamera main_camera;
-
+    public static CutscenesManager current;
+    void Awake()
+    {
+        current =this;
+    }
     public void CutsceneEnd()
     {
-        PlayerCanvas.gameObject.SetActive(true);
+        UIManager.current.PlayerCanvas.gameObject.SetActive(true);
         CM_CamerasSetup.SetTargetLook(TP_PlayerController.current.transform);
         CM_CamerasSetup.FocusMouse(true);
         MainMenu.playing = true;
+        TP_PlayerController.current.PlayerLight.gameObject.SetActive(true);
     }
 }

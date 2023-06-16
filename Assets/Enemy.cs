@@ -102,6 +102,7 @@ public class Enemy : MonoBehaviour
                             navMesh.isStopped = true;
                             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 20f * Time.deltaTime);
                             animator.SetBool("Attack", true);
+                            animator.SetBool("Bow", false);
                         }
                         else{
 

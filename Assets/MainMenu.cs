@@ -8,6 +8,7 @@ using Managers;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] bool debugDirectPlay;
     public static bool playing = false;
     [SerializeField] PlayableDirector cutscene;
     private PlayableDirector mainMenuPlayable;
@@ -22,10 +23,29 @@ public class MainMenu : MonoBehaviour
     public AudioSource bgmusicSource;
 
     [SerializeField] public CinemachineVirtualCamera main_camera;
+    void Awake()
+    {
+        
+    }
     void Start()
     {
-        TP_PlayerController.current.animator.Play("Sitting");
+        TP_PlayerController.current.PlayerLight.gameObject.SetActive(false);
         mainMenuPlayable = GetComponent<PlayableDirector>();
+        if(debugDirectPlay)
+        {
+            mainMenuPlayable.Stop();
+            UIManager.current.PlayerCanvas.gameObject.SetActive(true);
+            CM_CamerasSetup.SetTargetLook(TP_PlayerController.current.transform);
+            TP_PlayerController.current.PlayerLight.gameObject.SetActive(true);
+            CM_CamerasSetup.FocusMouse(true);
+            playing = true;
+            gameObject.SetActive(false);
+
+        }
+        else
+        {
+            TP_PlayerController.current.animator.Play("Sitting");
+        }
     }
     // Start is called before the first frame update
     public void Play()

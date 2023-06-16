@@ -31,7 +31,7 @@ public class Health : MonoBehaviour
     }
 
 
-    private void LateUpdate()
+    private void Update()
     {
         Transform cameraTransform = Camera.main.transform;
         transform.LookAt(transform.position + cameraTransform.rotation * Vector3.forward, cameraTransform.rotation * Vector3.up);

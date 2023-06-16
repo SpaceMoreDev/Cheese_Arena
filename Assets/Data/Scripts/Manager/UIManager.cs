@@ -9,6 +9,7 @@ namespace Managers{
     
     public class UIManager : MonoBehaviour
     {
+        [SerializeField] public Canvas PlayerCanvas;
         public static bool busyUI = false;
         public static UIManager current;
 

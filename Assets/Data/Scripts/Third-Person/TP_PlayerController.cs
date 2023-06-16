@@ -13,7 +13,11 @@ public enum PlayerState{
 
 [RequireComponent(typeof(CharacterController))]
 public class TP_PlayerController : MonoBehaviour
-{   [SerializeField] 
+{   
+    [SerializeField] 
+    public Light PlayerLight;
+    
+    [SerializeField] 
     public Health healthbar;
     [SerializeField] 
     public Stamina staminabar;
@@ -115,8 +119,14 @@ public class TP_PlayerController : MonoBehaviour
             if(alive && playerState == PlayerState.Gameplay)
             {
                 blocked = false;
-                attacking = false;
-                sprinting = false;
+                if(attacking)
+                {
+                    EndAttack();
+                }
+                if(sprinting)
+                {
+                    EndSprinting();
+                }
                 staminabar.DecreaseStamina(dodgeStamina);
                 animator.SetLayerWeight(1,0);
                 animator.SetLayerWeight(2,0);
