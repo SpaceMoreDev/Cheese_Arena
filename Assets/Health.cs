@@ -9,7 +9,7 @@ public class Health : MonoBehaviour
     [SerializeField] public Image healthBar;
     [HideInInspector] public GameObject character;
     [SerializeField] public float deSpawnTime = 2f;
-    public static Action<GameObject> healthBarEmpty;
+    public Action<GameObject> healthBarEmpty;
 
     public void DecreaseHealth(float value)
     {

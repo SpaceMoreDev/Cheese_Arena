@@ -28,7 +28,7 @@ public class SwordHit : MonoBehaviour
                 {
                     if(!TP_PlayerController.current.blocked)
                     {
-                        DamageManager.Damage(enemy.healthbar);
+                        DamageManager.Damage(enemy.health.healthbar);
                         enemy.animator.Play("Hurt", 1);
                         particles.Play();
                     }
@@ -37,12 +37,21 @@ public class SwordHit : MonoBehaviour
                         TP_PlayerController.current.staminabar.DecreaseStamina(TP_PlayerController.current.blockStamina);
                         if(!TP_PlayerController.current.animator.GetBool("moving"))
                         {
-                            DamageManager.Damage(enemy.healthbar,0.1f);
+                            DamageManager.Damage(enemy.health.healthbar,0.1f);
                             enemy.animator.Play("Hurt", 1);
                         }
                     }
                 }
                 
+            }
+            else if (collider.TryGetComponent<Destructable>(out Destructable destructable))
+            {
+                DamageManager.Damage(destructable.health.healthbar,0.4f);
+            }
+
+            if(collider.TryGetComponent<HealthManager>(out HealthManager health))
+            {
+                health.SetVisible(true);
             }
 
         }

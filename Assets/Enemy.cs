@@ -3,9 +3,11 @@ using UnityEngine.AI;
 using UnityEngine;
 using Managers;
 
+[RequireComponent(typeof(HealthManager), typeof(RandomItemSpawner))]
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] public Health healthbar;
+    [HideInInspector] public HealthManager health;
+    [HideInInspector] public RandomItemSpawner itemSpawner;
     [SerializeField] public Transform arrowSpawn;
     [SerializeField] GameObject spawnPickUp;
     [SerializeField] public Animator animator;
@@ -24,18 +26,21 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         player = EnemyManager.current.player;
+        health = GetComponent<HealthManager>();
+        itemSpawner = GetComponent<RandomItemSpawner>();
         animator = GetComponent<Animator>();
         // if(player != null){Debug.Log($"found player! {player.name}");}else{Debug.Log($"player not found!");}
-        healthbar.character = gameObject;
+        health = GetComponent<HealthManager>();
+        health.healthbar.character = gameObject;
         navMesh = GetComponent<NavMeshAgent>();
         navMesh.isStopped = true;
 
-        Health.healthBarEmpty += this.Death;
+        health.healthbar.healthBarEmpty += this.Death;
     }
 
     void OnDestroy()
     {
-        Health.healthBarEmpty -= this.Death;
+        health.healthbar.healthBarEmpty -= this.Death;
     }
 
     void Death(GameObject ctx)
@@ -51,8 +56,9 @@ public class Enemy : MonoBehaviour
             animator.Play("Death", 0);
             animator.Play("Death", 1);
             GetComponent<CapsuleCollider>().enabled = false;
-            GameObject arrow = Instantiate(spawnPickUp, transform.position , Quaternion.identity);
-            Destroy(gameObject, healthbar.deSpawnTime);
+            itemSpawner.Spawn(0);
+            // GameObject arrow = Instantiate(spawnPickUp, transform.position , Quaternion.identity);
+            Destroy(gameObject, health.healthbar.deSpawnTime);
         }
     }
 

@@ -84,7 +84,7 @@ public class TP_PlayerController : MonoBehaviour
         InputManager.inputActions.General.Jump.started += _ => Dodge();
         InputManager.inputActions.General.Sprint.started += _ => Sprinting();
         InputManager.inputActions.General.Sprint.canceled += _ => EndSprinting();
-        Health.healthBarEmpty += this.Death;
+        healthbar.healthBarEmpty += this.Death;
 
         controller = GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
@@ -139,12 +139,9 @@ public class TP_PlayerController : MonoBehaviour
     }
     void EndSprinting()
     {
-        if(sprinting)
-        {
-            sprinting = false;
-            playerSpeed = tempSpeed;
-            staminabar._sprintEndStaminaCheck = false;
-        }
+        sprinting = false;
+        playerSpeed = tempSpeed;
+        staminabar._sprintEndStaminaCheck = false;
     }
 
     public void OutOfBreath()
@@ -173,7 +170,7 @@ public class TP_PlayerController : MonoBehaviour
         InputManager.inputActions.General.Sprint.canceled -= _ => EndSprinting();
 
 
-        Health.healthBarEmpty -= this.Death;
+        healthbar.healthBarEmpty -= this.Death;
 
     }
 

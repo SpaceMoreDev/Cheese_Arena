@@ -19,7 +19,7 @@ public class Pickup_Stamina : MonoBehaviour , ActivateActions
         if(!consumed)
         {
             NotificationManager.StartNotification("Consumed the Blue Cube..");
-            TP_PlayerController.current.staminabar.IncreaseStamina(0.25f);
+            TP_PlayerController.current.staminabar.IncreaseStamina(1f);
             consumed = true;
             Destroy(gameObject);
         }
