@@ -26,14 +26,21 @@ public class GameOver : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        TP_PlayerController.current.alive = true;
-        TP_PlayerController.current.gameObject.transform.position = PlayerRespawnManager.GetRespawn();
+        anim.Play("Idle");
+        current.deathSound.Stop();
+        MainMenu.playing = true;
+
+        TP_PlayerController.current.gameObject.transform.position = PlayerRespawnManager.GetRespawn().position;
+        TP_PlayerController.current.gameObject.transform.rotation = PlayerRespawnManager.GetRespawn().rotation;
         TP_PlayerController.current.animator.Play("Sitting");
-        TP_PlayerController.current.animator.SetTrigger("Respawned");
         TP_PlayerController.current.healthbar.healthBar.fillAmount = 1;
         TP_PlayerController.current.staminabar.staminaBar.fillAmount = 1;
-        MainMenu.playing = true;
-        current.deathSound.Stop();
-        anim.Play("Idle");
+        EnemyRespawnManager.Respawn();
+        Invoke("stand",3f);
+    }
+    void stand()
+    {
+        TP_PlayerController.current.animator.SetTrigger("Respawned");
+        TP_PlayerController.current.alive = true;
     }
 }

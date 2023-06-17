@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerRespawnManager : MonoBehaviour
 {
-    private Vector3 _respawnPosition;
-    internal Vector3 respawnPosition {set{_respawnPosition = value;} get{return _respawnPosition;}}
-    Vector3 STARTING_POSITION = new Vector3(12.751121520996094f,-3.019153594970703f,4.111264228820801f);
+    private Transform _respawnPosition;
+    internal Transform respawnPosition {set{_respawnPosition = value;} get{return _respawnPosition;}}
+    [SerializeField] private Transform _startPosition;
     private static PlayerRespawnManager current;
 
     void Awake()
@@ -15,14 +15,14 @@ public class PlayerRespawnManager : MonoBehaviour
     }
     void Start()
     {
-        SetRespawn(STARTING_POSITION);
+        SetRespawn(_startPosition);
     }
 
-    public static void SetRespawn(Vector3 pos)
+    public static void SetRespawn(Transform pos)
     {
         current.respawnPosition = pos;
     }
-    public static Vector3 GetRespawn()
+    public static Transform GetRespawn()
     {
         return current.respawnPosition;
     }

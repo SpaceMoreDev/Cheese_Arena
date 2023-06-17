@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Managers;
 
@@ -7,16 +7,48 @@ public class Bonfire : MonoBehaviour , ActivateActions
 {
     [SerializeField] private GameObject selectionUI;
     public GameObject DisplayUI {get{return selectionUI;}}
+    public static Action<Bonfire> playerSelectedBonfire;
 
     // Start is called before the first frame update
     private bool showUI = false;
-    private bool consumed = false;
-    public bool Activated {get{return consumed;}}
+    private bool activated = false;
+    static Bonfire activeCheckpoint;
+    public bool Activated {get{return activated;}}
+
+    void OnEnable()
+    {
+        playerSelectedBonfire += this.checkBonfire;
+    }
+    void OnDisable()
+    {
+        playerSelectedBonfire -= this.checkBonfire;
+    }
+
+    void checkBonfire(Bonfire chosen)
+    {
+        if(chosen == this)
+        {
+            this.activated = true;
+        }
+        else
+        {
+            this.activated = false;
+        }
+    }
 
     public void Activate()
     {
-        NotificationManager.StartNotification("Activated Bonfire");
-        PlayerRespawnManager.SetRespawn(gameObject.transform.position);
+        if(!this.activated && this != activeCheckpoint)
+        {
+            NotificationManager.StartNotification("Activated checkpoint");
+            PlayerRespawnManager.SetRespawn(gameObject.transform);
+            activeCheckpoint = this; 
+            playerSelectedBonfire?.Invoke(activeCheckpoint);
+        }
+        else
+        {
+            NotificationManager.StartNotification("Aleady Activated THIS checkpoint..");
+        }
     }
     
     private void LateUpdate()

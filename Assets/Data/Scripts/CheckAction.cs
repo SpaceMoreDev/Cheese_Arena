@@ -39,6 +39,7 @@ public class CheckAction : MonoBehaviour
                 if(collider.TryGetComponent<ActivateActions>(out ActivateActions action))
                 {
                     action.Activate();
+                    action.DisplayUI.SetActive(false);
                 }
                 count++;
             }
@@ -57,7 +58,10 @@ public class CheckAction : MonoBehaviour
                 float distance = Vector3.Distance(transform.position, collider.transform.position);            
                 if(collider.TryGetComponent<ActivateActions>(out ActivateActions pickup))
                 {
-                    pickup.DisplayUI.SetActive(true);
+                    if(!pickup.Activated)
+                    {
+                        pickup.DisplayUI.SetActive(true);
+                    }
                     // consumed = pickup.Activated;
                 }
             }

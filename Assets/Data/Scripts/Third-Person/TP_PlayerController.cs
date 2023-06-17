@@ -192,8 +192,6 @@ public class TP_PlayerController : MonoBehaviour
             {
                 animator.SetBool("Shield",false);
                 animator.SetBool("Attack", false);
-
-
                 animator.Play("Death");
                 GameOver.current.anim.Play("GameOver");
                 alive = false;
@@ -255,7 +253,7 @@ public class TP_PlayerController : MonoBehaviour
         playerVelocity.y = 3;
         dodging = true;
         
-        Debug.Log("Jumped!");
+        // Debug.Log("Jumped!");
     }
 
     int count = 0;
