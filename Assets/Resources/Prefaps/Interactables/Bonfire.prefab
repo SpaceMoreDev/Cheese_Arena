@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 270428456734755818}
   - component: {fileID: 270428456734755819}
   - component: {fileID: 270428456734755812}
-  m_Layer: 12
+  m_Layer: 7
   m_Name: text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 270428456786560718}
   - component: {fileID: 270428456786560716}
   - component: {fileID: 270428456786560717}
-  m_Layer: 12
+  m_Layer: 7
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 270428456975835151}
   - component: {fileID: 270428456975835150}
   - component: {fileID: 270428456975835152}
-  m_Layer: 12
+  m_Layer: 7
   m_Name: Bonfire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 270428456991279212}
   - component: {fileID: 270428456991279122}
   - component: {fileID: 270428456991279123}
-  m_Layer: 12
+  m_Layer: 7
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5120,7 +5120,7 @@ GameObject:
   - component: {fileID: 7982101891148431110}
   - component: {fileID: 8875913898977778987}
   - component: {fileID: 4455743460853826746}
-  m_Layer: 12
+  m_Layer: 7
   m_Name: CubeCheese
   m_TagString: Untagged
   m_Icon: {fileID: 0}
