@@ -18,10 +18,24 @@ public class Destructable : MonoBehaviour
         itemSpawner = GetComponent<RandomItemSpawner>();
 
         health.healthbar.healthBarEmpty += this.DestroyObject;
+        health.healthbar.healthBarDecrease += this.DamageAnim;
     }
+
     void OnDestroy()
     {
         health.healthbar.healthBarEmpty -= this.DestroyObject;
+        health.healthbar.healthBarDecrease -= this.DamageAnim;
+
+    }
+
+    void DamageAnim()
+    {    
+        if(this.TryGetComponent<Animator>(out Animator anim))
+        {
+            anim.Play("Damage");
+            Debug.Log("Called..");
+        }
+        
     }
 
     void DestroyObject(GameObject destroyedObject)

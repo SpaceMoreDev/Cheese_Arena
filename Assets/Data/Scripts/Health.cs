@@ -10,6 +10,8 @@ public class Health : MonoBehaviour
     [HideInInspector] public GameObject character;
     [SerializeField] public float deSpawnTime = 2f;
     public Action<GameObject> healthBarEmpty;
+    public Action healthBarDecrease;
+
 
     public void DecreaseHealth(float value)
     {
@@ -22,6 +24,7 @@ public class Health : MonoBehaviour
                 healthBarEmpty(character);
             }
         }
+        healthBarDecrease?.Invoke();
         // Debug.Log(healthBar.fillAmount);
     }
     public void IncreaseHealth(float value)
