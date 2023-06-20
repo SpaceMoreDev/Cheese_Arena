@@ -10,19 +10,25 @@
                     "line_id": "000",
                     "name": "#player#",
                     "expression": "0",
-                    "text": "Hello there!"
+                    "text": "M-Mother??"
                 },
                 {
                     "line_id": "001",
                     "name": "#char#",
                     "expression": "0",
-                    "text": "How are you?"
+                    "text": "I am very dissappointed in you, son.."
                 },
                 {
                     "line_id": "002",
-                    "name": "#marie#",
+                    "name": "#char#",
                     "expression": "0",
-                    "text": "What are you guys doing here?"
+                    "text": "LOOK AT YOU! OBSESSED WITH CHEESE!"
+                },
+                {
+                    "line_id": "003",
+                    "name": "#char#",
+                    "expression": "0",
+                    "text": "why aren't you like your brother Paul..? Things could've been perfect.."
                 }
 
             ]
