@@ -47,7 +47,7 @@ public class TP_PlayerController : MonoBehaviour
     private Transform cameraTransform;
     Vector3 velocity = Vector3.zero;
 
-
+    
     private float floatVelocity = 0;
     private float jumpHeight = 1.0f;
     private float gravityValue = -18.81f;
@@ -74,7 +74,6 @@ public class TP_PlayerController : MonoBehaviour
     void Awake()
     {
         current = this;
-        animator = GetComponent<Animator>();
         DialogueManager.EndDialogueAction +=this.DialogueEnd;
         InputManager.inputActions.General.MouseClick.started += Attack;
         InputManager.inputActions.General.MouseClick.canceled += Attack;
