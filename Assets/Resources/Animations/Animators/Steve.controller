@@ -281,7 +281,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Standing up
-  m_Speed: 1
+  m_Speed: 0.4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4339037988156407511}
@@ -1244,13 +1244,13 @@ AnimatorStateMachine:
     m_Position: {x: 370, y: 130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -781843622502862841}
-    m_Position: {x: 270, y: 320, z: 0}
+    m_Position: {x: 270, y: 280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5429213824844440483}
-    m_Position: {x: 520, y: 320, z: 0}
+    m_Position: {x: 520, y: 280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7143994036941644831}
-    m_Position: {x: 200, y: 220, z: 0}
+    m_Position: {x: 170, y: 220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4533444608370881982}
     m_Position: {x: 590, y: 210, z: 0}
@@ -1445,7 +1445,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.13591552
   m_TransitionOffset: 0
-  m_ExitTime: 0.9724239
+  m_ExitTime: 0.93207717
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
