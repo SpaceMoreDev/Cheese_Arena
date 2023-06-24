@@ -44,7 +44,8 @@ public class MainMenu : MonoBehaviour
         }
         else
         {
-            TP_PlayerController.current.animator.Play("Sitting");
+            TP_PlayerController.current.animator.Play("Sitting",0);
+            TP_PlayerController.current.animator.Play("Sitting",1);
         }
     }
     // Start is called before the first frame update
