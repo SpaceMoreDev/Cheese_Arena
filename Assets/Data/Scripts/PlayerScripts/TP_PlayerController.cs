@@ -11,7 +11,7 @@ public enum PlayerState{
     Gameplay
 }
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(CharacterController),typeof(FootIKManager))]
 public class TP_PlayerController : MonoBehaviour
 {   
     [SerializeField] 
@@ -379,7 +379,7 @@ public class TP_PlayerController : MonoBehaviour
                     }
                     if(!blocked)
                     {
-                        animator.SetFloat("Blend_y",Mathf.Clamp(controller.velocity.magnitude,0,0.51f), 0.2f, Time.deltaTime);
+                        animator.SetFloat("Blend_y",Mathf.Clamp(controller.velocity.magnitude,0,0.51f), 0.1f, Time.deltaTime);
                     }
                     else
                     {
