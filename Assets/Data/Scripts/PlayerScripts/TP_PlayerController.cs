@@ -195,7 +195,8 @@ public class TP_PlayerController : MonoBehaviour
             {
                 animator.SetBool("Shield",false);
                 animator.SetBool("Attack", false);
-                animator.Play("Death");
+                animator.SetTrigger("Died");
+                animator.Play("Death",0);
                 GameOver.current.anim.Play("GameOver");
                 alive = false;
                 dodging = false;
