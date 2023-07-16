@@ -6,11 +6,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using Managers;
 
-public enum PlayerState{
-    UI,
-    Gameplay
-}
-
 [RequireComponent(typeof(CharacterController),typeof(FootIKManager))]
 public class TP_PlayerController : MonoBehaviour
 {   

@@ -7,7 +7,7 @@ using Cinemachine;
 public class CheckAction : MonoBehaviour
 {
     [SerializeField] private LayerMask actionLayers;
-    [SerializeField] GameObject selectionUI;
+    // [SerializeField] GameObject selectionUI;
     [SerializeField] float actionRadius = 3.5f;
     private static InputAction Select;
     private bool consumed = false;
@@ -50,36 +50,33 @@ public class CheckAction : MonoBehaviour
 
     void Update()
     {
-        if(TP_PlayerController.current.alive)
-        {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, actionRadius, actionLayers);
-                
-            foreach (Collider collider in colliders){
-                float distance = Vector3.Distance(transform.position, collider.transform.position);            
-                if(collider.TryGetComponent<ActivateActions>(out ActivateActions pickup))
-                {
-                    if(!pickup.Activated)
-                    {
-                        pickup.DisplayUI.SetActive(true);
-                    }
-                    // consumed = pickup.Activated;
-                }
-            }
-            if(colliders.Length == 0 && precol.Length != 0)
+        Collider[] colliders = Physics.OverlapSphere(transform.position, actionRadius, actionLayers);
+            
+        foreach (Collider collider in colliders){
+            float distance = Vector3.Distance(transform.position, collider.transform.position);            
+            if(collider.TryGetComponent<ActivateActions>(out ActivateActions pickup))
             {
+                if(!pickup.Activated)
+                {
+                    pickup.DisplayUI.SetActive(true);
+                }
+                // consumed = pickup.Activated;
+            }
+        }
+        if(colliders.Length == 0 && precol.Length != 0)
+        {
 
-                foreach (Collider collider in precol){       
-                    if(collider != null)
-                    {     
-                        if(collider.TryGetComponent<ActivateActions>(out ActivateActions pickup))
-                        {
-                            pickup.DisplayUI.SetActive(false);
-                        }
+            foreach (Collider collider in precol){       
+                if(collider != null)
+                {     
+                    if(collider.TryGetComponent<ActivateActions>(out ActivateActions pickup))
+                    {
+                        pickup.DisplayUI.SetActive(false);
                     }
                 }
             }
-            precol = colliders;
         }
+        precol = colliders;
     }
 
     void OnDrawGizmos()
