@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -149,7 +149,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 283492760}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.667433, y: 2.5071, z: -2.5013914}
+  m_LocalPosition: {x: 6.762365, y: 2.5071, z: -2.5013914}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8816,7 +8816,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2053684333}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.667433, y: 2.5071, z: -2.5013914}
+  m_LocalPosition: {x: 6.762365, y: 2.5071, z: -2.5013914}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16827,6 +16827,7 @@ GameObject:
   - component: {fileID: 1869156226258277473}
   - component: {fileID: 1869156226258277470}
   - component: {fileID: 5231500543273544181}
+  - component: {fileID: 5231500543273544182}
   m_Layer: 10
   m_Name: Character
   m_TagString: Untagged
@@ -17990,7 +17991,6 @@ GameObject:
   - component: {fileID: 1869156226592532817}
   - component: {fileID: 1869156226592532824}
   - component: {fileID: 1869156226592532822}
-  - component: {fileID: 1869156226592532823}
   - component: {fileID: 1869156226592532819}
   - component: {fileID: 1869156226592532818}
   - component: {fileID: 1869156226592532820}
@@ -18063,6 +18063,9 @@ MonoBehaviour:
   sprintMultiplier: 2
   turningSpeed: 10
   gravityValue: 18.81
+  _animator: {fileID: 5231500543273544180}
+  canMove: 1
+  animationBlend: 0.127
 --- !u!143 &1869156226592532821
 CharacterController:
   m_ObjectHideFlags: 0
@@ -18093,19 +18096,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89bc6e981d9c576458543d7047a95795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1869156226592532823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1869156226592532816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca25ad4642d68b3428cfb1c19730412c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animationBlend: 0.05
 --- !u!114 &1869156226592532824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18118,6 +18108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddf58dee238d0bc45aab5c40aebe286b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 2053684337}
   _virtualCam: {fileID: 283492762}
   sensitivity: 0.1
   distanceFromPlayer: 2.2
@@ -29963,6 +29954,22 @@ MonoBehaviour:
   rightFootAnimVariableName: RightFootCurve
   useProIKFeature: 1
   showSolverDebug: 0
+--- !u!114 &5231500543273544182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527277171416541492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21652dcf16687674e8d2d127854b89f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDodge: 1
+  dodgeSpeed: 7
+  _playerMove: {fileID: 1869156226592532820}
+  isDodging: 0
 --- !u!4 &5238037067930645192
 Transform:
   m_ObjectHideFlags: 0
