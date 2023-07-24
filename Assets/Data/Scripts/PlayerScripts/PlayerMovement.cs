@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("General")]
     // serialized variables
     [SerializeField] [Range(1f,10f)] private float playerSpeed = 2.0f;
-    [SerializeField] [Range(1,10)] private float sprintMultiplier = 2.0f;
+    [SerializeField] [Range(1,10)] private int sprintMultiplier = 2;
     [SerializeField] [Range(5f,20f)] float turningSpeed = 5f;
     [SerializeField][Range(0f, 20f)] float gravityValue = 18.81f;
     [SerializeField] private Animator _animator;
@@ -71,11 +71,14 @@ public class PlayerMovement : MonoBehaviour
         InputManager.inputActions.General.Move.performed += this.Move;
         InputManager.inputActions.General.Move.canceled += this.Move;
         InputManager.inputActions.General.Sprint.started += _ => {
-            tempSpeed = playerSpeed; 
-            playerSpeed *= sprintMultiplier;
+            Movement.Speed *= sprintMultiplier;
+            _animator.speed *= sprintMultiplier/2;
+            Movement.IsSprinting = true;
             };
         InputManager.inputActions.General.Sprint.canceled += _ => {
-            playerSpeed = tempSpeed;
+            Movement.Speed = playerSpeed;
+            _animator.speed = 1;
+            Movement.IsSprinting = false;
             };
          _controller = GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
@@ -89,7 +92,10 @@ public class PlayerMovement : MonoBehaviour
         // ----- Animation -----
         Vector2 movementVelocity;
         movementVelocity.x = PlayerVelocity.x;
-        movementVelocity.y = Mathf.Clamp(PlayerVelocity.magnitude,0f,1f);
+        if(Movement.IsSprinting)
+            movementVelocity.y = Mathf.Clamp(PlayerVelocity.magnitude,0f,1f);
+        else
+            movementVelocity.y = Mathf.Clamp(PlayerVelocity.magnitude,0f,0.61f);
 
         _animator.SetFloat("Blend_x",movementVelocity.x, animationBlend, Time.deltaTime);
         _animator.SetFloat("Blend_y",movementVelocity.y, animationBlend, Time.deltaTime);

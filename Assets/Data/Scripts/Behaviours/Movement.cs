@@ -3,20 +3,23 @@ using UnityEngine;
 namespace Behaviours{
     public class Movement
     {
+        // ----- private variables -----
         private CharacterController _controller;
         private float _speed = 2.0f;
         private float _turningSpeed = 5f;
         private float _gravityValue = 18.81f;
         private bool _grounded = false;
-        
         private Transform _cameraTransform;
         private Vector3 _lerpVelocity = Vector3.zero;
         private Vector3 _currentVelocity = Vector3.zero;
         private bool withCamera = false;
         private bool _canMove = true;
+
+        // ----- public variables -----
         public bool CanMove { get{return _canMove;} set{_canMove = value;}}
-        
         public Vector3 CurrentVelocity { get{return _currentVelocity;}}
+        public float Speed { get{return _speed;} set{_speed = value;}}
+        public bool IsSprinting = false;
 
 
 
@@ -35,10 +38,20 @@ namespace Behaviours{
             _turningSpeed = TurningSpeed;
             withCamera = true;
         }
+
+        /// <summary>
+        /// For setting the current velocity for movement.
+        /// </summary>
+        /// <param name="newVelocity">New velocity value</param>
         public void SetVelocity(Vector3 newVelocity)
         {
             _currentVelocity = newVelocity;
         }
+        /// <summary>
+        /// Movement behavior function for 2D input.
+        /// </summary>
+        /// <param name="deltaTime"> Time between each frame </param>
+        /// <param name="input"> The 2D direction for movement </param>
         public void Move(float deltaTime, Vector2 input)
         {   if(_canMove)  
             {
@@ -66,6 +79,11 @@ namespace Behaviours{
             _controller.Move(_currentVelocity * deltaTime); // for gravity
         }
 
+        /// <summary>
+        /// Movement behavior function for 3D direction.
+        /// </summary>
+        /// <param name="deltaTime">Time between each frame</param>
+        /// <param name="move">movement direction in 3D</param>
         public void Move(float deltaTime, Vector3 move)
         {    if(_canMove)
             {   

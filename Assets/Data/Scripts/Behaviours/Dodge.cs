@@ -10,6 +10,7 @@ namespace Behaviours
         private Camera _camera;
         private Movement _movement;
         private float dodgeSpeed = 2f;
+        private float _tempspeed;
         private bool _isdodging = false;
         public bool IsDodging {get{return _isdodging;}}
         public event Action FinishDodge;
@@ -22,6 +23,7 @@ namespace Behaviours
             _anim = animator;
             _movement = movement;
             _controller = controller;
+            _tempspeed = movement.Speed;
             dodgeSpeed = speed;
         }
         public Dodge(Animator animator, Movement movement, CharacterController controller, float speed, Camera camera)
@@ -30,6 +32,7 @@ namespace Behaviours
             _movement = movement;
             _controller = controller;
             _camera = camera;
+            _tempspeed = movement.Speed;
             dodgeSpeed = speed;
         }
 
@@ -46,15 +49,18 @@ namespace Behaviours
                 if(!_anim.GetBool("isDodging"))
                 {
                     _anim.SetBool("isDodging", true);
+                    _anim.speed = 1;
+                    _movement.Speed = _tempspeed;
+                    _movement.IsSprinting = false;
                     _anim.Play(PLAYER_DODGE,0);
                 }
-                _movement.CanMove = false;
                 
             }
         }
         
         public void Dodging()
         {   
+            _movement.CanMove = false;
             if(_controller.velocity != Vector3.zero){
                 Vector3 direction = new Vector3(_controller.velocity.x, 0, _controller.velocity.y);
                 if(_camera != null)
