@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField][Range(0f, 20f)] float gravityValue = 18.81f;
     [SerializeField] private Animator _animator;
     [SerializeField] internal bool canMove = true;
+    [SerializeField] internal bool IsRunning = false;
 
     [Header("Animation")]
     [SerializeField] [Range(0.01f,1f)] private float animationBlend = 0.05f;
@@ -30,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
     private float tempSpeed = 5f;
     private Transform cameraTransform;
     private Movement _movement;
+    private StaminaBar _stamina;
+    private HealthBar _health;
 
     internal Vector3 playerVelocity = Vector3.zero;
     
@@ -58,18 +61,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// This function is responsible for input vector2 movements
-    /// </summary>
-    /// <param name="ctx"></param>
-    private void Move(InputAction.CallbackContext ctx)
-    {
-        if(ctx.performed){ input = ctx.ReadValue<Vector2>(); }
-        else if(ctx.canceled){ input = Vector2.zero; }
-    }
-    private void OnEnable() {
-        InputManager.inputActions.General.Move.performed += this.Move;
-        InputManager.inputActions.General.Move.canceled += this.Move;
+    private void Awake() {
+        InputManager.ToggleActionMap(InputManager.inputActions.General);
+        _stamina = GetComponent<StaminaBar>();
+        _health = GetComponent<HealthBar>();
+
+        InputManager.inputActions.General.Move.performed += this.PlayerInput;
+        InputManager.inputActions.General.Move.canceled += this.PlayerInput;
         InputManager.inputActions.General.Sprint.started += _ => {
             Movement.Speed *= sprintMultiplier;
             _animator.speed *= sprintMultiplier/2;
@@ -82,13 +80,39 @@ public class PlayerMovement : MonoBehaviour
             };
          _controller = GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
+        _stamina.Bar.BarIsEmpty += SprintEnd;
+
     }
+
+    internal void SprintEnd()
+    {
+        Movement.Speed = playerSpeed;
+        _animator.speed = 1;
+        Movement.IsSprinting = false;
+    }
+
+    /// <summary>
+    /// This function is responsible for input vector2 movements
+    /// </summary>
+    /// <param name="ctx"></param>
+    private void PlayerInput(InputAction.CallbackContext ctx)
+    {
+        if(ctx.performed){ input = ctx.ReadValue<Vector2>(); }
+        else if(ctx.canceled){ input = Vector2.zero; }
+        // Debug.Log(input);
+    }
+
     void Update()
     {
+        
         // ----- Behavior -----
         Movement.Move(Time.deltaTime, input);
         canMove = Movement.CanMove;
-       
+       if(PlayerVelocity.magnitude > 0f){
+            if(Movement.IsSprinting){ _stamina.Bar.Decrease(Time.deltaTime * 0.1f); }
+        }
+    
+
         // ----- Animation -----
         Vector2 movementVelocity;
         movementVelocity.x = PlayerVelocity.x;

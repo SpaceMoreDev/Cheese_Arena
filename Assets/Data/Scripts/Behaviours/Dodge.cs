@@ -6,6 +6,7 @@ namespace Behaviours
     public class Dodge
     {
         private Animator _anim;
+        private Vector2 _input;
         private CharacterController _controller;
         private Camera _camera;
         private Movement _movement;
@@ -26,13 +27,14 @@ namespace Behaviours
             _tempspeed = movement.Speed;
             dodgeSpeed = speed;
         }
-        public Dodge(Animator animator, Movement movement, CharacterController controller, float speed, Camera camera)
+        public Dodge(Animator animator, Movement movement, CharacterController controller, float speed, Camera camera, Vector2 input)
         {
             _anim = animator;
             _movement = movement;
             _controller = controller;
             _camera = camera;
             _tempspeed = movement.Speed;
+            _input = input;
             dodgeSpeed = speed;
         }
 
@@ -53,16 +55,15 @@ namespace Behaviours
                     _movement.Speed = _tempspeed;
                     _movement.IsSprinting = false;
                     _anim.Play(PLAYER_DODGE,0);
-                }
-                
+                } 
             }
         }
         
         public void Dodging()
         {   
             _movement.CanMove = false;
-            if(_controller.velocity != Vector3.zero){
-                Vector3 direction = new Vector3(_controller.velocity.x, 0, _controller.velocity.y);
+            if(_input != Vector2.zero){
+                Vector3 direction = new Vector3(_input.x, 0, _input.y);
                 if(_camera != null)
                     direction = direction.x * _camera.transform.right.normalized + direction.z * _camera.transform.forward.normalized;
                 else
