@@ -89,6 +89,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""bd1d4164-dafc-4ffb-ab23-356ba68c4ec6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -210,6 +219,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10c846fd-fbd0-426f-9c18-9983d7669446"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -346,6 +366,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_General_Jump = m_General.FindAction("Jump", throwIfNotFound: true);
         m_General_Aim = m_General.FindAction("Aim", throwIfNotFound: true);
         m_General_Sprint = m_General.FindAction("Sprint", throwIfNotFound: true);
+        m_General_Inventory = m_General.FindAction("Inventory", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_MousePosition = m_UI.FindAction("MousePosition", throwIfNotFound: true);
@@ -419,6 +440,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_General_Jump;
     private readonly InputAction m_General_Aim;
     private readonly InputAction m_General_Sprint;
+    private readonly InputAction m_General_Inventory;
     public struct GeneralActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -430,6 +452,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_General_Jump;
         public InputAction @Aim => m_Wrapper.m_General_Aim;
         public InputAction @Sprint => m_Wrapper.m_General_Sprint;
+        public InputAction @Inventory => m_Wrapper.m_General_Inventory;
         public InputActionMap Get() { return m_Wrapper.m_General; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -460,6 +483,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Sprint.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnSprint;
                 @Sprint.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnSprint;
                 @Sprint.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnSprint;
+                @Inventory.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnInventory;
+                @Inventory.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnInventory;
+                @Inventory.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnInventory;
             }
             m_Wrapper.m_GeneralActionsCallbackInterface = instance;
             if (instance != null)
@@ -485,6 +511,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Sprint.started += instance.OnSprint;
                 @Sprint.performed += instance.OnSprint;
                 @Sprint.canceled += instance.OnSprint;
+                @Inventory.started += instance.OnInventory;
+                @Inventory.performed += instance.OnInventory;
+                @Inventory.canceled += instance.OnInventory;
             }
         }
     }
@@ -563,6 +592,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

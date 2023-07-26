@@ -14,7 +14,7 @@ public class PlayerDodge : MonoBehaviour
     [SerializeField][Range(1f,10f)] float dodgeSpeed = 2f;
     [SerializeField] private PlayerMovement _playerMove;
     [SerializeField] private bool isDodging = false;
-    [SerializeField] private float minValueToDodge = 0.3f;
+    [SerializeField] private float EnergyNeeded = 0.3f;
     private PlayerState State = PlayerState.Gameplay;
     private Dodge _dodge;
     public Dodge DodgeBehaviour{
@@ -32,7 +32,7 @@ public class PlayerDodge : MonoBehaviour
         if(canDodge){
             InputManager.inputActions.General.Jump.started += _ =>{
                 if(!isDodging && stamina.Bar.Value > 0){
-                    if(stamina.Bar.Value >= minValueToDodge)
+                    if(stamina.Bar.Value >= EnergyNeeded)
                     {
                         DodgeBehaviour.StartDodge();
                         _playerMove.SprintEnd();
