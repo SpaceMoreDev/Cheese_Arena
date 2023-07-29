@@ -2,13 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ActivateActions
-{
-    GameObject DisplayUI {get;}
-    bool Activated {get;}
-    void Activate();
-}
-
 public struct CharacterStats
 {
     int _health;

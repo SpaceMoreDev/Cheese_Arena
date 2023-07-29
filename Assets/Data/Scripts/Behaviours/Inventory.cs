@@ -1,47 +1,37 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 [Serializable]
 public class Item
 {
+    private ItemObject _data;
+    private int _quantity = 1;
 
-    private int _ID;
-    private string _itemName;
-    private string _description;
-    private Sprite _sprite;
-    private ItemObject _itemObject;
-
-    public string ItemName {
-        get => _itemName; 
-        set => _itemName = value;
+    public int Quantity {
+        get => _quantity; 
     }
-
-    public string Description {
-        get => _description; 
-        set => _description = value;
-    }
-
-    public Sprite ItemSprite {
-        get => _sprite; 
-        set => _sprite = value;
-    }
-
-    public ItemObject ItemObject {
-        get => _itemObject; 
-    }
-
-    public int ID {
-        get => _ID; 
+    public ItemObject Data {
+        get => _data; 
     }
 
     public Item(ItemObject itemObject)
     {
-        itemObject = _itemObject;
-        _itemName = itemObject.ItemName;
-        _sprite = itemObject.Sprite;
-        _description = itemObject.Description;
+        _data = itemObject;
     }
+
+    public void AddToQuantity()
+    {
+        _quantity ++;
+    }
+
+    public void RemoveFromQuantity()
+    {
+        _quantity --;
+    }
+
+    private InventoryManager _inventory;
 
     public static Item FindItemWithID(int id)
     {
@@ -75,6 +65,7 @@ public class Inventory
     {
         InventoryItems.Add(item);
     }
+    
     public void RemoveFromInventory(Item item)
     {
         InventoryItems.Remove(item);

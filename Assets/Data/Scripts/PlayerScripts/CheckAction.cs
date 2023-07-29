@@ -7,11 +7,12 @@ using Cinemachine;
 public class CheckAction : MonoBehaviour
 {
     [SerializeField] private LayerMask actionLayers;
-    // [SerializeField] GameObject selectionUI;
-    [SerializeField] float actionRadius = 3.5f;
+    [SerializeField] private float actionRadius = 3.5f;
+
+
     private static InputAction Select;
     private bool consumed = false;
-    Collider[] precol;
+    private Collider[] precol;
 
     void Awake()
     {
@@ -22,29 +23,22 @@ public class CheckAction : MonoBehaviour
     {
         Select.performed += _ => SelectClick();
     }
+
     void OnDestroy()
     {
         Select.performed -= _ => SelectClick();
     }
 
-    
-
     void SelectClick()
     {
-        if(TP_PlayerController.current.alive)
-        {
-            int count = 0;
-            foreach (Collider collider in precol){
-                float distance = Vector3.Distance(transform.position, collider.transform.position);            
-                if(collider.TryGetComponent<ActivateActions>(out ActivateActions action))
-                {
-                    action.Activate();
-                    action.DisplayUI.SetActive(false);
-                }
-                count++;
+        int count = 0;
+        foreach (Collider collider in precol){
+            float distance = Vector3.Distance(transform.position, collider.transform.position);            
+            if(collider.TryGetComponent<ActivateActions>(out ActivateActions action)){
+                action.Activate();
+                action.DisplayUI.SetActive(false);
             }
-            // consumed = true;
-            // Debug.Log($"precol: {precol.Length}");
+            count++;
         }
     }
 
@@ -60,7 +54,6 @@ public class CheckAction : MonoBehaviour
                 {
                     pickup.DisplayUI.SetActive(true);
                 }
-                // consumed = pickup.Activated;
             }
         }
         if(colliders.Length == 0 && precol.Length != 0)

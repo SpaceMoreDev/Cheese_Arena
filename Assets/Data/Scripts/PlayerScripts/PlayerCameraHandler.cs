@@ -39,4 +39,8 @@ public class PlayerCameraHandler : MonoBehaviour
 
         framingCamera.m_CameraDistance = distanceFromPlayer;
     }
+    public void SetCamerPOV(bool state)
+    {
+        povCamera.enabled = state;
+    }
 }
