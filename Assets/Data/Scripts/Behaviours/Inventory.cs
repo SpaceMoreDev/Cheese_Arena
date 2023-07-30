@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System;
-using UnityEngine;
-using UnityEngine.UI;
 
 [Serializable]
 public class Item
@@ -31,8 +29,6 @@ public class Item
         _quantity --;
     }
 
-    private InventoryManager _inventory;
-
     public static Item FindItemWithID(int id)
     {
         // for making sure that no item has the same ID.
@@ -49,7 +45,7 @@ public class Item
 
 public class Inventory
 {
-    public List<Item> InventoryItems;
+    public List<Item> InventoryItems = new();
 
     public Inventory()
     {
@@ -59,6 +55,18 @@ public class Inventory
     public Inventory(List<Item> items)
     {
         InventoryItems = items;
+    }
+
+    public Inventory(List<ItemObject> items)
+    {
+        List<Item> itemList = new();
+        foreach(ItemObject i in items)
+        {
+            Item item = new(i);
+            itemList.Add(item);
+        }
+
+        InventoryItems = itemList;
     }
 
     public void AddToInventory(Item item)

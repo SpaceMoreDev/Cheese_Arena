@@ -8,18 +8,19 @@ public class Chest : MonoBehaviour, ActivateActions
     [SerializeField] private List<ItemObject> _inventoryItems;
 
     private GameObject _displayUI;
+    private Canvas _inventoryUI;
     private bool _activated = false;
     private Animator anim;
+    private ChestInventory _chestInventory;
 
     public GameObject DisplayUI { get => _displayUI; }
     public bool Activated { get => _activated;}
     
-    private InventoryManager _inventoryManager;
     private Inventory _inventory;
     public Inventory Inventory{
         get{
             if(_inventory == null){
-                return new Inventory();
+                return new Inventory(_inventoryItems);
             }
             return _inventory;
         }
@@ -28,14 +29,17 @@ public class Chest : MonoBehaviour, ActivateActions
 
     private void Awake()
     {
-        _inventoryManager = InventoryManager.Instance;
         anim = GetComponent<Animator>();
 
-        GameObject resource = Resources.Load<GameObject>("Prefaps/UI/InteractText");
+        GameObject text = Resources.Load<GameObject>("Prefaps/UI/InteractText");
+        Canvas invUI = Resources.Load<Canvas>("Prefaps/UI/Inventory/ChestInventory");
         Vector3 spawnPosition = new(0,1,0);
-        _displayUI = Instantiate(resource,transform);
+        _displayUI = Instantiate(text,transform);
+        _inventoryUI = Instantiate<Canvas>(invUI, transform);
+        _chestInventory = _inventoryUI.GetComponent<ChestInventory>();
         
         _displayUI.transform.position += spawnPosition;
+        
     }
 
     public void Activate()
@@ -44,18 +48,24 @@ public class Chest : MonoBehaviour, ActivateActions
 
         if(!_activated){
             InputManager.ToggleActionMap(InputManager.inputActions.UI);
-            _inventoryManager.AddItemsToMenu(_inventoryItems);
+            _chestInventory.UpdateMenuItems(Inventory);
 
             _activated= true;
             _displayUI.SetActive(false);
+            _inventoryUI.gameObject.SetActive(true);
+            PlayerCameraHandler.Instance.SetCamerPOV(false);
+
+            Debug.Log("should show menu here");
         }else{
             InputManager.ToggleActionMap(InputManager.inputActions.General); 
-            _inventoryManager.RemoveItemsToMenu();
 
             _activated= false;
             _displayUI.SetActive(true);
+            _inventoryUI.gameObject.SetActive(false);
+            PlayerCameraHandler.Instance.SetCamerPOV(true);
+
+            Debug.Log("should hide menu here");
+
         }
-        
-        _inventoryManager.InventorySlots.SetActive(true);
     }
 }

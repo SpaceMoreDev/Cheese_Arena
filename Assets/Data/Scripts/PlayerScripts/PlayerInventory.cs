@@ -7,25 +7,24 @@ using Behaviours;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [SerializeField] private List<ItemObject> testItem;
+    [SerializeField] private List<ItemObject> playerItems;
 
     private bool toggleInventory = false;
-    private InventoryManager _inventoryManager;
-    private List<GameObject> ObjectList = new();
+    private PlayerInventoryManager _inventoryManager;
     private Inventory _inventory;
 
 
     public Inventory Inventory {
         get{
             if(_inventory == null){
-                return new Inventory();
+                return new Inventory(playerItems);
             }
             return _inventory;
         }
     }
 
     private void Awake() {
-        _inventoryManager = InventoryManager.Instance;
+        _inventoryManager = PlayerInventoryManager.Instance;
         _inventoryManager.InventoryMenu.gameObject.SetActive(toggleInventory);
 
         InputManager.inputActions.General.Inventory.started += _ => Toggle();
@@ -39,11 +38,13 @@ public class PlayerInventory : MonoBehaviour
         
         if(toggleInventory){
             InputManager.ToggleActionMap(InputManager.inputActions.UI);      
-            _inventoryManager.AddItemsToMenu(testItem);
+            _inventoryManager.UpdateMenuItems(Inventory);
+            PlayerCameraHandler.Instance.SetCamerPOV(false);
         }
         else {
             InputManager.ToggleActionMap(InputManager.inputActions.General);
             _inventoryManager.RemoveItemsToMenu();
+            PlayerCameraHandler.Instance.SetCamerPOV(true);
         }
     }
     
@@ -51,6 +52,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (Inventory.InventoryItems.Count < _inventoryManager.maxItems){
             Inventory.AddToInventory(item);
+            _inventoryManager.UpdateMenuItems(Inventory);
             return;
         }
         Debug.Log("No space in the inventory");

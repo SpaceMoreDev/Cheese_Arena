@@ -227,6 +227,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "f5144d7f-1def-45a1-8bd5-a89a77842ae7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "MouseClick",
                     "type": "Button",
                     "id": "ca801f16-e9b6-421f-b867-54ebe9ed9dc3",
@@ -327,6 +336,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Accept",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6d487b60-23df-4543-857f-d38fe41e518e",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

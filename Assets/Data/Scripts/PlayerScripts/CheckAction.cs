@@ -11,22 +11,27 @@ public class CheckAction : MonoBehaviour
 
 
     private static InputAction Select;
+    private static InputAction SelectUI;
     private bool consumed = false;
     private Collider[] precol;
 
     void Awake()
     {
         Select = InputManager.inputActions.General.Interact;
+        SelectUI = InputManager.inputActions.UI.Interact;
         precol = new Collider[]{};
     }
     void OnEnable()
     {
         Select.performed += _ => SelectClick();
+        SelectUI.performed += _ => SelectClick();
     }
 
     void OnDestroy()
     {
         Select.performed -= _ => SelectClick();
+        SelectUI.performed -= _ => SelectClick();
+
     }
 
     void SelectClick()

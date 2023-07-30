@@ -249,6 +249,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""f5144d7f-1def-45a1-8bd5-a89a77842ae7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""MouseClick"",
                     ""type"": ""Button"",
                     ""id"": ""ca801f16-e9b6-421f-b867-54ebe9ed9dc3"",
@@ -351,6 +360,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Accept"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6d487b60-23df-4543-857f-d38fe41e518e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -370,6 +390,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_MousePosition = m_UI.FindAction("MousePosition", throwIfNotFound: true);
+        m_UI_Interact = m_UI.FindAction("Interact", throwIfNotFound: true);
         m_UI_MouseClick = m_UI.FindAction("MouseClick", throwIfNotFound: true);
         m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
         m_UI_Escape = m_UI.FindAction("Escape", throwIfNotFound: true);
@@ -523,6 +544,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_UI;
     private IUIActions m_UIActionsCallbackInterface;
     private readonly InputAction m_UI_MousePosition;
+    private readonly InputAction m_UI_Interact;
     private readonly InputAction m_UI_MouseClick;
     private readonly InputAction m_UI_Inventory;
     private readonly InputAction m_UI_Escape;
@@ -532,6 +554,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         private @PlayerInputActions m_Wrapper;
         public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @MousePosition => m_Wrapper.m_UI_MousePosition;
+        public InputAction @Interact => m_Wrapper.m_UI_Interact;
         public InputAction @MouseClick => m_Wrapper.m_UI_MouseClick;
         public InputAction @Inventory => m_Wrapper.m_UI_Inventory;
         public InputAction @Escape => m_Wrapper.m_UI_Escape;
@@ -548,6 +571,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @MousePosition.started -= m_Wrapper.m_UIActionsCallbackInterface.OnMousePosition;
                 @MousePosition.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnMousePosition;
                 @MousePosition.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnMousePosition;
+                @Interact.started -= m_Wrapper.m_UIActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnInteract;
                 @MouseClick.started -= m_Wrapper.m_UIActionsCallbackInterface.OnMouseClick;
                 @MouseClick.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnMouseClick;
                 @MouseClick.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnMouseClick;
@@ -567,6 +593,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @MousePosition.started += instance.OnMousePosition;
                 @MousePosition.performed += instance.OnMousePosition;
                 @MousePosition.canceled += instance.OnMousePosition;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
                 @MouseClick.started += instance.OnMouseClick;
                 @MouseClick.performed += instance.OnMouseClick;
                 @MouseClick.canceled += instance.OnMouseClick;
@@ -597,6 +626,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         void OnMousePosition(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
         void OnMouseClick(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
