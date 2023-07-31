@@ -10,7 +10,7 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private List<ItemObject> playerItems;
 
     private bool toggleInventory = false;
-    private PlayerInventoryManager _inventoryManager;
+    private PlayerInventoryHandler _inventoryHandler;
     private Inventory _inventory;
 
 
@@ -24,8 +24,8 @@ public class PlayerInventory : MonoBehaviour
     }
 
     private void Awake() {
-        _inventoryManager = PlayerInventoryManager.Instance;
-        _inventoryManager.InventoryMenu.gameObject.SetActive(toggleInventory);
+        _inventoryHandler = PlayerInventoryHandler.Instance;
+        _inventoryHandler.InventoryMenu.gameObject.SetActive(toggleInventory);
 
         InputManager.inputActions.General.Inventory.started += _ => Toggle();
         InputManager.inputActions.UI.Inventory.started += _ => Toggle();
@@ -34,25 +34,25 @@ public class PlayerInventory : MonoBehaviour
     private void Toggle()
     {
         toggleInventory = !toggleInventory;
-        _inventoryManager.InventoryMenu.gameObject.SetActive(toggleInventory);
+        _inventoryHandler.InventoryMenu.gameObject.SetActive(toggleInventory);
         
         if(toggleInventory){
             InputManager.ToggleActionMap(InputManager.inputActions.UI);      
-            _inventoryManager.UpdateMenuItems(Inventory);
+            _inventoryHandler.InventoryManager.UpdateMenuItems(Inventory);
             PlayerCameraHandler.Instance.SetCamerPOV(false);
         }
         else {
             InputManager.ToggleActionMap(InputManager.inputActions.General);
-            _inventoryManager.RemoveItemsToMenu();
+            _inventoryHandler.InventoryManager.RemoveItemsToMenu();
             PlayerCameraHandler.Instance.SetCamerPOV(true);
         }
     }
     
     public void AddToInventory(Item item) 
     {
-        if (Inventory.InventoryItems.Count < _inventoryManager.maxItems){
+        if (Inventory.InventoryItems.Count < _inventoryHandler.maxItems){
             Inventory.AddToInventory(item);
-            _inventoryManager.UpdateMenuItems(Inventory);
+            _inventoryHandler.InventoryManager.UpdateMenuItems(Inventory);
             return;
         }
         Debug.Log("No space in the inventory");

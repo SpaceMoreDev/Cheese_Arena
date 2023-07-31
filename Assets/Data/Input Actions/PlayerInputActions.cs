@@ -292,6 +292,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Inspect"",
+                    ""type"": ""Button"",
+                    ""id"": ""18b7f93d-2ac6-4bfb-9235-8ac8f0f758c6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -371,6 +380,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11324eed-f371-4695-9980-e3074852cd74"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inspect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -395,6 +415,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
         m_UI_Escape = m_UI.FindAction("Escape", throwIfNotFound: true);
         m_UI_Accept = m_UI.FindAction("Accept", throwIfNotFound: true);
+        m_UI_Inspect = m_UI.FindAction("Inspect", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -549,6 +570,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Inventory;
     private readonly InputAction m_UI_Escape;
     private readonly InputAction m_UI_Accept;
+    private readonly InputAction m_UI_Inspect;
     public struct UIActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -559,6 +581,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Inventory => m_Wrapper.m_UI_Inventory;
         public InputAction @Escape => m_Wrapper.m_UI_Escape;
         public InputAction @Accept => m_Wrapper.m_UI_Accept;
+        public InputAction @Inspect => m_Wrapper.m_UI_Inspect;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -586,6 +609,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Accept.started -= m_Wrapper.m_UIActionsCallbackInterface.OnAccept;
                 @Accept.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnAccept;
                 @Accept.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnAccept;
+                @Inspect.started -= m_Wrapper.m_UIActionsCallbackInterface.OnInspect;
+                @Inspect.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnInspect;
+                @Inspect.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnInspect;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -608,6 +634,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Accept.started += instance.OnAccept;
                 @Accept.performed += instance.OnAccept;
                 @Accept.canceled += instance.OnAccept;
+                @Inspect.started += instance.OnInspect;
+                @Inspect.performed += instance.OnInspect;
+                @Inspect.canceled += instance.OnInspect;
             }
         }
     }
@@ -631,5 +660,6 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnInventory(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
         void OnAccept(InputAction.CallbackContext context);
+        void OnInspect(InputAction.CallbackContext context);
     }
 }

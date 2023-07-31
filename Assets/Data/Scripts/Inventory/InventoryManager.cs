@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Managers;
+using Behaviours;
 
-public class ChestInventory : MonoBehaviour
+public class InventoryManager : MonoBehaviour
 {
     [SerializeField] internal GameObject InventorySlots;
     internal int maxItems = 10;
@@ -21,10 +22,10 @@ public class ChestInventory : MonoBehaviour
     {
         RemoveItemsToMenu();
         foreach(var i in inventory.InventoryItems){
-            GameObject spawnedItem = Instantiate<GameObject>(PlayerInventoryManager.Instance.InventoryItemPrefap, InventorySlots.transform);
+            GameObject spawnedItem = Instantiate<GameObject>(PlayerInventoryHandler.Instance.InventoryItemPrefap, InventorySlots.transform);
             spawnedItem.GetComponent<Image>().sprite = i.Data.Sprite;
             ObjectList.Add(spawnedItem);
-            Debug.Log("chest = added to UI");
+
         }
     }
 }

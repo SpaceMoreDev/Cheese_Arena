@@ -5,7 +5,8 @@ public enum EffectTypes{
     RestoreHealth,
     RestoreStamina,
     IncreaseAttack,
-    DecreaseAttack
+    DecreaseAttack,
+    Empty
 
 }
 

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Managers;
+using Behaviours;
 
 public class Chest : MonoBehaviour, ActivateActions
 {
@@ -55,7 +56,6 @@ public class Chest : MonoBehaviour, ActivateActions
             _inventoryUI.gameObject.SetActive(true);
             PlayerCameraHandler.Instance.SetCamerPOV(false);
 
-            Debug.Log("should show menu here");
         }else{
             InputManager.ToggleActionMap(InputManager.inputActions.General); 
 
@@ -63,8 +63,6 @@ public class Chest : MonoBehaviour, ActivateActions
             _displayUI.SetActive(true);
             _inventoryUI.gameObject.SetActive(false);
             PlayerCameraHandler.Instance.SetCamerPOV(true);
-
-            Debug.Log("should hide menu here");
 
         }
     }

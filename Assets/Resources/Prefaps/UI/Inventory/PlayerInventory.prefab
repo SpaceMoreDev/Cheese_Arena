@@ -232,7 +232,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: -0.000061035156, y: 0.000030517578}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1.0000001}
 --- !u!222 &3342011850192720736
@@ -494,6 +494,8 @@ GameObject:
   - component: {fileID: 3342011851169345913}
   - component: {fileID: 3342011851169345912}
   - component: {fileID: 3342011851169345911}
+  - component: {fileID: 2122997604892115476}
+  - component: {fileID: 3836142995696537160}
   m_Layer: 5
   m_Name: PlayerInventory
   m_TagString: Untagged
@@ -584,6 +586,38 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &2122997604892115476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3342011851169345910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d08212843bb1604285525f92f211b13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InventorySlots: {fileID: 3342011850192720733}
+--- !u!114 &3836142995696537160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3342011851169345910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4612cb48079174dba074c30c81acae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerInventory: {fileID: 0}
+  _inventoryItemPrefap: {fileID: 0}
+  _inventorySlots: {fileID: 3342011850192720733}
+  _inventoryMenu: {fileID: 3342011850280368755}
+  maxItems: 10
+  ObjectList: []
+  InventoryManager: {fileID: 2122997604892115476}
 --- !u!1 &3342011851236111407
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,7 +776,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3342011849424562197}
   m_HandleRect: {fileID: 3342011849424562196}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
