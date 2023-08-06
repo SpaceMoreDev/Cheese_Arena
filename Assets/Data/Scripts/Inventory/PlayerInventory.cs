@@ -13,7 +13,7 @@ public class PlayerInventory : MonoBehaviour
     private PlayerInventoryHandler _inventoryHandler;
     private Inventory _inventory;
 
-
+    
     public Inventory Inventory {
         get{
             if(_inventory == null){

@@ -11,7 +11,7 @@ using UnityEngine.UI;
         [SerializeField] private GameObject _inventoryItemPrefap;
         [SerializeField] private GameObject _inventorySlots;
         [SerializeField] private GameObject _inventoryMenu;
-
+    
         private GameObject _consumableSlots;
         public int maxItems = 10;
         private static PlayerInventoryHandler _instance;
@@ -35,9 +35,7 @@ using UnityEngine.UI;
         }
 
         public static PlayerInventoryHandler Instance {
-            get{
-                return _instance;
-            }
+            get => _instance;
         }
         
         public PlayerInventoryHandler()
