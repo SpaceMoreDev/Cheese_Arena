@@ -12,7 +12,9 @@ public class Chest : MonoBehaviour, ActivateActions
     private Canvas _inventoryUI;
     private bool _activated = false;
     private Animator anim;
-    private ChestInventory _chestInventory;
+
+    private GameObject _inventorySlots;
+    private GameObject _playerSlots;
 
     public GameObject DisplayUI { get => _displayUI; }
     public bool Activated { get => _activated;}
@@ -21,7 +23,7 @@ public class Chest : MonoBehaviour, ActivateActions
     public Inventory Inventory{
         get{
             if(_inventory == null){
-                return new Inventory(_inventoryItems);
+                _inventory = new Inventory(_inventoryItems);
             }
             return _inventory;
         }
@@ -34,13 +36,17 @@ public class Chest : MonoBehaviour, ActivateActions
 
         GameObject text = Resources.Load<GameObject>("Prefaps/UI/InteractText");
         Canvas invUI = Resources.Load<Canvas>("Prefaps/UI/Inventory/ChestInventory");
+
+
         Vector3 spawnPosition = new(0,1,0);
         _displayUI = Instantiate(text,transform);
+        _displayUI.transform.position += spawnPosition; // for "press E to interact" text.
+
+
         _inventoryUI = Instantiate<Canvas>(invUI, transform);
-        _chestInventory = _inventoryUI.GetComponent<ChestInventory>();
-        
-        _displayUI.transform.position += spawnPosition;
-        
+        _inventorySlots = _inventoryUI.transform.GetChild(0).GetChild(0).GetChild(1).gameObject;
+        _playerSlots = _inventoryUI.transform.GetChild(1).GetChild(0).GetChild(1).gameObject;
+
     }
 
     public void Activate()
@@ -49,7 +55,8 @@ public class Chest : MonoBehaviour, ActivateActions
 
         if(!_activated){
             InputManager.ToggleActionMap(InputManager.inputActions.UI);
-            _chestInventory.UpdateMenuItems(Inventory);
+            Inventory.UpdateMenuItems(_inventorySlots);
+            PlayerInventory.Player.Inventory.UpdateMenuItems(_playerSlots);;
 
             _activated= true;
             _displayUI.SetActive(false);

@@ -424,7 +424,6 @@ GameObject:
   - component: {fileID: 5223962466991111911}
   - component: {fileID: 5223962466991111904}
   - component: {fileID: 5223962466991111905}
-  - component: {fileID: 5915863776480570672}
   m_Layer: 5
   m_Name: ChestInventory
   m_TagString: Untagged
@@ -515,20 +514,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5915863776480570672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5223962466991111907}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e9066efd0d8894b9cb480d1d0c2c7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InventorySlots: {fileID: 5223962468546058948}
-  PlayerSlots: {fileID: 3105947187766862405}
 --- !u!1 &5223962467451996099
 GameObject:
   m_ObjectHideFlags: 0

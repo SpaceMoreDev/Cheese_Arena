@@ -19,6 +19,6 @@ MonoBehaviour:
   Description: 
   Effect: 0
   HighlightColor: {r: 1, g: 1, b: 1, a: 1}
-  pickable: 0
+  pickable: 1
   SpawnOnDeath: 0
   prefap: {fileID: 0}

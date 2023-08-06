@@ -7,25 +7,32 @@ using Behaviours;
 
 public class PlayerInventory : MonoBehaviour
 {
+
+    // --- Player inventory handler ---
+    [SerializeField] private GameObject _inventorySlots;
+    [SerializeField] private GameObject _inventoryMenu;
+    [SerializeField] private GameObject _consumableSlots;
+
+    [Space]
+    //---
     [SerializeField] private List<ItemObject> playerItems;
-
+    private GameObject _inventoryItemPrefap;
     private bool toggleInventory = false;
-    private PlayerInventoryHandler _inventoryHandler;
-    private Inventory _inventory;
+    public Inventory _inventory;
 
-    
-    public Inventory Inventory {
+    public  Inventory Inventory {
         get{
             if(_inventory == null){
-                return new Inventory(playerItems);
+                _inventory = new Inventory(playerItems);
             }
             return _inventory;
         }
     }
 
+    public static PlayerInventory Player;
     private void Awake() {
-        _inventoryHandler = PlayerInventoryHandler.Instance;
-        _inventoryHandler.InventoryMenu.gameObject.SetActive(toggleInventory);
+        Player = this;
+        _inventoryMenu.gameObject.SetActive(toggleInventory);
 
         InputManager.inputActions.General.Inventory.started += _ => Toggle();
         InputManager.inputActions.UI.Inventory.started += _ => Toggle();
@@ -34,32 +41,17 @@ public class PlayerInventory : MonoBehaviour
     private void Toggle()
     {
         toggleInventory = !toggleInventory;
-        _inventoryHandler.InventoryMenu.gameObject.SetActive(toggleInventory);
+        _inventoryMenu.gameObject.SetActive(toggleInventory);
         
         if(toggleInventory){
             InputManager.ToggleActionMap(InputManager.inputActions.UI);      
-            _inventoryHandler.InventoryManager.UpdateMenuItems(Inventory);
+            Inventory.UpdateMenuItems(_inventorySlots);
             PlayerCameraHandler.Instance.SetCamerPOV(false);
         }
         else {
             InputManager.ToggleActionMap(InputManager.inputActions.General);
-            _inventoryHandler.InventoryManager.RemoveItemsToMenu();
+            Inventory.RemoveItemsToMenu();
             PlayerCameraHandler.Instance.SetCamerPOV(true);
         }
-    }
-    
-    public void AddToInventory(Item item) 
-    {
-        if (Inventory.InventoryItems.Count < _inventoryHandler.maxItems){
-            Inventory.AddToInventory(item);
-            _inventoryHandler.InventoryManager.UpdateMenuItems(Inventory);
-            return;
-        }
-        Debug.Log("No space in the inventory");
-    }
-
-    public void RemoveFromInventory(Item item)
-    {
-        Inventory.RemoveFromInventory(item);
     }
 }
