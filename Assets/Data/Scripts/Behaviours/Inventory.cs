@@ -23,14 +23,12 @@ namespace Behaviours
     public class Item : I_item
     {
         private ItemObject _data;
-        private int _quantity = 1;
+        
         private Effects ItemEffects;
 
         private GameObject _prefap;
 
-        public int Quantity {
-            get => _quantity; 
-        }
+        
         public ItemObject Data {
             get => _data; 
         }
@@ -46,15 +44,6 @@ namespace Behaviours
             ItemEffects = new Effects(itemObject.Effect);
         }
 
-        public void AddToQuantity()
-        {
-            _quantity ++;
-        }
-
-        public void RemoveFromQuantity()
-        {
-            _quantity --;
-        }
 
         public static Item FindWithID(int id)
         {
@@ -72,7 +61,6 @@ namespace Behaviours
         public void Use(GameObject target)
         {
             ItemEffects.Activate(Data.EffectValue, target);
-
         }
 
         public I_item Clone() // factory design pattern
@@ -86,7 +74,7 @@ namespace Behaviours
     {
         public List<Item> InventoryItems = new();
         public List<GameObject> UIObjects = new();
-        public int maxItems = 50;
+        public int maxItems = 5;
         public Inventory()
         {
             InventoryItems = new List<Item>();

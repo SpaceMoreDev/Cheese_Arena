@@ -9,7 +9,7 @@ public class PlayerInventory : MonoBehaviour
 {
 
     // --- Player inventory handler ---
-    [SerializeField] private GameObject _inventorySlots;
+    [SerializeField] internal GameObject _inventorySlots;
     [SerializeField] private GameObject _inventoryMenu;
     [SerializeField] private GameObject _consumableSlots;
 
@@ -19,6 +19,10 @@ public class PlayerInventory : MonoBehaviour
     private GameObject _inventoryItemPrefap;
     private bool toggleInventory = false;
     public Inventory _inventory;
+    [SerializeField] public int MaxItems {
+        get => _inventory.maxItems;
+        set => _inventory.maxItems = value;
+    }
 
     public  Inventory Inventory {
         get{

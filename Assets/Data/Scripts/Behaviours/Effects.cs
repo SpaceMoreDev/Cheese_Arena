@@ -10,25 +10,20 @@ public enum EffectTypes{
 
 }
 
-public class Effects
-{
+public class Effects{
     delegate void Ability(float value, GameObject target);
     private Ability _activeAbility;
     
-    public void RestoreHealth(float value, GameObject target)
-    {
+    public void RestoreHealth(float value, GameObject target){
         target.GetComponent<HealthBar>().IncreaseHealth(value);
     }
-    public void RestoreStamina(float value, GameObject target)
-    {
+    public void RestoreStamina(float value, GameObject target){
         target.GetComponent<StaminaBar>().IncreaseStamina(value);
     }
-    public void IncreaseAttack(float value, GameObject target)
-    {
+    public void IncreaseAttack(float value, GameObject target){
 
     }
-    public void DecreaseAttack(float value, GameObject target)
-    {
+    public void DecreaseAttack(float value, GameObject target){
 
     }
 

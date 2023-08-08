@@ -287,15 +287,15 @@ PrefabInstance:
       objectReference: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 724803450610798217, guid: c039d96164bb126468c1768fdd11f43f, type: 3}
       propertyPath: m_Color.b
-      value: 0.9056604
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 724803450610798217, guid: c039d96164bb126468c1768fdd11f43f, type: 3}
       propertyPath: m_Color.g
-      value: 0.9056604
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 724803450610798217, guid: c039d96164bb126468c1768fdd11f43f, type: 3}
       propertyPath: m_Color.r
-      value: 0.9056604
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 724803450610798217, guid: c039d96164bb126468c1768fdd11f43f, type: 3}
       propertyPath: m_Maskable
@@ -307,7 +307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6474633151717351071, guid: c039d96164bb126468c1768fdd11f43f, type: 3}
       propertyPath: m_Name
-      value: ConsumptionItem
+      value: EmptyConsumption
       objectReference: {fileID: 0}
     - target: {fileID: 7536354917993640380, guid: c039d96164bb126468c1768fdd11f43f, type: 3}
       propertyPath: m_Pivot.x

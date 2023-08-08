@@ -4,7 +4,7 @@ namespace Behaviours
     public class Bar
     {
         // ----- private variables -----
-        private float _percentage = 1f;
+        private float _percentage = 0.2f;
         private float _requirement = 0.1f;
         private bool _regenerating = false;
 

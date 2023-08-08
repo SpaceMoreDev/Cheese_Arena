@@ -18,8 +18,9 @@ public class PlayerInputHandler : MonoBehaviour
     #endregion
 
 
-    #region Private Variables
+    #region Public Variables
     public static PlayerInputHandler current;
+    public Vector2 MouseVector = Vector2.zero;
     #endregion
 
     void Awake()
@@ -28,8 +29,14 @@ public class PlayerInputHandler : MonoBehaviour
         Movement = InputManager.inputActions.General.Move;
         Jump = InputManager.inputActions.General.Jump; 
         Interact = InputManager.inputActions.General.Interact;
+        
     }
 
+    void mouseMovement(InputAction.CallbackContext ctx)
+    {
+        if(ctx.canceled){MouseVector = Vector2.zero; return; }
+        MouseVector = ctx.ReadValue<Vector2>();
+    }
 
     void Start()
     {
@@ -43,6 +50,9 @@ public class PlayerInputHandler : MonoBehaviour
         #region UI ActionMap
             InputManager.inputActions.UI.Escape.started += this.Escape;
             InputManager.inputActions.UI.Accept.started += this.Accept;
+
+            InputManager.inputActions.UI.MousePosition.performed += mouseMovement;
+            InputManager.inputActions.UI.MousePosition.canceled += mouseMovement;
         #endregion
     }
 
@@ -56,6 +66,9 @@ public class PlayerInputHandler : MonoBehaviour
         #region UI ActionMap
             InputManager.inputActions.UI.Escape.started -= this.Escape;
             InputManager.inputActions.UI.Accept.started -= this.Accept;
+
+            InputManager.inputActions.UI.MousePosition.performed -= mouseMovement;
+            InputManager.inputActions.UI.MousePosition.canceled -= mouseMovement;
         #endregion
     }
 

@@ -27,19 +27,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] [Range(0.01f,1f)] private float animationBlend = 0.05f;
 
     // private variables
-    
     private float tempSpeed = 5f;
     private Transform cameraTransform;
     private Movement _movement;
     private StaminaBar _stamina;
     private HealthBar _health;
-
     internal Vector3 playerVelocity = Vector3.zero;
     
     //public variables
     public Vector3 PlayerVelocity {
         get {return new Vector3(input.x, _controller.velocity.y, input.y);}
         }
+
 
     //component references
     internal CharacterController _controller;
