@@ -10,7 +10,7 @@ public class PlayerInventory : MonoBehaviour
 
     // --- Player inventory handler ---
     [SerializeField] internal GameObject _inventorySlots;
-    [SerializeField] private GameObject _inventoryMenu;
+    [SerializeField] internal GameObject _inventoryMenu;
     [SerializeField] private GameObject _consumableSlots;
 
     [Space]
@@ -18,28 +18,22 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private List<ItemObject> playerItems;
     private GameObject _inventoryItemPrefap;
     private bool toggleInventory = false;
-    public Inventory _inventory;
-    [SerializeField] public int MaxItems {
-        get => _inventory.maxItems;
-        set => _inventory.maxItems = value;
-    }
+    private Inventory _inventory;
 
     public  Inventory Inventory {
-        get{
-            if(_inventory == null){
-                _inventory = new Inventory(playerItems);
-            }
-            return _inventory;
-        }
+        get => _inventory;
     }
 
     public static PlayerInventory Player;
     private void Awake() {
         Player = this;
+        _inventory = new Inventory(playerItems);
+        Inventory.Panel = _inventorySlots;
         _inventoryMenu.gameObject.SetActive(toggleInventory);
 
         InputManager.inputActions.General.Inventory.started += _ => Toggle();
         InputManager.inputActions.UI.Inventory.started += _ => Toggle();
+        Inventory.Panel.transform.parent.GetComponent<DragToInventory>()._inventory = Inventory;
     }
 
     private void Toggle()
@@ -48,13 +42,15 @@ public class PlayerInventory : MonoBehaviour
         _inventoryMenu.gameObject.SetActive(toggleInventory);
         
         if(toggleInventory){
-            InputManager.ToggleActionMap(InputManager.inputActions.UI);      
-            Inventory.UpdateMenuItems(_inventorySlots);
+            InputManager.ToggleActionMap(InputManager.inputActions.UI);
+            Inventory.UpdateMenuItems();
+            Cursor.lockState = CursorLockMode.None;
             PlayerCameraHandler.Instance.SetCamerPOV(false);
         }
         else {
             InputManager.ToggleActionMap(InputManager.inputActions.General);
             Inventory.RemoveItemsToMenu();
+            Cursor.lockState = CursorLockMode.Locked;
             PlayerCameraHandler.Instance.SetCamerPOV(true);
         }
     }

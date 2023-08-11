@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEditor.AssetImporters;
 
 public enum Options{
     Use,
@@ -15,7 +16,7 @@ namespace Behaviours
 {
     public interface I_item
     {
-        I_item Clone();
+        I_item Clone(Inventory inventory);
         void Use(GameObject target);
     }
 
@@ -27,6 +28,8 @@ namespace Behaviours
         private Effects ItemEffects;
 
         private GameObject _prefap;
+        
+        public Inventory currentInventory;
 
         
         public ItemObject Data {
@@ -38,21 +41,22 @@ namespace Behaviours
             get => Resources.Load<GameObject>("Prefaps/UI/Inventory/InventoryItem");
         }
 
-        public Item(ItemObject itemObject)
+        public Item(ItemObject itemObject, Inventory inventory)
         {
             _data = itemObject;
+            currentInventory = inventory;
             ItemEffects = new Effects(itemObject.Effect);
         }
 
 
-        public static Item FindWithID(int id)
+        public static Item FindWithID(int id, Inventory inventory)
         {
             // for making sure that no item has the same ID.
             for(int i=0 ; i< ItemObject.Allitems.Count ; i++)
             {
                 if(id == ItemObject.Allitems[i].ID)
-                {
-                    return new Item( ItemObject.Allitems[i] );
+                { 
+                    return new Item( ItemObject.Allitems[i], inventory);
                 }
             }
             return null;
@@ -63,9 +67,9 @@ namespace Behaviours
             ItemEffects.Activate(Data.EffectValue, target);
         }
 
-        public I_item Clone() // factory design pattern
+        public I_item Clone( Inventory inventory) // factory design pattern
         {
-            Item newItem =  new Item(this._data);
+            Item newItem =  new Item(this._data, inventory);
             return newItem;
         }
     }
@@ -74,7 +78,10 @@ namespace Behaviours
     {
         public List<Item> InventoryItems = new();
         public List<GameObject> UIObjects = new();
-        public int maxItems = 5;
+        public GameObject Panel;
+        public int MaxInventoryItems = 10;
+
+
         public Inventory()
         {
             InventoryItems = new List<Item>();
@@ -90,7 +97,7 @@ namespace Behaviours
             List<Item> itemList = new();
             foreach(ItemObject i in items)
             {
-                Item item = new(i);
+                Item item = new(i, this);
                 itemList.Add(item);
             }
 
@@ -108,9 +115,9 @@ namespace Behaviours
         /// <param name="item"></param>
         public void AddToInventory(Item item)
         {
-            if(InventoryItems.Count < maxItems) { InventoryItems.Add(item); return; }
-            Debug.Log("No space in the inventory");
+            InventoryItems.Add(item);
         }
+
         /// <summary>
         /// Remove an item from list of items.
         /// </summary>
@@ -119,6 +126,7 @@ namespace Behaviours
         {
             InventoryItems.Remove(item);
         }
+
         /// <summary>
         /// Add Item to inventory by ID.
         /// (call UpdateMenuItems() after)
@@ -126,7 +134,7 @@ namespace Behaviours
         /// <param name="ID">The ID of the item to be added.</param>
         void AddByID(int ID)
         {
-            Item item = Item.FindWithID(ID);
+            Item item = Item.FindWithID(ID, this);
             AddToInventory(item);
         }
 
@@ -144,15 +152,28 @@ namespace Behaviours
         /// Update UI item instances.
         /// </summary>
         /// <param name="InventorySlots"> The inventory slots where the UI icons will be put in.</param>
-        public void UpdateMenuItems(GameObject InventorySlots)
+        public void UpdateMenuItems()
         {
             RemoveItemsToMenu();
             foreach(var i in this.InventoryItems){
-                GameObject spawnedItem = GameObject.Instantiate<GameObject>(i.Prefap, InventorySlots.transform);
+                GameObject spawnedItem = GameObject.Instantiate<GameObject>(i.Prefap, Panel.transform);
                 spawnedItem.GetComponent<UnityEngine.UI.Image>().sprite = i.Data.Sprite;
+                spawnedItem.GetComponent<DragItems>().itemData = i;
+                i.currentInventory = this;
                 UIObjects.Add(spawnedItem);
-                Debug.Log($"the list has {UIObjects.Count} items");
             }
+        }
+
+        public void TransferItem(Item item, Inventory newInventory)
+        {
+            this.RemoveFromInventory(item);
+            newInventory.AddToInventory(item);
+            item.currentInventory = newInventory;
+
+            Debug.Log($"items A = {InventoryItems.Count}, items B {newInventory.InventoryItems.Count}");
+
+            this.UpdateMenuItems();
+            newInventory.UpdateMenuItems();
         }
     }
 }

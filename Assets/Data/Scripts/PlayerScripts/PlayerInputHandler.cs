@@ -20,7 +20,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     #region Public Variables
     public static PlayerInputHandler current;
-    public Vector2 MouseVector = Vector2.zero;
+    public static Vector2 MouseVector = Vector2.zero;
     #endregion
 
     void Awake()

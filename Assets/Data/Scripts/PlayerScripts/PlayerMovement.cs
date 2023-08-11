@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using Managers;
 using Behaviours;
+using Unity.VisualScripting;
 
 public enum PlayerState{
     Unfocused,
@@ -82,7 +83,10 @@ public class PlayerMovement : MonoBehaviour
         _stamina.Bar.BarIsEmpty += SprintEnd;
 
     }
-
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     internal void SprintEnd()
     {
         Movement.Speed = playerSpeed;
