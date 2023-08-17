@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Managers;
 using Behaviours;
+using System.Linq;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class PlayerInventory : MonoBehaviour
     public static PlayerInventory Player;
     private void Awake() {
         Player = this;
-        _inventory = new Inventory(playerItems);
+        _inventory = new Inventory(playerItems, _inventorySlots);
         Inventory.Panel = _inventorySlots;
         _inventoryMenu.gameObject.SetActive(toggleInventory);
 
@@ -49,7 +50,7 @@ public class PlayerInventory : MonoBehaviour
         }
         else {
             InputManager.ToggleActionMap(InputManager.inputActions.General);
-            Inventory.RemoveItemsToMenu();
+            // Inventory.RemoveItemsToMenu();
             Cursor.lockState = CursorLockMode.Locked;
             PlayerCameraHandler.Instance.SetCamerPOV(true);
         }

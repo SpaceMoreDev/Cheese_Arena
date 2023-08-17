@@ -18,9 +18,6 @@ public class Loot : MonoBehaviour, ActivateActions
     public bool Activated { get => _activated;}
     public Inventory Inventory{
         get{
-            if(_inventory == null){
-                _inventory = new Inventory(_inventoryItems);
-            }
             return _inventory;
         }
     }
@@ -34,11 +31,12 @@ public class Loot : MonoBehaviour, ActivateActions
         Vector3 spawnPosition = new(0,1,0);
         _displayUI = Instantiate(text,transform);
         _displayUI.transform.position += spawnPosition; // for "press E to interact" text.
+
+        _inventory = new Inventory(_inventoryItems, PlayerInventory.Player._inventoryMenu.transform.GetChild(1).GetChild(1).gameObject);
     }
 
     public void Activate()
     {
-        Inventory.Panel = PlayerInventory.Player._inventoryMenu.transform.GetChild(1).GetChild(1).gameObject;
 
         if(!_activated){ 
             anim.Play("Open");
@@ -60,6 +58,10 @@ public class Loot : MonoBehaviour, ActivateActions
             Cursor.lockState = CursorLockMode.Locked;
             _activated= false;
             _displayUI.SetActive(true);
+
+            Inventory.RemoveItemsToMenu();
+            PlayerInventory.Player.Inventory.RemoveItemsToMenu();;
+
             Inventory.Panel.transform.parent.gameObject.SetActive(false);
             PlayerInventory.Player._inventoryMenu.SetActive(false);
             PlayerCameraHandler.Instance.SetCamerPOV(true);

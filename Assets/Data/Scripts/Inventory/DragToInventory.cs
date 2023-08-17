@@ -13,41 +13,18 @@ public class DragToInventory : MonoBehaviour, IDropHandler
 
     void IDropHandler.OnDrop(PointerEventData eventData)
     {
-        if(eventData.pointerDrag != null)
+        GameObject data = eventData.pointerDrag;
+        
+        if(data.TryGetComponent<DragItems>(out DragItems slot))
         {
-            DragItems dragItems;
-            GameObject data = eventData.pointerDrag;
-            if(data.TryGetComponent<ConSlotDrag>(out ConSlotDrag con_slot))
-            {
-                Item item = con_slot.consumeSlot.Item;
-                Inventory currentInventory = con_slot.consumeSlot.Inventory;
-                
-                
-                if(_inventory != currentInventory)
-                {
-                    currentInventory.TransferItem(item, _inventory);
-
-                    con_slot.consumeSlot.Inventory.RemoveFromInventory(con_slot.consumeSlot.Item);
-                    con_slot.consumeSlot.ReplaceWithEmpty();
-                    Debug.Log($"moved {item.Data.ItemName} into another inventory");
-                }
-            }
-            else if(data.TryGetComponent<DragItems>(out DragItems slot))
-            {
-                Item item = slot.itemData;
-                Inventory currentInventory = item.currentInventory;
-                
-                if(_inventory != currentInventory)
-                {
-                    currentInventory.TransferItem(item, _inventory);
-                    Debug.Log($"moved {item.Data.ItemName} into another inventory");
-                }
-                dragItems = slot;
-                GameObject.Destroy(dragItems._draggableObject);
-            }
-
+            Slot itemSlot = slot.DragData;
+            Inventory currentInventory = itemSlot.Item.currentInventory;
             
-
-        }
+            if(_inventory != currentInventory)
+            {
+                currentInventory.TransferItem(itemSlot,_inventory); //to do
+                Debug.Log($"moved {itemSlot.Item.Data.ItemName} into another inventory");
+            }
+        }       
     }
 }

@@ -12,9 +12,10 @@ IPointerDownHandler,
 IBeginDragHandler, 
 IEndDragHandler, 
 IDragHandler,
+IDropHandler,
 IPointerUpHandler
 {
-    public Item itemData;
+    public Slot DragData;
 
     private CanvasGroup canvasGroup;
     
@@ -36,34 +37,37 @@ IPointerUpHandler
 
     void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
+        if(DragData.Item == null || DragData.Item.Data == null){Debug.Log("Empty slot!"); return;}
 
-        if(eventData.pointerDrag.TryGetComponent<ConSlotDrag>(out ConSlotDrag drag)){
+        if(DragData.isConsumable){
+            Debug.Log("begin drag consumable");
             _draggableObject = Instantiate(_itemSlotPrefap, parent.parent);
-            _draggableObject.GetComponent<RectTransform>().sizeDelta = new Vector2 (50, 50);
+
             _draggableObject.GetComponent<Image>().sprite = imageCom.sprite;
-            itemData = drag.consumeSlot.Item;
-            
-            drag.consumeSlot.UIobject.GetComponent<Image>().sprite = ConsumeSlot._emptySlotPrefap.GetComponent<Image>().sprite;
-            drag.consumeSlot.UIobject.GetComponent<Image>().color = Color.gray;
+
+            imageCom.sprite = Slot._emptySlotPrefap.GetComponent<Image>().sprite;
+            imageCom.color = Color.gray;
         }
         else{   
+            
+            Debug.Log("begin drag normal item");
             _draggableObject = Instantiate(_itemSlotPrefap, parent.parent.parent);
-            _draggableObject.GetComponent<RectTransform>().sizeDelta = new Vector2 (50, 50);
+
             _draggableObject.GetComponent<Image>().sprite = imageCom.sprite;
 
             canvasGroup.alpha = 0;
-            canvasGroup.blocksRaycasts = false;
         }
-
-    
-        // _draggableObject.GetComponent<RectTransform>().position = GetComponent<RectTransform>().position;
+        canvasGroup.blocksRaycasts = false;
+        _draggableObject.GetComponent<RectTransform>().sizeDelta = new Vector2 (50, 50);
         _draggableObject.GetComponent<Image>().color = new Color(255,255,255,0.6f);
+       
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData)
-    {   
-        // _draggableObject.GetComponent<RectTransform>().anchoredPosition += 
-        // eventData.delta/_draggableObject.GetComponent<Image>().canvas.scaleFactor;
+    {       
+        if(DragData.Item.Data == null){return;}
+        if(_draggableObject == null){return;}
+
         Vector2 movePos = Vector2.zero;
         Canvas parentCanvas = _draggableObject.GetComponent<Image>().canvas;
 
@@ -87,20 +91,27 @@ IPointerUpHandler
     }
     void IPointerDownHandler.OnPointerDown(UnityEngine.EventSystems.PointerEventData eventData)
     {
-        if(TryGetComponent<ConSlotDrag>(out ConSlotDrag drag))
-        {
-            Debug.Log($"=> {drag.consumeSlot.Item.Data.Description}");
-        }
-        else{
-            Debug.Log($"=> {itemData.Data.Description}");
-        }
+        if(DragData.Item == null || DragData.Item.Data == null){Debug.Log("Empty slot!"); return;}
+        Debug.Log($"=> {DragData.Item.Data.Description}");
     }
 
     void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
     {
         if(_draggableObject != null){
-        GameObject.Destroy(_draggableObject);
-        Debug.Log("ended drag");
+            GameObject.Destroy(_draggableObject);
+            Debug.Log("ended drag");
+        }
+
+        canvasGroup.alpha = 1;
+        canvasGroup.blocksRaycasts = true;
+    }
+
+    void IDropHandler.OnDrop(PointerEventData eventData)
+    {   
+        GameObject dragObject = eventData.pointerDrag;
+        if(dragObject.TryGetComponent<DragItems>(out DragItems drag))
+        {
+            DragData.DragOn(ref drag.DragData);
         }
     }
 }
