@@ -124,7 +124,10 @@ public class Slot
             //Adding to the quantity variable.
             this.AddToQuantity();
             //Removing the dragged item.
-            slot.Item.currentInventory.RemoveFromInventory(slot);
+            if(this.isConsumable)
+                slot.Item.currentInventory.RemoveFromInventory(slot);
+            else
+                ConsumeItems.current.RemoveItem(slot);
 
             Debug.Log("Stack!");
             return true;
@@ -141,9 +144,16 @@ public class Slot
         if(!CheckStack(dragged)){
             if(this.isConsumable){
                 if(!dragged.isConsumable){
-                    ConsumeItems.current.AddItemToConsume(dragged, this);
+                    if(this.Item.Data == null){
+                        ConsumeItems.current.AddItemToConsume(dragged, this);
+                    }else{
+                        Slot dub = (Slot)this.Clone();
+                        this.ReplaceWithSlot(dragged);
+                        dragged.ReplaceWithSlot(dub);
+                        ConsumeItems.current.Inventory.UpdateMenuItems();
+                    }
                 }
-                {
+                else{
                     Slot dub = (Slot)this.Clone();
                     this.ReplaceWithSlot(dragged);
                     dragged.ReplaceWithSlot(dub);
@@ -151,15 +161,15 @@ public class Slot
                 }
             }
             else {
-                if(dragged.isConsumable){
-                    ConsumeItems.current.RemoveItemToConsume(dragged, this.Item.currentInventory);
-                    ConsumeItems.current.Inventory.UpdateMenuItems();
-                }
+                // if(dragged.isConsumable){
+                //     ConsumeItems.current.RemoveItemToConsume(dragged, this.Item.currentInventory);
+                // }
 
                 (dragged.Number, this.Number) = (this.Number, dragged.Number);
                 Slot dub = (Slot)this.Clone();
                 this.ReplaceWithSlot(dragged);
                 dragged.ReplaceWithSlot(dub);
+                ConsumeItems.current.Inventory.UpdateMenuItems();
             }
         } 
     }
