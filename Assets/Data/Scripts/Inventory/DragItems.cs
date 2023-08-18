@@ -87,8 +87,7 @@ IPointerUpHandler
         Debug.Log("ended drag");
         }
         
-        canvasGroup.alpha = 1;
-        canvasGroup.blocksRaycasts = true;
+        DragData.UpdateSlot();
     }
     void IPointerDownHandler.OnPointerDown(UnityEngine.EventSystems.PointerEventData eventData)
     {
@@ -100,9 +99,8 @@ IPointerUpHandler
     {
         if(_draggableObject != null){
             GameObject.Destroy(_draggableObject);
-            Debug.Log("ended drag");
         }
-
+        DragData.UpdateSlot();
         canvasGroup.alpha = 1;
         canvasGroup.blocksRaycasts = true;
     }
