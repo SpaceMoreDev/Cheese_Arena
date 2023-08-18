@@ -18,7 +18,7 @@ IPointerUpHandler
     public Slot DragData;
 
     private CanvasGroup canvasGroup;
-    
+    bool draggable = true;
     Canvas canvas;
     Image imageCom;
     RectTransform rectTransform;
@@ -45,7 +45,8 @@ IPointerUpHandler
 
             _draggableObject.GetComponent<Image>().sprite = imageCom.sprite;
 
-            imageCom.sprite = Slot._emptySlotPrefap.GetComponent<Image>().sprite;
+            imageCom.sprite = DragData.Item.currentInventory.SlotPrefap.GetComponent<Image>().sprite;
+            DragData._quantityLabel = 0;
             imageCom.color = Color.gray;
         }
         else{   
@@ -111,6 +112,8 @@ IPointerUpHandler
         GameObject dragObject = eventData.pointerDrag;
         if(dragObject.TryGetComponent<DragItems>(out DragItems drag))
         {
+            if(drag.DragData.Item.Data == null){return;}
+            
             DragData.DragOn(ref drag.DragData);
         }
     }

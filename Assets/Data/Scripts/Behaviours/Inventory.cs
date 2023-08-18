@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using Unity.VisualScripting;
+using Mono.Cecil.Cil;
 
 public enum Options{
     Use,
@@ -77,10 +78,11 @@ namespace Behaviours
     public class Inventory
     {
         public List<Item> InventoryItems = new();
-        public List<Slot> itemSlots = new();
+        public List<Slot> ItemSlots = new();
         public GameObject Panel;
+        public GameObject SlotPrefap = Resources.Load<GameObject>("Prefaps/UI/Inventory/EmptyItem");
+        
         public int MaxInventoryItems = 10;
-
 
         public Inventory()
         {
@@ -102,8 +104,7 @@ namespace Behaviours
             }
             Panel = UIpanel;
             InventoryItems = itemList;
-            bool consumable = this == ConsumeItems.current.Inventory;
-            AddSlotsToMenu(consumable);
+            AddSlotsToMenu();
         }
         //Class Destructor
         ~Inventory()
@@ -121,8 +122,15 @@ namespace Behaviours
             item.currentInventory = this;
             this.InventoryItems.Add(item);
             this.AddMenuItem(slot);
+            this.UpdateMenuItems();
         }
-
+        /// <summary>
+        /// this funtion will sort the slots based on the 'Number' variable in the Slot class.
+        /// </summary>
+        public void SortSlotList()
+        {
+            ItemSlots = ItemSlots.OrderBy(x => x.Number).ToList();
+        }
         /// <summary>
         /// Remove an item from list of items.
         /// </summary>
@@ -132,6 +140,8 @@ namespace Behaviours
             Item item = slot.Item;
             this.InventoryItems.Remove(item);
             this.RemoveItemFromMenu(slot);
+            this.SortSlotList();
+            this.UpdateMenuItems();
         }
 
         /// <summary>
@@ -151,22 +161,16 @@ namespace Behaviours
         /// </summary>
         public void RemoveItemsToMenu()
         {
-            foreach(Slot i in itemSlots){
+            foreach(Slot i in ItemSlots){
                 GameObject.Destroy(i.MenuObject);
             }
-            // itemSlots.Clear();
         }
 
         public void RemoveItemFromMenu(Slot item)
         {
-            foreach(Slot i in itemSlots){
-                if (i.Item == item.Item)
-                {
-                    GameObject.Destroy(i.MenuObject);
-                    break;
-                }
-            }
-            itemSlots.Remove(item);
+            GameObject.Destroy(item.MenuObject);
+            ItemSlots.Remove(item);
+            this.SortSlotList();
         }
 
         /// <summary>
@@ -175,13 +179,13 @@ namespace Behaviours
         /// <param name="slot">Item Slot</param>
         public void AddMenuItem(Slot slot)
         {
-            this.itemSlots.Add(slot);
+            this.ItemSlots.Add(slot);
         }
 
         /// <summary>
-        /// This function will add the inventory items to the inventory (like refresh).
+        /// This function will add the inventory items to the inventory).
         /// </summary>
-        public void AddSlotsToMenu(bool isConsumable)
+        public void AddSlotsToMenu()
         {
             int counter = 2;
             foreach(var i in InventoryItems){
@@ -189,8 +193,7 @@ namespace Behaviours
                 Slot spawnedSlot = new(
                     counter,
                     Panel.transform,
-                    i,
-                    isConsumable
+                    i
                 );
 
                 AddMenuItem(spawnedSlot);
@@ -200,21 +203,16 @@ namespace Behaviours
         }
 
         /// <summary>
-        /// Update UI item instances.
+        /// Update UI item instances (like refresh).
         /// </summary>
         /// <param name="InventorySlots"> The inventory slots where the UI icons will be put in.</param>
         public void UpdateMenuItems()
-        {   RemoveItemsToMenu();
-            this.itemSlots.OrderBy(x => x.Number);
-            foreach(Slot i in this.itemSlots)
+        {   this.RemoveItemsToMenu();
+            this.SortSlotList();
+            foreach(Slot i in this.ItemSlots)
             {
-                if(i.isConsumable){
-                    i.MenuObject = GameObject.Instantiate(Slot._consumablePrefap,Panel.transform);
-                }
-                else{
-                    i.MenuObject = GameObject.Instantiate(Slot._emptySlotPrefap,Panel.transform);
-                }
-
+                i.MenuObject = GameObject.Instantiate(SlotPrefap, Panel.transform);
+                // Debug.Log($"-  {i.Number}");
                 i.UpdateSlot();
             }
         }
@@ -225,8 +223,8 @@ namespace Behaviours
             newInventory.AddToInventory(itemSlot);
         
             Debug.Log($"item {itemSlot.Item.Data.ItemName} moved to a {newInventory.InventoryItems.Count} items inventory");
-            this.UpdateMenuItems();
-            newInventory.UpdateMenuItems();
+            // this.UpdateMenuItems();
+            // newInventory.UpdateMenuItems();
         }
     }
 }

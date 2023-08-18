@@ -8,7 +8,7 @@ using System.Linq;
 public class Slot
 {
 
-    private int _quantityLabel{
+    internal int _quantityLabel{
         get{
             if(MenuObject != null ){ 
                 return int.Parse( MenuObject.transform.GetChild(0).GetComponent<TMPro.TMP_Text>().text );
@@ -36,14 +36,6 @@ public class Slot
     public bool isConsumable;
     
 
-    public static GameObject _consumablePrefap{
-        get => Resources.Load<GameObject>("Prefaps/UI/Inventory/ConItem");
-    }
-
-    public static GameObject _emptySlotPrefap{
-        get => Resources.Load<GameObject>("Prefaps/UI/Inventory/EmptyItem");
-    }
-
     // internal GameObject _prefap{
     //     // the prefap location to be able to spawn the UI items.
     //     get => Resources.Load<GameObject>("Prefaps/UI/Inventory/InventoryItem");
@@ -55,7 +47,7 @@ public class Slot
         this.Item = item;
         this.parentPanel = parent;
         this.isConsumable = false;
-        this.MenuObject = GameObject.Instantiate(_emptySlotPrefap,parent);
+        this.MenuObject = GameObject.Instantiate(item.currentInventory.SlotPrefap,parent);
         this.MenuObject.GetComponent<Image>().color = Color.white;
         UpdateSlot();
     }
@@ -66,15 +58,9 @@ public class Slot
     {
         this.Number = num;
         this.Item = item;
-
-        this.isConsumable = consumable;
-        if(consumable) {
-            this.MenuObject = GameObject.Instantiate(_consumablePrefap,parent);
-        }
-        else{
-            this.MenuObject = GameObject.Instantiate(_emptySlotPrefap,parent);
-        }
         this.parentPanel = parent;
+        this.isConsumable = consumable;
+        this.MenuObject = GameObject.Instantiate(item.currentInventory.SlotPrefap,parent);
         this.MenuObject.GetComponent<Image>().color = Color.white;
         UpdateSlot();
         
@@ -94,7 +80,6 @@ public class Slot
 
     internal void UpdateSlot()
     {
-        Transform parentOfItem = this.parentPanel;
         if(this.isConsumable){      
             this.MenuObject.transform.GetChild(1).GetComponent<TMPro.TMP_Text>().text = this.Number.ToString();
         }
@@ -138,15 +123,10 @@ public class Slot
         {
             //Adding to the quantity variable.
             this.AddToQuantity();
-
             //Removing the dragged item.
-            this.isConsumable = slot.isConsumable;
-            this.Number = slot.Number;
             slot.Item.currentInventory.RemoveFromInventory(slot);
-            GameObject.Destroy(slot.MenuObject);
 
-            //Updating the slot.
-            this.UpdateSlot();
+            Debug.Log("Stack!");
             return true;
         }
         return false;
@@ -160,23 +140,26 @@ public class Slot
     {
         if(!CheckStack(dragged)){
             if(this.isConsumable){
-                ConsumeItems.current.AddItemToConsume(dragged,this);
-                Debug.Log($"isConsumable {this.isConsumable}");
-                return;
+                if(!dragged.isConsumable){
+                    ConsumeItems.current.AddItemToConsume(dragged, this);
+                }
+                {
+                    Slot dub = (Slot)this.Clone();
+                    this.ReplaceWithSlot(dragged);
+                    dragged.ReplaceWithSlot(dub);
+                    ConsumeItems.current.Inventory.UpdateMenuItems();
+                }
             }
             else {
                 if(dragged.isConsumable){
-                    ConsumeItems.current.RemoveItemToConsume(dragged); 
+                    ConsumeItems.current.RemoveItemToConsume(dragged, this.Item.currentInventory);
+                    ConsumeItems.current.Inventory.UpdateMenuItems();
                 }
-
 
                 (dragged.Number, this.Number) = (this.Number, dragged.Number);
                 Slot dub = (Slot)this.Clone();
                 this.ReplaceWithSlot(dragged);
                 dragged.ReplaceWithSlot(dub);
-
-                if(dragged.Item.Data == null || this.Item.Data == null){Debug.Log("Empty slot!"); return;}
-                Debug.Log($"Replaced {dragged.Item.Data.ItemName} with {this.Item.Data.ItemName}");
             }
         } 
     }
@@ -189,16 +172,10 @@ public class Slot
     public void ReplaceWithEmpty(bool consumable)
     {   Item emptyItem = new Item(this.Item.currentInventory);
          
-        if(consumable){
-            GameObject.Destroy(MenuObject);
-            MenuObject = GameObject.Instantiate(_consumablePrefap, parentPanel);
-        }
-        else{
-            GameObject.Destroy(MenuObject);
-            MenuObject = GameObject.Instantiate(_emptySlotPrefap, parentPanel);
-        }
+        GameObject.Destroy(MenuObject);
+        MenuObject = GameObject.Instantiate(emptyItem.currentInventory.SlotPrefap, parentPanel);
         
-        this._quantityLabel = this._quantity;
+        this._quantityLabel = 1;
         this.Item = emptyItem;
         emptyItem.currentInventory.UpdateMenuItems();
     } 
@@ -210,8 +187,10 @@ public class Slot
 
     public void ReplaceWithSlot(Slot slot)
     {
+        // this.Item.currentInventory.TransferItem(this,slot.Item.currentInventory);
         this.Item = slot.Item;
         this._quantity = slot._quantity;
+        if(!this.isConsumable && !slot.isConsumable){ this.Number = slot.Number; }
         this.Item.currentInventory.UpdateMenuItems();
 
     } 
