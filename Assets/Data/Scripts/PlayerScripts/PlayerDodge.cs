@@ -7,8 +7,7 @@ using Behaviours;
 
 public class PlayerDodge : MonoBehaviour
 {
-    private Animator _animator;
-    
+    [SerializeField] private Animator _animator;
     [SerializeField] bool canDodge = true;
     [SerializeField] StaminaBar stamina;
     [SerializeField][Range(1f,10f)] float dodgeSpeed = 2f;

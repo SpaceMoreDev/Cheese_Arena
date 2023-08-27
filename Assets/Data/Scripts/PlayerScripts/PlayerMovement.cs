@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using Managers;
 using Behaviours;
-using Unity.VisualScripting;
 
 public enum PlayerState{
     Unfocused,
@@ -23,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] internal bool canMove = true;
     [SerializeField] internal bool IsRunning = false;
+    public static PlayerMovement current;
 
     [Header("Animation")]
     [SerializeField] [Range(0.01f,1f)] private float animationBlend = 0.05f;
@@ -62,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Awake() {
+        current = this;
         InputManager.ToggleActionMap(InputManager.inputActions.General);
         _stamina = GetComponent<StaminaBar>();
         _health = GetComponent<HealthBar>();
@@ -109,22 +110,44 @@ public class PlayerMovement : MonoBehaviour
     {
         
         // ----- Behavior -----
-        Movement.Move(Time.deltaTime, input);
-        canMove = Movement.CanMove;
-       if(PlayerVelocity.magnitude > 0f){
-            if(Movement.IsSprinting){ _stamina.Bar.Decrease(Time.deltaTime * 0.1f); }
-        }
+        // Movement.Move(Time.deltaTime, input);
+    //     canMove = Movement.CanMove;
+    //    if(PlayerVelocity.magnitude > 0f){
+    //         if(Movement.IsSprinting){ _stamina.Bar.Decrease(Time.deltaTime * 0.1f); }
+    //     }
     
 
         // ----- Animation -----
-        Vector2 movementVelocity;
-        movementVelocity.x = PlayerVelocity.x;
-        if(Movement.IsSprinting)
-            movementVelocity.y = Mathf.Clamp(PlayerVelocity.magnitude,0f,1f);
-        else
-            movementVelocity.y = Mathf.Clamp(PlayerVelocity.magnitude,0f,0.61f);
+        // Vector2 movementVelocity;
+        // if(Movement.IsSprinting){
+        //     movementVelocity.y = Mathf.Clamp(input.y,0f,1f);
+        //     movementVelocity.x = Mathf.Clamp(input.x,0f,0.5f);
 
-        _animator.SetFloat("Blend_x",movementVelocity.x, animationBlend, Time.deltaTime);
-        _animator.SetFloat("Blend_y",movementVelocity.y, animationBlend, Time.deltaTime);
+        // }else{
+        //     movementVelocity.y = Mathf.Clamp(input.y,0f,0.5f);
+        //     movementVelocity.x = Mathf.Clamp(input.x,0f,0.5f);
+        // }
+
+        _animator.SetFloat("Blend_x",input.x, animationBlend, Time.deltaTime);
+        _animator.SetFloat("Blend_y",input.y, animationBlend, Time.deltaTime);
+    }
+
+    private void OnAnimatorMove() {
+        Vector3 velocity = _animator.deltaPosition;
+        velocity.y = Physics.gravity.y * Time.deltaTime;
+
+        Quaternion flatten = Quaternion.LookRotation(
+                                        -Vector3.up, 
+                                        cameraTransform.forward
+                                   )
+                                    * Quaternion.Euler(-90f, 0, 0);
+
+        _controller.Move(flatten * velocity);
+        
+
+        // canMove = Movement.CanMove;
+       if(PlayerVelocity.magnitude > 0f){
+            if(Movement.IsSprinting){ _stamina.Bar.Decrease(Time.deltaTime * 0.1f); }
+        }
     }
 }

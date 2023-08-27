@@ -100,7 +100,7 @@ IPointerUpHandler
         if(_draggableObject != null){
             GameObject.Destroy(_draggableObject);
         }
-        DragData.UpdateSlot();
+        // DragData.UpdateSlot();
         canvasGroup.alpha = 1;
         canvasGroup.blocksRaycasts = true;
     }

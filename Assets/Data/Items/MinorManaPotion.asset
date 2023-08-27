@@ -18,7 +18,7 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: 2340c2f0e7780cc409335bd09a0ffc14, type: 3}
   Description: A minor potion for stamina
   Effect: 1
-  HighlightColor: {r: 0, g: 0.4349532, b: 1, a: 1}
+  HighlightColor: {r: 0, g: 0.43529415, b: 1, a: 1}
   pickable: 0
   SpawnOnDeath: 0
   prefap: {fileID: 0}

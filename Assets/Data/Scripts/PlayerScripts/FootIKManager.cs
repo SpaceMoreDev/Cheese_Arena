@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-[RequireComponent(typeof(Animator))]
 public class FootIKManager : MonoBehaviour
 {
     #region Variables
@@ -12,6 +10,7 @@ public class FootIKManager : MonoBehaviour
 
     [Header("Feet Grounder")]
     public bool enableFeetIK = true;
+    [SerializeField] private Animator anim;
     [Range(0,2)][SerializeField] private float heightFromGroundRaycast = 1.14f;
     [Range(0,2)][SerializeField] private float raycastDownDistance = 1.5f;
     [SerializeField] private LayerMask enviromentLayer;
@@ -23,12 +22,10 @@ public class FootIKManager : MonoBehaviour
     public string rightFootAnimVariableName = "RightFootCurve";
     public bool useProIKFeature =false;
     public bool showSolverDebug =false;
-    private Animator anim;
     #endregion
    
    #region Initializations
     private void Awake() {
-        anim = GetComponent<Animator>();
     }
 
     #endregion

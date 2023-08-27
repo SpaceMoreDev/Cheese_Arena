@@ -12,8 +12,6 @@ public enum Options{
     SendToSlots
 }
 
-
-
 namespace Behaviours
 {
     public interface I_item
@@ -223,8 +221,8 @@ namespace Behaviours
             newInventory.AddToInventory(itemSlot);
         
             Debug.Log($"item {itemSlot.Item.Data.ItemName} moved to a {newInventory.InventoryItems.Count} items inventory");
-            // this.UpdateMenuItems();
-            // newInventory.UpdateMenuItems();
+            this.UpdateMenuItems();
+            newInventory.UpdateMenuItems();
         }
     }
 }

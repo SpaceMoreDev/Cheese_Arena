@@ -19,8 +19,6 @@ public class DragToInventory : MonoBehaviour, IDropHandler
         {
             if(slot.DragData.Item.Data == null){return;}
 
-            
-
             Slot itemSlot = slot.DragData;
             Inventory currentInventory = itemSlot.Item.currentInventory;
             
@@ -33,6 +31,7 @@ public class DragToInventory : MonoBehaviour, IDropHandler
             {
                
                 currentInventory.TransferItem(itemSlot,_inventory); //to do
+                // _inventory.UpdateMenuItems();
                 Debug.Log($"moved {itemSlot.Item.Data.ItemName} into another inventory");
             }
         }       

@@ -107,5 +107,16 @@ namespace Behaviours{
             _currentVelocity.y -= _gravityValue * deltaTime;
             _controller.Move(_currentVelocity * deltaTime); // for gravity
         }
+
+        public Vector2 MoveWithRootMotion(float deltaTime, Vector2 input)
+        {
+            Vector3 move;
+            move = new Vector3(input.x, 0, input.y);
+            
+            move = Quaternion.AngleAxis(_cameraTransform.rotation.eulerAngles.y, Vector3.up) * move;
+            move.Normalize();
+            
+            return move;
+        }
     }
 }

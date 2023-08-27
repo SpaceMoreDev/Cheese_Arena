@@ -7,7 +7,6 @@ using System.Linq;
 
 public class Slot
 {
-
     internal int _quantityLabel{
         get{
             if(MenuObject != null ){ 
@@ -124,7 +123,7 @@ public class Slot
             //Adding to the quantity variable.
             this.AddToQuantity();
             //Removing the dragged item.
-            if(this.isConsumable)
+            if(!slot.isConsumable)
                 slot.Item.currentInventory.RemoveFromInventory(slot);
             else
                 ConsumeItems.current.RemoveItem(slot);
