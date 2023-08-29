@@ -9,21 +9,18 @@ public enum PlayerState{
     Unfocused,
     Gameplay
 }
-
-[RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("General")]
     // serialized variables
     [SerializeField] [Range(1f,10f)] private float playerSpeed = 2.0f;
     [SerializeField] [Range(1,10)] private int sprintMultiplier = 2;
-    [SerializeField] [Range(5f,20f)] float turningSpeed = 5f;
+    [SerializeField] [Range(0.5f,10f)] float turningSpeed = 5f;
     [SerializeField][Range(0f, 20f)] float gravityValue = 18.81f;
-    [SerializeField] private Animator _animator;
     [SerializeField] internal bool canMove = true;
     [SerializeField] internal bool IsRunning = false;
     public static PlayerMovement current;
-
+ 
     [Header("Animation")]
     [SerializeField] [Range(0.01f,1f)] private float animationBlend = 0.05f;
 
@@ -34,15 +31,12 @@ public class PlayerMovement : MonoBehaviour
     private StaminaBar _stamina;
     private HealthBar _health;
     internal Vector3 playerVelocity = Vector3.zero;
-    
-    //public variables
-    public Vector3 PlayerVelocity {
-        get {return new Vector3(input.x, _controller.velocity.y, input.y);}
-        }
 
 
     //component references
     internal CharacterController _controller;
+    private Animator _animator;
+
 
     internal Vector2  input = Vector2.zero;
     public Movement Movement{
@@ -66,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
         InputManager.ToggleActionMap(InputManager.inputActions.General);
         _stamina = GetComponent<StaminaBar>();
         _health = GetComponent<HealthBar>();
+        _animator = GetComponent<Animator>();
 
         InputManager.inputActions.General.Move.performed += this.PlayerInput;
         InputManager.inputActions.General.Move.canceled += this.PlayerInput;
@@ -103,51 +98,40 @@ public class PlayerMovement : MonoBehaviour
     {
         if(ctx.performed){ input = ctx.ReadValue<Vector2>(); }
         else if(ctx.canceled){ input = Vector2.zero; }
-        // Debug.Log(input);
+    }
+    private void Update() {
+        Movement.Rotate(input);
+    }
+    Vector3 rootMotion;
+    /// <summary>
+    /// this function is called when the animator moves the object via rootmotion
+    /// </summary>
+    private void OnAnimatorMove() {
+        _controller.Move(_animator.deltaPosition);
     }
 
-    void Update()
-    {
-        
-        // ----- Behavior -----
-        // Movement.Move(Time.deltaTime, input);
-    //     canMove = Movement.CanMove;
-    //    if(PlayerVelocity.magnitude > 0f){
-    //         if(Movement.IsSprinting){ _stamina.Bar.Decrease(Time.deltaTime * 0.1f); }
-    //     }
-    
+    private void OnGround() {
+        if(Movement.IsSprinting){ _stamina.Bar.Decrease(Time.deltaTime * 0.1f); } 
 
         // ----- Animation -----
-        // Vector2 movementVelocity;
-        // if(Movement.IsSprinting){
-        //     movementVelocity.y = Mathf.Clamp(input.y,0f,1f);
-        //     movementVelocity.x = Mathf.Clamp(input.x,0f,0.5f);
+        Vector2 movementVelocity;
+        if(Movement.IsSprinting){
+            movementVelocity.y = Mathf.Clamp(input.y,-1f,1f);
+            movementVelocity.x = Mathf.Clamp(input.x,-1f,1f);
 
-        // }else{
-        //     movementVelocity.y = Mathf.Clamp(input.y,0f,0.5f);
-        //     movementVelocity.x = Mathf.Clamp(input.x,0f,0.5f);
-        // }
-
-        _animator.SetFloat("Blend_x",input.x, animationBlend, Time.deltaTime);
-        _animator.SetFloat("Blend_y",input.y, animationBlend, Time.deltaTime);
+        }else{
+            movementVelocity.y = Mathf.Clamp(input.y,-0.5f, 0.5f);
+            movementVelocity.x = Mathf.Clamp(input.x,-0.5f, 0.5f);
+        }
+        _animator.SetFloat("Blend_x",movementVelocity.x, animationBlend, Time.deltaTime);
+        _animator.SetFloat("Blend_y",movementVelocity.y, animationBlend, Time.deltaTime);
     }
 
-    private void OnAnimatorMove() {
-        Vector3 velocity = _animator.deltaPosition;
-        velocity.y = Physics.gravity.y * Time.deltaTime;
-
-        Quaternion flatten = Quaternion.LookRotation(
-                                        -Vector3.up, 
-                                        cameraTransform.forward
-                                   )
-                                    * Quaternion.Euler(-90f, 0, 0);
-
-        _controller.Move(flatten * velocity);
-        
-
-        // canMove = Movement.CanMove;
-       if(PlayerVelocity.magnitude > 0f){
-            if(Movement.IsSprinting){ _stamina.Bar.Decrease(Time.deltaTime * 0.1f); }
-        }
+    /// <summary>
+    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
+    /// /// </summary>
+    void FixedUpdate()
+    {
+        OnGround();
     }
 }

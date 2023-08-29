@@ -1,3 +1,4 @@
+using MyBox;
 using UnityEngine;
 
 namespace Behaviours{
@@ -84,39 +85,29 @@ namespace Behaviours{
         /// </summary>
         /// <param name="deltaTime">Time between each frame</param>
         /// <param name="move">movement direction in 3D</param>
-        public void Move(float deltaTime, Vector3 move)
-        {    if(_canMove)
+        public void Rotate(Vector2 input)
+        {    
+            if(_canMove)
             {   
                 _grounded = _controller.isGrounded;
 
                 if (_grounded && _currentVelocity.y < 0)
                     _currentVelocity.y = 0f;
+                
+                Vector3 moveDirection = new Vector3(input.x, 0, input.y);
+                moveDirection = Quaternion.AngleAxis(_cameraTransform.rotation.eulerAngles.y, Vector3.up) * moveDirection;
+                moveDirection.Normalize();
 
-                if(withCamera) // mainly for player
-                    move = move.x * _cameraTransform.right.normalized + move.z * _cameraTransform.forward.normalized;
-                else // mainly for NPCs
-                    move = move.x * _controller.transform.right.normalized + move.z * _controller.transform.forward.normalized;
-
-                move.y = 0f;
-                _controller.Move(move *_speed *deltaTime); //for input
-                if (move != Vector3.zero)
+                
+                if (moveDirection != Vector3.zero)
                 {
-                    _controller.transform.forward = Vector3.SmoothDamp(_controller.transform.forward,move,ref _lerpVelocity,  _turningSpeed *deltaTime);
+                   Quaternion lookRotation = Quaternion.LookRotation(moveDirection,Vector3.up);
+                   _controller.transform.rotation = Quaternion.RotateTowards(_controller.transform.rotation, lookRotation, _turningSpeed );
                 }
             }
-            _currentVelocity.y -= _gravityValue * deltaTime;
-            _controller.Move(_currentVelocity * deltaTime); // for gravity
-        }
 
-        public Vector2 MoveWithRootMotion(float deltaTime, Vector2 input)
-        {
-            Vector3 move;
-            move = new Vector3(input.x, 0, input.y);
-            
-            move = Quaternion.AngleAxis(_cameraTransform.rotation.eulerAngles.y, Vector3.up) * move;
-            move.Normalize();
-            
-            return move;
+            _currentVelocity.y -= _gravityValue *Time.deltaTime;
+            _controller.Move(_currentVelocity *Time.deltaTime); // for gravity
         }
     }
 }
