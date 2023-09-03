@@ -35,7 +35,7 @@ public class Loot : MonoBehaviour, I_ActivateActions
         _inventory = new Inventory(_inventoryItems, PlayerInventory.Player._inventoryMenu.transform.GetChild(1).GetChild(1).gameObject);
     }
 
-    public void Activate()
+    public void Activate(Character character)
     {
 
         if(!_activated){ 

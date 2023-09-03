@@ -36,7 +36,7 @@ public class Bonfire : MonoBehaviour , I_ActivateActions
         }
     }
 
-    public void Activate()
+    public void Activate(Character character)
     {
         if(!this.activated && this != activeCheckpoint)
         {

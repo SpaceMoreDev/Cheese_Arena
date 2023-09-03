@@ -10,8 +10,9 @@ public class SkillUp : MonoBehaviour, I_ActivateActions
     private bool consumed = false;
     public bool Activated {get{return consumed;}}
 
-    public void Activate()
+    public void Activate(Character character)
     {
-        Debug.Log("increased skill");
+        character.Skills.IncreaseSkill(SKILL_TYPE.STRENGTH);
+        Debug.Log($"{character.characterStats.Name} has strength: {character.Skills.Strength}");
     }
 }

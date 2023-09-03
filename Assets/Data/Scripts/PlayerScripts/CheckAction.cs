@@ -40,7 +40,7 @@ public class CheckAction : MonoBehaviour
         foreach (Collider collider in precol){
             float distance = Vector3.Distance(transform.position, collider.transform.position);            
             if(collider.TryGetComponent<I_ActivateActions>(out I_ActivateActions action)){
-                action.Activate();
+                action.Activate(GetComponent<Character>());
                 action.DisplayUI.SetActive(false);
             }
             count++;
