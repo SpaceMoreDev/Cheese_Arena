@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface ActivateActions
+public interface I_ActivateActions
 {
     GameObject DisplayUI {get;}
     bool Activated {get;}

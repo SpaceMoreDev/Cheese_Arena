@@ -46,3 +46,6 @@ TagManager:
   - name: Health
     uniqueID: 3469151367
     locked: 0
+  - name: Interact
+    uniqueID: 3877338129
+    locked: 0

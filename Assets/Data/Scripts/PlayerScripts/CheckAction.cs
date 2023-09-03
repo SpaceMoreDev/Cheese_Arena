@@ -39,7 +39,7 @@ public class CheckAction : MonoBehaviour
         int count = 0;
         foreach (Collider collider in precol){
             float distance = Vector3.Distance(transform.position, collider.transform.position);            
-            if(collider.TryGetComponent<ActivateActions>(out ActivateActions action)){
+            if(collider.TryGetComponent<I_ActivateActions>(out I_ActivateActions action)){
                 action.Activate();
                 action.DisplayUI.SetActive(false);
             }
@@ -53,7 +53,7 @@ public class CheckAction : MonoBehaviour
             
         foreach (Collider collider in colliders){
             float distance = Vector3.Distance(transform.position, collider.transform.position);            
-            if(collider.TryGetComponent<ActivateActions>(out ActivateActions pickup))
+            if(collider.TryGetComponent<I_ActivateActions>(out I_ActivateActions pickup))
             {
                 if(!pickup.Activated)
                 {
@@ -67,7 +67,7 @@ public class CheckAction : MonoBehaviour
             foreach (Collider collider in precol){       
                 if(collider != null)
                 {     
-                    if(collider.TryGetComponent<ActivateActions>(out ActivateActions pickup))
+                    if(collider.TryGetComponent<I_ActivateActions>(out I_ActivateActions pickup))
                     {
                         pickup.DisplayUI.SetActive(false);
                     }

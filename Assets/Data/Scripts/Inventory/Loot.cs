@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Managers;
 using Behaviours;
 
-public class Loot : MonoBehaviour, ActivateActions
+public class Loot : MonoBehaviour, I_ActivateActions
 {
     [SerializeField] private List<ItemObject> _inventoryItems;
     private GameObject _displayUI;

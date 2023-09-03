@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 using Managers;
 
-public class Bonfire : MonoBehaviour , ActivateActions
+public class Bonfire : MonoBehaviour , I_ActivateActions
 {
     [SerializeField] private GameObject selectionUI;
     public GameObject DisplayUI {get{return selectionUI;}}

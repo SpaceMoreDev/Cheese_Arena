@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Managers;
 
-public class pickup_Health : MonoBehaviour, ActivateActions
+public class pickup_Health : MonoBehaviour, I_ActivateActions
 {
     [SerializeField] private GameObject selectionUI;
     public GameObject DisplayUI {get{return selectionUI;}}

@@ -109,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnAnimatorMove() {
         _controller.Move(_animator.deltaPosition);
     }
-
+    
     private void OnGround() {
         if(Movement.IsSprinting){ _stamina.Bar.Decrease(Time.deltaTime * 0.1f); } 
 
