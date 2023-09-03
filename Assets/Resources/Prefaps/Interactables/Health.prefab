@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0b243fd2bf16ac4ba7b9ae05ab4b4ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionUI: {fileID: 889103518151674285}
+  selectionUI: {fileID: 0}
 --- !u!135 &889103518288159301
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1383,7 +1383,7 @@ ParticleSystem:
         ctime6: 0
         ctime7: 0
         atime0: 0
-        atime1: 30840
+        atime1: 31611
         atime2: 65535
         atime3: 0
         atime4: 0
@@ -4904,7 +4904,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 889103518151674274}
+  - {fileID: 7238971647270744870}
   m_Father: {fileID: 889103518288159300}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5075,13 +5075,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28858ff461e98f94b82b00ac8e727c12, type: 3}
---- !u!224 &889103518151674274 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3753632816599350764, guid: 28858ff461e98f94b82b00ac8e727c12, type: 3}
-  m_PrefabInstance: {fileID: 4053573748083405902}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &889103518151674285 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3753632816599350755, guid: 28858ff461e98f94b82b00ac8e727c12, type: 3}
+--- !u!4 &7238971647270744870 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6644165718834038632, guid: 28858ff461e98f94b82b00ac8e727c12, type: 3}
   m_PrefabInstance: {fileID: 4053573748083405902}
   m_PrefabAsset: {fileID: 0}

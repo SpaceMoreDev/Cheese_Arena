@@ -17,7 +17,7 @@ public class Skills{
     public event Action<SKILL_TYPE> AddedSkill;
     public event Action<SKILL_TYPE> RemoveSkill;
 
-    public Skills(int strength = 1, int speed = 1, int intellect = 1)
+    public Skills(int strength = 0, int speed = 0, int intellect = 0)
     {
         _strength = strength;
         _speed = speed;
@@ -41,7 +41,23 @@ public class Skills{
 
         AddedSkill?.Invoke(skill);
     }
-    
+
+    public int GetSkillNum(SKILL_TYPE skill)
+    {
+        switch (skill)
+        {
+            case SKILL_TYPE.STRENGTH:
+                return _strength;
+            case SKILL_TYPE.SPEED:
+                return _speed;
+            case SKILL_TYPE.INTELLECT:
+                return _intellect;
+            default:
+                break;
+        }
+        return -1;
+    }
+
     public void DecreaseSkill(SKILL_TYPE skill)
     {
         switch(skill)
