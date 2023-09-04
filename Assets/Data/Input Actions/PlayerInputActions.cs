@@ -107,6 +107,33 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LockOn"",
+                    ""type"": ""Button"",
+                    ""id"": ""68c7d5d2-f7bb-4f1e-b474-bd031d145b32"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseDelta"",
+                    ""type"": ""Value"",
+                    ""id"": ""9531fa2c-59cd-476c-8428-e109cd3d1f2a"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""743a957c-d075-4d3c-8cb0-aacfd48d9939"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -351,6 +378,39 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Consume"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3510225d-43a4-4eb6-9a41-c70b14bdb699"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ed537b9-43c4-4b44-8e83-6844a3296ce3"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseDelta"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b37da1de-c85a-4458-bd92-cedcbe862448"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -527,6 +587,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_General_Sprint = m_General.FindAction("Sprint", throwIfNotFound: true);
         m_General_Inventory = m_General.FindAction("Inventory", throwIfNotFound: true);
         m_General_Consume = m_General.FindAction("Consume", throwIfNotFound: true);
+        m_General_LockOn = m_General.FindAction("LockOn", throwIfNotFound: true);
+        m_General_MouseDelta = m_General.FindAction("MouseDelta", throwIfNotFound: true);
+        m_General_Scroll = m_General.FindAction("Scroll", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_MousePosition = m_UI.FindAction("MousePosition", throwIfNotFound: true);
@@ -604,6 +667,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_General_Sprint;
     private readonly InputAction m_General_Inventory;
     private readonly InputAction m_General_Consume;
+    private readonly InputAction m_General_LockOn;
+    private readonly InputAction m_General_MouseDelta;
+    private readonly InputAction m_General_Scroll;
     public struct GeneralActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -617,6 +683,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_General_Sprint;
         public InputAction @Inventory => m_Wrapper.m_General_Inventory;
         public InputAction @Consume => m_Wrapper.m_General_Consume;
+        public InputAction @LockOn => m_Wrapper.m_General_LockOn;
+        public InputAction @MouseDelta => m_Wrapper.m_General_MouseDelta;
+        public InputAction @Scroll => m_Wrapper.m_General_Scroll;
         public InputActionMap Get() { return m_Wrapper.m_General; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -653,6 +722,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Consume.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnConsume;
                 @Consume.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnConsume;
                 @Consume.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnConsume;
+                @LockOn.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnLockOn;
+                @LockOn.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnLockOn;
+                @LockOn.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnLockOn;
+                @MouseDelta.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMouseDelta;
+                @MouseDelta.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMouseDelta;
+                @MouseDelta.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnMouseDelta;
+                @Scroll.started -= m_Wrapper.m_GeneralActionsCallbackInterface.OnScroll;
+                @Scroll.performed -= m_Wrapper.m_GeneralActionsCallbackInterface.OnScroll;
+                @Scroll.canceled -= m_Wrapper.m_GeneralActionsCallbackInterface.OnScroll;
             }
             m_Wrapper.m_GeneralActionsCallbackInterface = instance;
             if (instance != null)
@@ -684,6 +762,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @Consume.started += instance.OnConsume;
                 @Consume.performed += instance.OnConsume;
                 @Consume.canceled += instance.OnConsume;
+                @LockOn.started += instance.OnLockOn;
+                @LockOn.performed += instance.OnLockOn;
+                @LockOn.canceled += instance.OnLockOn;
+                @MouseDelta.started += instance.OnMouseDelta;
+                @MouseDelta.performed += instance.OnMouseDelta;
+                @MouseDelta.canceled += instance.OnMouseDelta;
+                @Scroll.started += instance.OnScroll;
+                @Scroll.performed += instance.OnScroll;
+                @Scroll.canceled += instance.OnScroll;
             }
         }
     }
@@ -780,6 +867,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnConsume(InputAction.CallbackContext context);
+        void OnLockOn(InputAction.CallbackContext context);
+        void OnMouseDelta(InputAction.CallbackContext context);
+        void OnScroll(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

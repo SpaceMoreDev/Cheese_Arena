@@ -28,8 +28,8 @@ public class Character : MonoBehaviour
 
     private void Awake() {
         Skills = new Skills();
-        Debug.Log($"{characterStats.Name} has strength: {Skills.Strength}");
-        Debug.Log($"{characterStats.Name} has speed: {Skills.Speed}");
-        Debug.Log($"{characterStats.Name} has intellect: {Skills.Intellect}");
+        // Debug.Log($"{characterStats.Name} has strength: {Skills.Strength}");
+        // Debug.Log($"{characterStats.Name} has speed: {Skills.Speed}");
+        // Debug.Log($"{characterStats.Name} has intellect: {Skills.Intellect}");
     }
 }

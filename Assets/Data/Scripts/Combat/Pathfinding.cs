@@ -28,7 +28,7 @@ public class Pathfinding : MonoBehaviour
     }
     private void FixedUpdate() {
         float i = Mathf.InverseLerp(1.5f, 5, magnitude);
-        Debug.Log(i);
+        // Debug.Log(i);
 
         if(i>0.3f)
             _nav.destination = Player.position;
