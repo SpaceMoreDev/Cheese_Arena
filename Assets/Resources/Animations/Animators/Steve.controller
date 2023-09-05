@@ -320,7 +320,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 5497865342758228755}
-    m_Position: {x: 290, y: 130, z: 0}
+    m_Position: {x: 300, y: 110, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1805035439339325828}
     m_Position: {x: 160, y: 230, z: 0}
@@ -500,23 +500,23 @@ BlendTree:
     m_DirectBlendParameter: Blend_x
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -4463595933908946826, guid: 6fc91504ef1fc7f439dead5dee17c30e, type: 3}
+    m_Motion: {fileID: 4470749990410564637, guid: eceeeb9093ca2a2439bd64183a1f0cd2, type: 3}
     m_Threshold: 21.999998
     m_Position: {x: 1, y: 1}
     m_TimeScale: 0.8
-    m_CycleOffset: 0
+    m_CycleOffset: 0.5
     m_DirectBlendParameter: Blend_x
-    m_Mirror: 0
+    m_Mirror: 1
   - serializedVersion: 2
-    m_Motion: {fileID: -4463595933908946826, guid: 6fc91504ef1fc7f439dead5dee17c30e, type: 3}
+    m_Motion: {fileID: 4470749990410564637, guid: eceeeb9093ca2a2439bd64183a1f0cd2, type: 3}
     m_Threshold: 24.099998
     m_Position: {x: 1, y: -1}
     m_TimeScale: 0.8
-    m_CycleOffset: 0
+    m_CycleOffset: 0.5
     m_DirectBlendParameter: Blend_x
-    m_Mirror: 0
+    m_Mirror: 1
   - serializedVersion: 2
-    m_Motion: {fileID: -4463595933908946826, guid: 6fc91504ef1fc7f439dead5dee17c30e, type: 3}
+    m_Motion: {fileID: 4470749990410564637, guid: eceeeb9093ca2a2439bd64183a1f0cd2, type: 3}
     m_Threshold: 26.199999
     m_Position: {x: -1, y: 1}
     m_TimeScale: 0.8
@@ -524,7 +524,7 @@ BlendTree:
     m_DirectBlendParameter: Blend_x
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -4463595933908946826, guid: 6fc91504ef1fc7f439dead5dee17c30e, type: 3}
+    m_Motion: {fileID: 4470749990410564637, guid: eceeeb9093ca2a2439bd64183a1f0cd2, type: 3}
     m_Threshold: 28.3
     m_Position: {x: -1, y: -1}
     m_TimeScale: 0.8
@@ -577,73 +577,73 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Blend_y
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Shield
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Play
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: moving
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Respawned
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isDodging
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: LeftFootCurve
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: RightFootCurve
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Died
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: turn
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
