@@ -5,9 +5,10 @@ using UnityEngine;
 using Managers;
 using Behaviours;
 
-public enum PlayerState{
-    Unfocused,
-    Gameplay
+public enum PLAYER_STATE{
+    UNFOCUSED,
+    COMBAT,
+    GAMEPLAY
 }
 public class PlayerMovement : MonoBehaviour
 {

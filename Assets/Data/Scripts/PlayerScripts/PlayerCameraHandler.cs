@@ -25,7 +25,7 @@ public class PlayerCameraHandler : MonoBehaviour
     [SerializeField] private float LockOnRadius = 10f;
 
     [SerializeField] private LayerMask layerMask = 1 << 8;
-    public bool isLockOn =false;
+    public static bool isLockOn =false;
     private GameObject ActiveTarget;
     private List<GameObject> ActiveTargets;
 
@@ -132,7 +132,8 @@ public class PlayerCameraHandler : MonoBehaviour
         return false;
     }
     private void Update() {
-        if(isLockOn){
+        if(isLockOn){ // locked on target
+
             LockOnSprite.position = Camera.main.WorldToScreenPoint(ActiveTarget.transform.position);
             Vector3 dir = ActiveTarget.transform.position - transform.position;
             Debug.DrawRay(transform.position, dir, Color.green);
@@ -144,7 +145,6 @@ public class PlayerCameraHandler : MonoBehaviour
                 _camStateAnim.Play("PlayerCam");
                 LockOnSprite.parent.gameObject.SetActive(false);
                 isLockOn = false;
-                Debug.Log("Excuted the condition");
             }
         }else{
             Vector3 dir = ActiveTarget.transform.position - transform.position;

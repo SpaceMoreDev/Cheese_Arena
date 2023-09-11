@@ -36,7 +36,7 @@ public class TP_PlayerController : MonoBehaviour
     private float attackRotationSpeed = 5f;
     [SerializeField]
     public Animator animator;
-    public static PlayerState playerState;
+    public static PLAYER_STATE playerState;
     public static CharacterController controller;
     private Transform cameraTransform;
     Vector3 velocity = Vector3.zero;
@@ -86,7 +86,7 @@ public class TP_PlayerController : MonoBehaviour
         cameraTransform = Camera.main.transform;
         healthbar.character = gameObject;
 
-        playerState = PlayerState.Gameplay;
+        playerState = PLAYER_STATE.Gameplay;
     }
     public void Move(InputAction.CallbackContext ctx)
     {
@@ -108,7 +108,7 @@ public class TP_PlayerController : MonoBehaviour
     {
         if(MainMenu.playing && !dodging && staminabar.staminaBar.fillAmount>dodgeStamina)
         {
-            if(alive && playerState == PlayerState.Gameplay)
+            if(alive && playerState == PLAYER_STATE.Gameplay)
             {
                 blocked = false;
                 if(attacking)
@@ -211,7 +211,7 @@ public class TP_PlayerController : MonoBehaviour
     {
         if(MainMenu.playing && !dodging && staminabar.staminaBar.fillAmount>blockStamina)
         {
-            if(alive && playerState == PlayerState.Gameplay)
+            if(alive && playerState == PLAYER_STATE.Gameplay)
             {
                 if(ctx.started)
                 {
@@ -270,7 +270,7 @@ public class TP_PlayerController : MonoBehaviour
     {
         if(MainMenu.playing && !dodging && staminabar.staminaBar.fillAmount>attackStamina)
         {
-            if(alive && playerState == PlayerState.Gameplay)
+            if(alive && playerState == PLAYER_STATE.Gameplay)
             {
                 if(count<2)
                 {
@@ -310,7 +310,7 @@ public class TP_PlayerController : MonoBehaviour
         {
             if(!dodging)
             {
-                if(alive && playerState == PlayerState.Gameplay)
+                if(alive && playerState == PLAYER_STATE.Gameplay)
                 {
                     
                     Debug.Log(input);
