@@ -71,9 +71,9 @@ namespace Behaviours{
 
                 move.y = 0f;
                 _controller.Move(move *_speed *deltaTime); //for input
-                if (move != Vector3.zero)
+                if (move != Vector3.zero )
                 {
-                    _controller.transform.forward = Vector3.SmoothDamp(_controller.transform.forward,move,ref _lerpVelocity,  _turningSpeed *deltaTime);
+                        _controller.transform.forward = Vector3.SmoothDamp(_controller.transform.forward,move,ref _lerpVelocity,  _turningSpeed *deltaTime);
                 }
             }
             _currentVelocity.y -= _gravityValue * deltaTime;
@@ -81,7 +81,7 @@ namespace Behaviours{
         }
 
         /// <summary>
-        /// Movement behavior function for 3D direction.
+        /// Rotate character based on camera and direction.
         /// </summary>
         /// <param name="deltaTime">Time between each frame</param>
         /// <param name="move">movement direction in 3D</param>

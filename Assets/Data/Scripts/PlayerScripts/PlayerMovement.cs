@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine;
 using Managers;
 using Behaviours;
+using System.Data;
 
 public enum PLAYER_STATE{
     UNFOCUSED,
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField][Range(0f, 20f)] float gravityValue = 18.81f;
     [SerializeField] internal bool canMove = true;
     [SerializeField] internal bool IsRunning = false;
+    [SerializeField] [Range(0.5f, 1f)] protected float limitMotion = 0.5f;
     public static PlayerMovement current;
  
     [Header("Animation")]
@@ -37,7 +39,25 @@ public class PlayerMovement : MonoBehaviour
     //component references
     internal CharacterController _controller;
     private Animator _animator;
-
+    private PLAYER_STATE _state = PLAYER_STATE.GAMEPLAY;
+    internal PLAYER_STATE playerState {
+        set{
+            _state = value;
+            if(_state == PLAYER_STATE.COMBAT){
+                _animator.SetLayerWeight(1,0);
+                _animator.SetLayerWeight(2,1);
+            }
+            else{
+                _animator.SetLayerWeight(1,1);
+                _animator.SetLayerWeight(2,0);
+            }
+            
+            NotificationManager.StartNotification(_state.ToString());
+        }
+        get{
+            return _state;
+        }
+    }
 
     internal Vector2  input = Vector2.zero;
     public Movement Movement{
@@ -83,6 +103,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        playerState = PLAYER_STATE.GAMEPLAY;
     }
     internal void SprintEnd()
     {
@@ -101,7 +122,10 @@ public class PlayerMovement : MonoBehaviour
         else if(ctx.canceled){ input = Vector2.zero; }
     }
     private void Update() {
-        Movement.Rotate(input);
+        // if(_state == PLAYER_STATE.GAMEPLAY)
+        // {
+            Movement.Rotate(input);
+        // }
     }
     Vector3 rootMotion;
     /// <summary>
@@ -109,6 +133,15 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     private void OnAnimatorMove() {
         _controller.Move(_animator.deltaPosition);
+        if(playerState != PLAYER_STATE.GAMEPLAY){
+            if(PlayerCameraHandler.Instance.ActiveTarget != null){
+                Vector3 direction = PlayerCameraHandler.Instance.ActiveTarget.transform.position - _controller.transform.position;
+                direction.y = 0f;
+                
+                _controller.transform.forward = direction;
+            }    
+        }
+       
     }
     
     private void OnGround() {
@@ -121,8 +154,8 @@ public class PlayerMovement : MonoBehaviour
             movementVelocity.x = Mathf.Clamp(input.x,-1f,1f);
 
         }else{
-            movementVelocity.y = Mathf.Clamp(input.y,-0.5f, 0.5f);
-            movementVelocity.x = Mathf.Clamp(input.x,-0.5f, 0.5f);
+            movementVelocity.y = Mathf.Clamp(input.y,-limitMotion, limitMotion);
+            movementVelocity.x = Mathf.Clamp(input.x,-limitMotion, limitMotion);
         }
         _animator.SetFloat("Blend_x",movementVelocity.x, animationBlend, Time.deltaTime);
         _animator.SetFloat("Blend_y",movementVelocity.y, animationBlend, Time.deltaTime);

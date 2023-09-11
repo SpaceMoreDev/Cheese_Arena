@@ -7,6 +7,7 @@ using MyBox;
 using System;
 using System.Linq;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 
 public class PlayerCameraHandler : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class PlayerCameraHandler : MonoBehaviour
 
     [SerializeField] private LayerMask layerMask = 1 << 8;
     public static bool isLockOn =false;
-    private GameObject ActiveTarget;
+    internal GameObject ActiveTarget;
     private List<GameObject> ActiveTargets;
 
     internal Vector2  input = Vector2.zero;
@@ -81,12 +82,14 @@ public class PlayerCameraHandler : MonoBehaviour
     {
         if(isLockOn){
             isLockOn = false;
+            PlayerMovement.current.playerState = PLAYER_STATE.GAMEPLAY;
             _camStateAnim.Play("PlayerCam");
             LockOnSprite.parent.gameObject.SetActive(false);
             ActiveTarget = null;
         }else{
             if(CheckTargets()){
                 isLockOn = true;
+                PlayerMovement.current.playerState = PLAYER_STATE.COMBAT;
                 _camStateAnim.Play("TargetCam");
                 LockOnSprite.parent.gameObject.SetActive(true);
             }
@@ -142,13 +145,17 @@ public class PlayerCameraHandler : MonoBehaviour
 
             if (distance > LockOnRadius)
             {
-                _camStateAnim.Play("PlayerCam");
-                LockOnSprite.parent.gameObject.SetActive(false);
-                isLockOn = false;
+                // _camStateAnim.Play("PlayerCam");
+                // LockOnSprite.parent.gameObject.SetActive(false);
+                // PlayerMovement.current.playerState = PLAYER_STATE.GAMEPLAY;
+                // isLockOn = false;
+                ChangeCamera();
             }
         }else{
-            Vector3 dir = ActiveTarget.transform.position - transform.position;
-            Debug.DrawRay(transform.position, dir, Color.red);
+            if(ActiveTarget != null){
+                Vector3 dir = ActiveTarget.transform.position - transform.position;
+                Debug.DrawRay(transform.position, dir, Color.red);
+            }
         }
     }
 }

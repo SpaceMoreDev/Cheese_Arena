@@ -14,7 +14,7 @@ public class PlayerDodge : MonoBehaviour
     [SerializeField] private PlayerMovement _playerMove;
     [SerializeField] private bool isDodging = false;
     [SerializeField] private float EnergyNeeded = 0.3f;
-    private PLAYER_STATE State = PLAYER_STATE.Gameplay;
+    private PLAYER_STATE State = PLAYER_STATE.GAMEPLAY;
     private Dodge _dodge;
     public Dodge DodgeBehaviour{
         get{

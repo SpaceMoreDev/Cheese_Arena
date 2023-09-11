@@ -86,7 +86,7 @@ public class TP_PlayerController : MonoBehaviour
         cameraTransform = Camera.main.transform;
         healthbar.character = gameObject;
 
-        playerState = PLAYER_STATE.Gameplay;
+        playerState = PLAYER_STATE.GAMEPLAY;
     }
     public void Move(InputAction.CallbackContext ctx)
     {
@@ -108,7 +108,7 @@ public class TP_PlayerController : MonoBehaviour
     {
         if(MainMenu.playing && !dodging && staminabar.staminaBar.fillAmount>dodgeStamina)
         {
-            if(alive && playerState == PLAYER_STATE.Gameplay)
+            if(alive && playerState == PLAYER_STATE.GAMEPLAY)
             {
                 blocked = false;
                 if(attacking)
@@ -211,7 +211,7 @@ public class TP_PlayerController : MonoBehaviour
     {
         if(MainMenu.playing && !dodging && staminabar.staminaBar.fillAmount>blockStamina)
         {
-            if(alive && playerState == PLAYER_STATE.Gameplay)
+            if(alive && playerState == PLAYER_STATE.GAMEPLAY)
             {
                 if(ctx.started)
                 {
@@ -270,7 +270,7 @@ public class TP_PlayerController : MonoBehaviour
     {
         if(MainMenu.playing && !dodging && staminabar.staminaBar.fillAmount>attackStamina)
         {
-            if(alive && playerState == PLAYER_STATE.Gameplay)
+            if(alive && playerState == PLAYER_STATE.GAMEPLAY)
             {
                 if(count<2)
                 {
@@ -310,7 +310,7 @@ public class TP_PlayerController : MonoBehaviour
         {
             if(!dodging)
             {
-                if(alive && playerState == PLAYER_STATE.Gameplay)
+                if(alive && playerState == PLAYER_STATE.GAMEPLAY)
                 {
                     
                     Debug.Log(input);

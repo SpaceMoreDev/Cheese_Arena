@@ -20,7 +20,7 @@ public class Strafe : MonoBehaviour
         }
         else
         {
-            m_anim.Play("BackStrafe",0);
+            m_anim.Play("BackStrafe",1);
         }
     }
 }
