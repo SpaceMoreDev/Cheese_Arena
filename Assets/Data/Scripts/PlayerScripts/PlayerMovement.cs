@@ -44,12 +44,10 @@ public class PlayerMovement : MonoBehaviour
         set{
             _state = value;
             if(_state == PLAYER_STATE.COMBAT){
-                _animator.SetLayerWeight(1,0);
-                _animator.SetLayerWeight(2,1);
+                _animator.SetBool("Combat", true);
             }
             else{
-                _animator.SetLayerWeight(1,1);
-                _animator.SetLayerWeight(2,0);
+                _animator.SetBool("Combat", false);
             }
             
             NotificationManager.StartNotification(_state.ToString());

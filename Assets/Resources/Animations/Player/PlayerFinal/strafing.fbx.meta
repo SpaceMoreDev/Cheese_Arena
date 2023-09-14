@@ -1,17 +1,20 @@
 fileFormatVersion: 2
-guid: b02c1f37f99888a4982b97a00627f37f
+guid: b57045d4fbc6edf498dfafc3f56200f8
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
-      74: -7334583809368168558
-    second: Game_rig_Player|rig_Strafe
+      74: -6300458192613544103
+    second: Game_rig_Player|Strafe_Back_Final
   - first:
-      74: -1893986330673429284
-    second: Game_rig_Player|rig_Strafe_Back
+      74: -6295459370590733516
+    second: Strafe Forward
   - first:
-      74: -8278247875551392544
-    second: Game_rig_Player|rig_Strafe_Left
+      74: 8963929837099145405
+    second: Strafe Left
+  - first:
+      74: 5225718861166323603
+    second: Strafe Back
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -32,29 +35,10 @@ ModelImporter:
       deg\n\t'DEF-thigh.R.001' : rotation error = 0.080756 deg\n\t'DEF-shin.R.001'
       : rotation error = 16.457779 deg\n"
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Game_rig_Player|rig_Strafe' has import animation
-      warnings that might lower retargeting quality:\nNote: Activate translation
+    animationImportWarnings: "\nClip 'Game_rig_Player|Strafe_Back_Final' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
       DOF on avatar to improve retargeting quality.\n\t'DEF-spine.004' is inbetween
       humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-upper_arm.L.001'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-forearm.L.001'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-upper_arm.R.001'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-forearm.R.001'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-thigh.L.001'
-      has translation animation that will be discarded.\n\t'DEF-thigh.L.001' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-shin.L'
-      has translation animation that will be discarded.\n\t'DEF-shin.L.001' has translation
-      animation that will be discarded.\n\t'DEF-shin.L.001' is inbetween humanoid
-      transforms and has rotation animation that will be discarded.\n\t'DEF-foot.L'
-      has translation animation that will be discarded.\n\t'DEF-thigh.R.001' has
-      translation animation that will be discarded.\n\t'DEF-thigh.R.001' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-shin.R'
-      has translation animation that will be discarded.\n\t'DEF-shin.R.001' has translation
-      animation that will be discarded.\n\t'DEF-shin.R.001' is inbetween humanoid
-      transforms and has rotation animation that will be discarded.\n\t'DEF-foot.R'
-      has translation animation that will be discarded.\n\nClip 'Game_rig_Player|rig_Strafe_Back'
-      has import animation warnings that might lower retargeting quality:\nNote:
-      Activate translation DOF on avatar to improve retargeting quality.\n\t'DEF-spine.004'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-upper_arm.L.001'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-forearm.L.001'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-upper_arm.R.001'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-forearm.R.001'
@@ -67,36 +51,44 @@ ModelImporter:
       has translation animation that will be discarded.\n\t'DEF-thigh.R.001' is inbetween
       humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-shin.R.001'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
-      'Game_rig_Player|rig_Strafe_Left' has import animation warnings that might
+      'Game_rig_Player|Strafe_Forward_Final' has import animation warnings that might
       lower retargeting quality:\nNote: Activate translation DOF on avatar to improve
-      retargeting quality.\n\t'DEF-spine.003' has translation animation that will
-      be discarded.\n\t'DEF-spine.004' is inbetween humanoid transforms and has rotation
-      animation that will be discarded.\n\t'DEF-upper_arm.L.001' is inbetween humanoid
-      transforms and has rotation animation that will be discarded.\n\t'DEF-forearm.L.001'
+      retargeting quality.\n\t'DEF-spine.004' is inbetween humanoid transforms and
+      has rotation animation that will be discarded.\n\t'DEF-upper_arm.L.001' is
+      inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-forearm.L.001'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-upper_arm.R.001'
-      has translation animation that will be discarded.\n\t'DEF-upper_arm.R.001'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-forearm.R'
-      has translation animation that will be discarded.\n\t'DEF-forearm.R.001' has
-      translation animation that will be discarded.\n\t'DEF-forearm.R.001' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-hand.R'
-      has translation animation that will be discarded.\n\t'DEF-thigh.L.001' has
-      translation animation that will be discarded.\n\t'DEF-thigh.L.001' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-shin.L'
-      has translation animation that will be discarded.\n\t'DEF-shin.L.001' has translation
-      animation that will be discarded.\n\t'DEF-shin.L.001' is inbetween humanoid
-      transforms and has rotation animation that will be discarded.\n\t'DEF-foot.L'
-      has translation animation that will be discarded.\n\t'DEF-thigh.R.001' has
-      translation animation that will be discarded.\n\t'DEF-thigh.R.001' is inbetween
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-forearm.R.001'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-thigh.L.001'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-shin.L.001'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-thigh.R.001'
+      has translation animation that will be discarded.\n\t'DEF-thigh.R.001' is inbetween
       humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-shin.R'
       has translation animation that will be discarded.\n\t'DEF-shin.R.001' has translation
       animation that will be discarded.\n\t'DEF-shin.R.001' is inbetween humanoid
       transforms and has rotation animation that will be discarded.\n\t'DEF-foot.R'
-      has translation animation that will be discarded.\n"
+      has translation animation that will be discarded.\n\nClip 'Game_rig_Player|Strafe_Left_Final'
+      has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'DEF-spine.004'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-shoulder.L'
+      has translation animation that will be discarded.\n\t'DEF-upper_arm.L.001'
+      has translation animation that will be discarded.\n\t'DEF-upper_arm.L.001'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-forearm.L'
+      has translation animation that will be discarded.\n\t'DEF-forearm.L.001' has
+      translation animation that will be discarded.\n\t'DEF-forearm.L.001' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-hand.L'
+      has translation animation that will be discarded.\n\t'DEF-shoulder.R' has translation
+      animation that will be discarded.\n\t'DEF-upper_arm.R.001' is inbetween humanoid
+      transforms and has rotation animation that will be discarded.\n\t'DEF-forearm.R.001'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-thigh.L.001'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-shin.L.001'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-thigh.R.001'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'DEF-shin.R.001'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -105,37 +97,8 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Game_rig_Player|rig_Strafe
-      takeName: Game_rig_Player|rig_Strafe
-      internalID: 0
-      firstFrame: 0.8
-      lastFrame: 29
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 1
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 1
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Game_rig_Player|rig_Strafe_Back
-      takeName: Game_rig_Player|rig_Strafe_Back
+      name: Strafe Back
+      takeName: Game_rig_Player|Strafe_Back_Final
       internalID: 0
       firstFrame: 0
       lastFrame: 29
@@ -150,7 +113,7 @@ ModelImporter:
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
       heightFromFeet: 0
@@ -163,11 +126,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Game_rig_Player|rig_Strafe_Left
-      takeName: Game_rig_Player|rig_Strafe_Left
+      name: Strafe Forward
+      takeName: Game_rig_Player|Strafe_Forward_Final
       internalID: 0
       firstFrame: 0
-      lastFrame: 29
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -179,7 +142,36 @@ ModelImporter:
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 1
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Strafe Left
+      takeName: Game_rig_Player|Strafe_Left_Final
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
       heightFromFeet: 0
