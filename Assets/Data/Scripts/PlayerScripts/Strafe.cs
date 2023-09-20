@@ -13,14 +13,7 @@ public class Strafe : MonoBehaviour
         InputManager.inputActions.General.Jump.started += _ => StrafeAction();
     }
     void StrafeAction()
-    {   
-        if(PlayerCameraHandler.isLockOn)
-        {
-          m_anim.SetTrigger("Strafe");  
-        }
-        else
-        {
-            m_anim.Play("BackStrafe",1);
-        }
+    { 
+        m_anim.SetTrigger("Strafe");  
     }
 }

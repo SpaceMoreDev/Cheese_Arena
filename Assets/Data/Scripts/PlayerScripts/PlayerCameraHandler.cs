@@ -91,6 +91,10 @@ public class PlayerCameraHandler : MonoBehaviour
                 isLockOn = true;
                 PlayerMovement.current.playerState = PLAYER_STATE.COMBAT;
                 _camStateAnim.Play("TargetCam");
+                Vector3 dir = ActiveTarget.transform.position - transform.position;
+                dir.y = 0;
+                transform.forward = dir;
+
                 LockOnSprite.parent.gameObject.SetActive(true);
             }
         }

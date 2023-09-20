@@ -9,6 +9,12 @@
       },
       "hash": "e250b932c64c9624f807ff2dad658da80dc09b8e"
     },
+    "com.unity.2d.sprite": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "builtin",
+      "dependencies": {}
+    },
     "com.unity.animation.rigging": {
       "version": "1.1.1",
       "depth": 0,
@@ -84,8 +90,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.15",
-      "depth": 1,
+      "version": "2.0.21",
+      "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.test-framework": "1.1.9"

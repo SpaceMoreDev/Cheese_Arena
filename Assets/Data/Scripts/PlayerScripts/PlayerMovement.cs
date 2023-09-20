@@ -96,8 +96,8 @@ public class PlayerMovement : MonoBehaviour
          _controller = GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
         _stamina.Bar.BarIsEmpty += SprintEnd;
-
     }
+    
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -120,23 +120,24 @@ public class PlayerMovement : MonoBehaviour
         else if(ctx.canceled){ input = Vector2.zero; }
     }
     private void Update() {
-        // if(_state == PLAYER_STATE.GAMEPLAY)
-        // {
+        if(playerState == PLAYER_STATE.GAMEPLAY){
             Movement.Rotate(input);
-        // }
+        }
     }
-    Vector3 rootMotion;
     /// <summary>
     /// this function is called when the animator moves the object via rootmotion
     /// </summary>
     private void OnAnimatorMove() {
         _controller.Move(_animator.deltaPosition);
+
         if(playerState != PLAYER_STATE.GAMEPLAY){
-            if(PlayerCameraHandler.Instance.ActiveTarget != null){
-                Vector3 direction = PlayerCameraHandler.Instance.ActiveTarget.transform.position - _controller.transform.position;
-                direction.y = 0f;
-                
-                _controller.transform.forward = direction;
+            GameObject target = PlayerCameraHandler.Instance.ActiveTarget;
+            if(target != null){
+                Vector3 direction = target.transform.position - _controller.transform.position;
+                direction.y = 0;
+                Quaternion lookRotation = Quaternion.LookRotation(direction,Vector3.up);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, 0.3f );
+                // _controller.transform.forward = direction;
             }    
         }
        
