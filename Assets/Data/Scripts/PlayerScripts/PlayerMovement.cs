@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
     //component references
     internal CharacterController _controller;
-    private Animator _animator;
+    internal Animator _animator;
     private PLAYER_STATE _state = PLAYER_STATE.GAMEPLAY;
     internal PLAYER_STATE playerState {
         set{
@@ -116,8 +116,14 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="ctx"></param>
     private void PlayerInput(InputAction.CallbackContext ctx)
     {
-        if(ctx.performed){ input = ctx.ReadValue<Vector2>(); }
-        else if(ctx.canceled){ input = Vector2.zero; }
+        if(ctx.performed){ 
+            input = ctx.ReadValue<Vector2>(); 
+            _animator.SetBool("moving",true);
+        }
+        else if(ctx.canceled){ 
+            input = Vector2.zero; 
+            _animator.SetBool("moving",false);
+        }
     }
     private void Update() {
         if(playerState == PLAYER_STATE.GAMEPLAY){
