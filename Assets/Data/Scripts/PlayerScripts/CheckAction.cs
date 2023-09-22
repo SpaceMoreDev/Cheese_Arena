@@ -77,9 +77,9 @@ public class CheckAction : MonoBehaviour
         precol = colliders;
     }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, actionRadius);
-    }
+    // void OnDrawGizmos()
+    // {
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawWireSphere(transform.position, actionRadius);
+    // }
 }

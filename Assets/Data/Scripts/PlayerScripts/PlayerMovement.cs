@@ -80,22 +80,27 @@ public class PlayerMovement : MonoBehaviour
         _stamina = GetComponent<StaminaBar>();
         _health = GetComponent<HealthBar>();
         _animator = GetComponent<Animator>();
+        _controller = GetComponent<CharacterController>();
+        cameraTransform = Camera.main.transform;
+
 
         InputManager.inputActions.General.Move.performed += this.PlayerInput;
         InputManager.inputActions.General.Move.canceled += this.PlayerInput;
-        InputManager.inputActions.General.Sprint.started += _ => {
-            Movement.Speed *= sprintMultiplier;
-            _animator.speed *= sprintMultiplier/2;
-            Movement.IsSprinting = true;
-            };
-        InputManager.inputActions.General.Sprint.canceled += _ => {
-            Movement.Speed = playerSpeed;
-            _animator.speed = 1;
-            Movement.IsSprinting = false;
-            };
-         _controller = GetComponent<CharacterController>();
-        cameraTransform = Camera.main.transform;
+        InputManager.inputActions.General.Sprint.started += this.Sprint;
+        InputManager.inputActions.General.Sprint.canceled += this.Sprint;
         _stamina.Bar.BarIsEmpty += SprintEnd;
+
+
+         
+    }
+
+    private void OnDestroy() {
+        InputManager.inputActions.General.Move.performed -= this.PlayerInput;
+        InputManager.inputActions.General.Move.canceled -= this.PlayerInput;
+
+        InputManager.inputActions.General.Sprint.started -= this.Sprint;
+        InputManager.inputActions.General.Sprint.canceled -= this.Sprint;
+        _stamina.Bar.BarIsEmpty -= SprintEnd;
     }
     
     void Start()
@@ -125,6 +130,22 @@ public class PlayerMovement : MonoBehaviour
             _animator.SetBool("moving",false);
         }
     }
+
+
+    private void Sprint(InputAction.CallbackContext ctx)
+    {
+        if(ctx.started){ 
+            Movement.Speed *= sprintMultiplier;
+            _animator.speed *= sprintMultiplier/2;
+            Movement.IsSprinting = true;         
+        }
+        else if(ctx.canceled){ 
+            Movement.Speed = playerSpeed;
+            _animator.speed = 1;
+            Movement.IsSprinting = false;
+        }
+    }
+
     private void Update() {
         if(playerState == PLAYER_STATE.GAMEPLAY){
             Movement.Rotate(input);
