@@ -1,13 +1,12 @@
 {
   "dependencies": {
     "com.domybest.mybox": {
-      "version": "https://github.com/Deadcows/MyBox.git",
+      "version": "file:/home/ahmed/Downloads/MyBox-master",
       "depth": 0,
-      "source": "git",
+      "source": "local",
       "dependencies": {
         "com.unity.ugui": "1.0.0"
-      },
-      "hash": "e250b932c64c9624f807ff2dad658da80dc09b8e"
+      }
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
@@ -201,18 +200,18 @@
       }
     },
     "com.unity.sysroot": {
-      "version": "2.0.7",
+      "version": "2.0.10",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.sysroot.linux-x86_64": {
-      "version": "2.0.6",
+      "version": "2.0.9",
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.sysroot": "2.0.7"
+        "com.unity.sysroot": "2.0.10"
       },
       "url": "https://packages.unity.com"
     },
@@ -255,6 +254,16 @@
         "com.unity.modules.animation": "1.0.0",
         "com.unity.modules.audio": "1.0.0",
         "com.unity.modules.particlesystem": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.toolchain.linux-x86_64": {
+      "version": "2.0.9",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.sysroot": "2.0.10",
+        "com.unity.sysroot.linux-x86_64": "2.0.9"
       },
       "url": "https://packages.unity.com"
     },
