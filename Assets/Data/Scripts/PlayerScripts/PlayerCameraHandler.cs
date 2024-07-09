@@ -31,15 +31,7 @@ public class PlayerCameraHandler : MonoBehaviour
     private List<GameObject> ActiveTargets;
 
     internal Vector2  input = Vector2.zero;
-    public static PlayerCameraHandler Instance{
-        get{
-            if(_instance == null)
-            {
-                return new PlayerCameraHandler();
-            }
-            return _instance;
-        }
-    }
+    public static PlayerCameraHandler Instance => _instance ?? new PlayerCameraHandler();
     private void Awake() {
         _instance = this;
     }

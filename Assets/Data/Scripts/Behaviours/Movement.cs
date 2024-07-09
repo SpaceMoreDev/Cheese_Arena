@@ -65,9 +65,9 @@ namespace Behaviours{
                 move = new Vector3(input.x, 0, input.y);
 
                 if(withCamera) // mainly for player
-                    move = move.x * _cameraTransform.right.normalized + move.z * _cameraTransform.forward.normalized;
+                    move = (move.x * _cameraTransform.right.normalized) + move.z * _cameraTransform.forward.normalized;
                 else // mainly for NPCs
-                    move = move.x * _controller.transform.right.normalized + move.z * _controller.transform.forward.normalized;
+                    move = (move.x * _controller.transform.right.normalized) + move.z * _controller.transform.forward.normalized;
 
                 move.y = 0f;
                 _controller.Move(move *_speed *deltaTime); //for input
@@ -83,8 +83,7 @@ namespace Behaviours{
         /// <summary>
         /// Rotate character based on camera and direction.
         /// </summary>
-        /// <param name="deltaTime">Time between each frame</param>
-        /// <param name="move">movement direction in 3D</param>
+        /// <param name="input">movement direction in 3D</param>
         public void Rotate(Vector2 input)
         {    
             if(_canMove)
